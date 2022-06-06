@@ -30,6 +30,15 @@ export const InnerContainer = styled.View`
     align-items: center;
 `;
 
+export const ForgotContainer = styled.View`
+    flex: 1;
+    width: 100%;
+    align-items: center;
+    padding: 25px;
+    padding-top: ${StatusBarHeight + 90}px;
+    justify-content: center;
+`;
+
 export const WelcomeContainer = styled.View`
     flex: 1;
     width: 100%;
@@ -82,7 +91,8 @@ export const SubTitle = styled.Text`
     color: ${tertiary};
     
     ${(props) => props.welcome && `
-        margin-bottom: 5px;
+        margin-bottom: 10px;
+        font-size: 12px;
         font-weight: normal;
     `}
 `;
@@ -102,6 +112,10 @@ export const StyledTextInput = styled.TextInput`
     margin-vertical: 3px;
     margin-bottom: 10px;
     color: ${tertiary};
+
+    ${(props) => props.forgot && `
+    padding-left: 22px;
+`}
 `;
 
 export const StyledInputLabel  = styled.Text`
@@ -112,14 +126,14 @@ export const StyledInputLabel  = styled.Text`
 
 export const LeftIcon = styled.View`
     left: 15px;
-    top: 33px;
+    top: 35px;
     position: absolute;
     z-index: 1;
 `;
 
 export const RightIcon = styled.TouchableOpacity`
     right: 15px;
-    top: 33px;
+    top: 35px;
     position: absolute;
     z-index: 1;
 `;
@@ -160,7 +174,8 @@ export const Line = styled.View`
     height: 1px;
     width: 100%;
     background-color: ${darkLight};
-    margin-vertical: 10px;
+    margin-top: 4px;
+    margin-bottom: 12px;
 `;
 
 export const ExtraView = styled.View`

@@ -28,6 +28,7 @@ import {
     TextLinkContent
 } from './../components/styles';
 import {View} from 'react-native';
+import KeyboardAvoidingWrapper from '../components/KeyboardAvoidingWrapper';
 
 // colors
 const {brand, darkLight, tertiary, primary} = Colors;
@@ -36,6 +37,7 @@ const Signup = ({navigation}) => {
     const [hidePassword, setHidePassword] = useState(true);
 
     return (
+        <KeyboardAvoidingWrapper>
         <StyledContainer>
             <StatusBar style="dark" />
             <InnerContainer>
@@ -138,6 +140,7 @@ const Signup = ({navigation}) => {
                 </Formik>
             </InnerContainer>
         </StyledContainer>
+        </KeyboardAvoidingWrapper>
     );
 }
 
@@ -145,13 +148,13 @@ const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, ..
     return (
       <View>
         <LeftIcon>
-            <Octicons name={icon} size={30} color={brand} />
+            <Octicons name={icon} size={25} color={brand} />
         </LeftIcon>        
         <StyledInputLabel>{label}</StyledInputLabel>
         <StyledTextInput {...props}/>
         {isPassword && (
             <RightIcon onPress={() => setHidePassword(!hidePassword )}>
-                <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={30} color={darkLight} />
+                <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={25} color={darkLight} />
             </RightIcon>
         )}
       </View>);

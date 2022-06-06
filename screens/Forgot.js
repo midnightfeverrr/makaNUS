@@ -10,6 +10,7 @@ import { Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
 import {
     StyledContainer,
     InnerContainer,
+    ForgotContainer,
     PageLogo,
     PageTitle, 
     SubTitle,
@@ -26,85 +27,61 @@ import {
     ExtraView,
     ExtraText,
     TextLink,
-    TextLinkContent
+    TextLinkContent,
 } from './../components/styles';
 import {View} from 'react-native';
 
 // colors
 const {brand, darkLight, tertiary, primary} = Colors;
 
-// keyboard avoiding wrapper
-import KeyboardAvoidingWrapper from './../components/KeyboardAvoidingWrapper';
-
-const Login = ({navigation}) => {
+const Forgot = ({navigation}) => {
     const [hidePassword, setHidePassword] = useState(true);
 
     return (
-        <KeyboardAvoidingWrapper>
         <StyledContainer>
+            <ForgotContainer>
             <StatusBar style="dark" />
             <InnerContainer>
                 <PageLogo resizeMode="cover" source={require('./../assets/LogoOnly.png')} />
                 <PageTitle><PageTitle style={{color: "#3E3E3E"}}>maka</PageTitle>NUS</PageTitle>
-                <SubTitle>Account Login</SubTitle>
+                <SubTitle>Reset Your Password!</SubTitle>
 
                 <Formik
-                    initialValues={{email: "", password: ""}}
+                    initialValues={{username: ""}}
                     onSubmit={(values)  => {
                         console.log(values);
-                        navigation.navigate("Welcome");
+                        navigation.navigate("ForgotSent");
                     }}
                 >
                     {({handleChange, handleBlur, handleSubmit, values}) => (
                         <StyledFormArea>
                             <MyTextInput 
-                                label= "Email Address"
-                                icon= 'mail'
-                                placeholder= "johndoe@gmail.com"
+                                label= "Username"
+                                icon= 'mention'
+                                placeholder= "johndoe"
                                 placeholderTextColor= {darkLight}
-                                onChangeText= {handleChange('email')}
-                                onBlur= {handleBlur('email')}
-                                value= {values.email}
+                                onChangeText= {handleChange('Username')}
+                                onBlur= {handleBlur('Username')}
+                                value= {values.Username}
                                 keyboardType= "email-address"
                             />
 
-                            <MyTextInput 
-                                label= "Password"
-                                icon= 'lock'
-                                placeholder= "* * * * * *"
-                                placeholderTextColor= {darkLight}
-                                onChangeText= {handleChange('password')}
-                                onBlur= {handleBlur('password')}
-                                value= {values.password}
-                                secureTextEntry = {hidePassword}
-                                isPassword={true}
-                                hidePassword = {hidePassword}
-                                setHidePassword = {setHidePassword}
-                            />
                             <MessageBox>...</MessageBox>
                             <StyledButton onPress={handleSubmit}>
-                                <ButtonText>Login</ButtonText>
+                                <ButtonText>Send Code</ButtonText>
                             </StyledButton>
                             <ExtraView>
                                 <ExtraText></ExtraText>
-                                <TextLink onPress={() => navigation.navigate("Forgot")}>
-                                    <TextLinkContent>Forgot Password?</TextLinkContent>
+                                <TextLink onPress={() => navigation.navigate("Login")}>
+                                    <TextLinkContent>Back to Login</TextLinkContent>
                                 </TextLink>
                             </ExtraView>
-                            <Line />
-                            <StyledButton google={true} onPress={handleSubmit}>
-                                <Fontisto name="google" color={primary} size={25} />
-                                <ButtonText google={true}>Sign in with Google</ButtonText>
-                            </StyledButton>
-                            <StyledButton onPress={() => navigation.navigate("Signup")}>
-                                <ButtonText>Sign Up</ButtonText>
-                            </StyledButton>
                         </StyledFormArea>
                     )}
                 </Formik>
             </InnerContainer>
+            </ForgotContainer>
         </StyledContainer>
-        </KeyboardAvoidingWrapper>
     );
 }
 
@@ -124,4 +101,4 @@ const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, ..
       </View>);
 };
 
-export default Login;
+export default Forgot;
