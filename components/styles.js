@@ -72,7 +72,6 @@ export const WelcomeImage = styled.Image`
 
 export const PageTitle = styled.Text`
     font-size: 30px;
-    font-family: 'sans-serif-light';
     text-align: center;
     font-weight: bold;
     color: ${brand};
