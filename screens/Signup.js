@@ -7,6 +7,12 @@ import { Formik } from 'formik';
 // icons
 import { Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
 
+// firebase
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+import auth from './../firebase'
+
 import {
     StyledContainer,
     InnerContainer,
@@ -27,7 +33,7 @@ import {
     TextLink,
     TextLinkContent
 } from './../components/styles';
-import {View} from 'react-native';
+import {View, Alert} from 'react-native';
 import KeyboardAvoidingWrapper from '../components/KeyboardAvoidingWrapper';
 
 // colors
@@ -47,8 +53,45 @@ const Signup = ({navigation}) => {
                 <Formik
                     initialValues={{fullName: "", email: "", phoneNumber: "", Username: "", password: "", confirmPassword: ""}}
                     onSubmit={(values)  => {
-                        console.log(values);
-                        navigation.navigate("Login");
+                        firebase.auth().
+                        createUserWithEmailAndPassword(values.email, values.password)
+                        .then( async () => {
+                            const update = {
+                              displayName: values.fullName,
+                              photoURL: null, // profile picture
+                            };
+                            await auth().currentUser.updateProfile(update);
+                            console.log('User account created & signed in!');
+                            })
+                          .catch(error => {
+                            if (error.code === 'auth/user-not-found') {
+                              console.log('There is no existing user record corresponding to the provided identifier.');
+                            }
+                
+                            if (error.code === 'auth/invalid-email') {
+                              console.log('That email address is invalid!');
+                            }
+                
+                            Alert.alert(
+                                error.code,
+                                error.message,
+                                [
+                                    {
+                                        text: "OK",
+                                        onPress: () => console.log("OK Pressed"),
+                                        style: "OK",
+                                    },
+                                ],
+                                {
+                                    cancelable: true,
+                                    onDismiss: () =>
+                                    console.log(
+                                        "This alert was dismissed by tapping outside of the alert dialog."
+                                    ),
+                                }
+                            );
+                
+                          });
                     }}
                 >
                     {({handleChange, handleBlur, handleSubmit, values}) => (

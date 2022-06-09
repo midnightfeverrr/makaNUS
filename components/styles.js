@@ -73,7 +73,6 @@ export const WelcomeImage = styled.Image`
 
 export const PageTitle = styled.Text`
     font-size: 30px;
-    font-family: 'sans-serif-light';
     text-align: center;
     font-weight: bold;
     color: ${brand};
@@ -258,7 +257,7 @@ export const CategoryBtnImgCon = styled.View`
 
 export const CardHome = styled.View`
     height: 220px;
-    width: (896/2-20)pt;
+    width: 100%;
     margin-horizontal: 10px;
     margin-bottom: 20px;
     margin-top: 50px;

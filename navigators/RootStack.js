@@ -13,13 +13,11 @@ import Signup from './../screens/Signup';
 import Welcome from './../screens/Welcome';
 import Forgot from './../screens/Forgot';
 import ForgotSent from './../screens/ForgotSent';
-import HomePage from '../screens/HomePage';
 
 const Stack = createNativeStackNavigator();
 
 const RootStack = () => {
     return(
-        <NavigationContainer>
             <Stack.Navigator
                 screenOptions={{
                     headerStyle: {
@@ -39,9 +37,7 @@ const RootStack = () => {
                 <Stack.Screen name="Welcome" component={Welcome} />
                 <Stack.Screen name="Forgot" component={Forgot} />
                 <Stack.Screen name="ForgotSent" component={ForgotSent} />
-                <Stack.Screen name="HomePage" component={HomePage} />
             </Stack.Navigator>
-        </NavigationContainer>
     )
 }
 

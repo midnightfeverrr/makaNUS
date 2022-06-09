@@ -7,6 +7,12 @@ import { Formik } from 'formik';
 // icons
 import { Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
 
+// firebase
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+import auth from './../firebase'
+
 import {
     StyledContainer,
     InnerContainer,
@@ -28,7 +34,7 @@ import {
     TextLink,
     TextLinkContent
 } from './../components/styles';
-import {View} from 'react-native';
+import {View, Alert} from 'react-native';
 
 // colors
 const {brand, darkLight, tertiary, primary} = Colors;
@@ -50,10 +56,44 @@ const Login = ({navigation}) => {
 
                 <Formik
                     initialValues={{email: "", password: ""}}
-                    onSubmit={(values)  => {
-                        console.log(values);
-                        navigation.navigate("Welcome");
-                    }}
+                    onSubmit= {async (values) => {
+                        firebase.auth()
+                          .signInWithEmailAndPassword(values.email, values.password)
+                          .then(() => {
+                            console.log('User account created & signed in!');
+                          })
+                          .catch(error => {
+                
+                            if (error.code === 'auth/invalid-email') {
+                              console.log('That email address is invalid!');
+                            }
+                
+                            if (error.code === 'auth/wrong-password') {
+                                console.log('Wrong password.');
+                            }
+                
+                            Alert.alert(
+                                error.code,
+                                error.message,
+                                [
+                                    {
+                                        text: "OK",
+                                        onPress: () => console.log("OK Pressed"),
+                                        style: "OK",
+                                    },
+                                ],
+                                {
+                                    cancelable: true,
+                                    onDismiss: () =>
+                                    console.log(
+                                        "This alert was dismissed by tapping outside of the alert dialog."
+                                    ),
+                                }
+                            );
+                
+                          });
+                    }
+                }
                 >
                     {({handleChange, handleBlur, handleSubmit, values}) => (
                         <StyledFormArea>
