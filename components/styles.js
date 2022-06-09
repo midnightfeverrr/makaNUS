@@ -13,6 +13,7 @@ export const Colors = {
     brand: "#FF5757",
     green: "#10B981",
     red: "#EF4444",
+    //grey: "#DBDBDB",
 };
 
 const { primary, secondary, tertiary, darkLight, brand, green, red } = Colors;
@@ -55,10 +56,10 @@ export const PageLogo = styled.Image`
 `;
 
 export const Avatar = styled.Image`
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     margin: auto;
-    border-radius: 50px;
+    border-radius: 75px;
     border-width: 2px;
     border-color: ${brand};
     margin-bottom: 10px;
@@ -200,4 +201,48 @@ export const TextLink = styled.TouchableOpacity`
 export const TextLinkContent = styled.Text`
     color: ${brand};
     font-size: 15px;
+`;
+
+export const ProfileTitle = styled.Text`
+    font-size: 30px;
+    text-align: center;
+    color: 'black';
+    padding: 10px;
+
+    ${(props) => props.welcome && `
+        font-size: 35px;
+    `}
+`;
+
+export const XpTitle = styled.Text`
+    font-size: 20px;
+    text-align: center;
+    color: ${tertiary};
+    padding: 10px;
+
+    ${(props) => props.welcome && `
+        font-size: 35px;
+    `}
+`;
+
+export const MyReviews = styled.TouchableOpacity`
+    padding: 5px;
+    background-color: ${brand};
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    margin-vertical: 5px;
+    height: 30px;
+    width: 40%;
+`;
+
+export const EditProfile = styled.TouchableOpacity`
+    padding: 5px;
+    background-color: ${tertiary}};
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    margin-vertical: 5px;
+    height: 30px;
+    width: 40%;
 `;
