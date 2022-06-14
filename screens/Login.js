@@ -52,6 +52,30 @@ const Login = ({navigation}) => {
         setMessageType(type);
     }
 
+    const handleGoogle = () => {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth()
+        .signInWithRedirect(provider)
+        .then((result) => {
+            /** @type {firebase.auth.OAuthCredential} */
+            const credential = result.credential;
+            const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            // ...
+        }).catch((error) => {
+            // Handle Errors here.
+            console.log(error.code)
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.customData.email;
+            // The AuthCredential type that was used.
+            const credential = error.credential;
+            // ...
+        });
+    }
+
     return (
         <KeyboardAvoidingWrapper>
         <StyledContainer>
@@ -104,7 +128,7 @@ const Login = ({navigation}) => {
                     }
                 }
                 >
-                    {({handleChange, handleBlur, handleSubmit, values}) => (
+                    {({handleChange, handleBlur, handleSubmit,  values}) => (
                         <StyledFormArea>
                             <MyTextInput 
                                 label= "Email Address"
@@ -141,7 +165,7 @@ const Login = ({navigation}) => {
                                 </TextLink>
                             </ExtraView>
                             <Line />
-                            <StyledButton google={true} onPress={handleSubmit}>
+                            <StyledButton google={true} onPress={handleGoogle}>
                                 <Fontisto name="google" color={primary} size={25} />
                                 <ButtonText google={true}>Sign in with Google</ButtonText>
                             </StyledButton>
