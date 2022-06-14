@@ -44,6 +44,13 @@ import KeyboardAvoidingWrapper from './../components/KeyboardAvoidingWrapper';
 
 const Login = ({navigation}) => {
     const [hidePassword, setHidePassword] = useState(true);
+    const [message, setMessage] = useState();
+    const [messageType, setMessageType] = useState();
+
+    const handleMessage = (message, type = false) => {
+        setMessage(message);
+        setMessageType(type);
+    }
 
     return (
         <KeyboardAvoidingWrapper>
@@ -66,10 +73,12 @@ const Login = ({navigation}) => {
                 
                             if (error.code === 'auth/invalid-email') {
                               console.log('That email address is invalid!');
+                              handleMessage("No account associated with the email address!");
                             }
                 
                             if (error.code === 'auth/wrong-password') {
                                 console.log('Wrong password.');
+                                handleMessage("Wrong Password!");
                             }
                 
                             Alert.alert(
@@ -121,7 +130,7 @@ const Login = ({navigation}) => {
                                 hidePassword = {hidePassword}
                                 setHidePassword = {setHidePassword}
                             />
-                            <MessageBox>...</MessageBox>
+                            <MessageBox type={messageType}>{message}</MessageBox>
                             <StyledButton onPress={handleSubmit}>
                                 <ButtonText>Login</ButtonText>
                             </StyledButton>

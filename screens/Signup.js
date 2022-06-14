@@ -41,6 +41,13 @@ const {brand, darkLight, tertiary, primary} = Colors;
 
 const Signup = ({navigation}) => {
     const [hidePassword, setHidePassword] = useState(true);
+    const [message, setMessage] = useState();
+    const [messageType, setMessageType] = useState();
+
+    const handleMessage = (message, type = false) => {
+        setMessage(message);
+        setMessageType(type);
+    }
 
     return (
         <KeyboardAvoidingWrapper>
@@ -64,12 +71,24 @@ const Signup = ({navigation}) => {
                             console.log('User account created & signed in!');
                             })
                           .catch(error => {
-                            if (error.code === 'auth/user-not-found') {
-                              console.log('There is no existing user record corresponding to the provided identifier.');
+                            if (error.code === 'auth/email-already-in-use') {
+                              console.log('Email address is already in use!');
                             }
                 
+                            if (error.code === 'auth/invalid-phone-number') {
+                                console.log('Phone number is invalid!');
+                            }
+
+                            if (error.code === 'auth/user-not-found') {
+                                console.log('There is no existing user record corresponding to the provided identifier.');
+                            }
+
                             if (error.code === 'auth/invalid-email') {
                               console.log('That email address is invalid!');
+                            }
+                            
+                            if (error.code === 'auth/weak-password') {
+                                console.log('Password must be at least 8 characters!');
                             }
                 
                             Alert.alert(

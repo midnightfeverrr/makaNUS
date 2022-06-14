@@ -20,8 +20,9 @@ const { primary, secondary, tertiary, darkLight, brand, green, red } = Colors;
 
 export const StyledContainer = styled.View`
     flex: 1;
-    padding: 25px;
-    padding-top: ${StatusBarHeight + 30}px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: ${StatusBarHeight + 70}px;
     background-color: ${primary};
 `;
 
@@ -72,9 +73,9 @@ export const WelcomeImage = styled.Image`
 `;
 
 export const PageTitle = styled.Text`
-    font-size: 30px;
+    font-size: 35px;
     text-align: center;
-    font-weight: bold;
+    font-family: KottaOne-Regular;
     color: ${brand};
     padding: 10px;
 
@@ -84,10 +85,10 @@ export const PageTitle = styled.Text`
 `;
 
 export const SubTitle = styled.Text`
-    font-size: 18px;
+    font-size: 16px;
     margin-bottom: 20px;
     letter-spacing: 1px;
-    font-weight: bold;
+    font-family: KottaOne-Regular;
     color: ${tertiary};
     
     ${(props) => props.welcome && `
@@ -168,6 +169,7 @@ export const ButtonText = styled.Text`
 export const MessageBox = styled.Text`
     text-align: center;
     font-size: 13px;
+    color: ${red};
 `;
 
 export const Line = styled.View`
@@ -206,8 +208,8 @@ export const TextLinkContent = styled.Text`
 // HomePage
 export const HeaderHome = styled.View`
     margin-top: 20px;
-    flex-direction: 'row';
-    justify-content: 'space-between';
+    flex-direction: row;
+    justify-content: space-between;
     padding-horizontal: 20px;
 `;
 
@@ -215,9 +217,9 @@ export const InputContainer = styled.View`
     flex: 1;
     height: 50px;
     border-radius: 10px;
-    flex-direction: 'row',
+    flex-direction: row,
     background-color: ${tertiary};
-    align-items: 'center';
+    align-items: center;
     padding-horizontal: 20px;
 `;
 
@@ -227,8 +229,8 @@ export const SortBtn = styled.View`
     margin-left: 10px;
     background-color: ${tertiary};
     border-radius: 10px;
-    justify-content: 'center';
-    align-items: 'center';
+    justify-content: center;
+    align-items: center;
 `;
 
 export const CategoriesListContainer = styled.ScrollView`
@@ -241,9 +243,9 @@ export const CategoryBtn = styled.View`
     width: 120px;
     margin-right: 7px;
     border-radius: 30px;
-    align-items: 'center';
+    align-items: center;
     padding-horizontal: 5px;
-    flex-direction: 'row';
+    flex-direction: row;
 `;
 
 export const CategoryBtnImgCon = styled.View`
@@ -251,8 +253,8 @@ export const CategoryBtnImgCon = styled.View`
     width: 35px;
     background-color: ${primary};
     border-radius: 30px;
-    justify-content: 'center';
-    align-items: 'center';
+    justify-content: center;
+    align-items: center;
 `;
 
 export const CardHome = styled.View`
@@ -270,6 +272,20 @@ export const AddToCartBtn = styled.View`
     width: 30px;
     border-radius: 20px;
     background-color: ${primary};
-    justify-content: 'center';
-    align-items: 'center';
+    justify-content: center;
+    align-items: center;
+`;
+
+// LandingScreen
+export const Holder = styled.View`
+    align-items: center;
+    padding-horizontal: 20px;
+    padding-top: 70px;
+    background-color: ${primary};
+`;
+
+export const LandingLogo = styled.Image`
+    width: 100px;
+    max-width: 700px;
+    max-height: 200px;
 `;

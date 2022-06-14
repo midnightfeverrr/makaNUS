@@ -90,7 +90,7 @@ const HomePage = ({navigation}) => {
             style={{
               marginTop: 10,
               marginHorizontal: 20,
-              flexDirection: 'row',
+              flexDirection: "row",
               justifyContent: 'space-between',
             }}>
             <Text style={{fontSize: 18, fontWeight: 'bold'}}>
@@ -109,7 +109,7 @@ const HomePage = ({navigation}) => {
     <SafeAreaView style={{flex: 1, backgroundColor: {primary}}}>
       <HeaderHome>
         <View>
-          <View style={{flexDirection: 'row'}}>
+          <View style={{flexDirection: "row"}}>
             <Text style={{fontSize: 28}}>Hello,</Text>
             <Text style={{fontSize: 28, fontWeight: 'bold', marginLeft: 10}}>
               Marco
@@ -127,7 +127,7 @@ const HomePage = ({navigation}) => {
       <View
         style={{
           marginTop: 40,
-          flexDirection: 'row',
+          flexDirection: "row",
           paddingHorizontal: 20,
         }}>
         <InputContainer>

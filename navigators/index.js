@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import RootStack from './RootStack';
 import LoggedInNavigator from './LoggedInStack';
 import Login from '../screens/Login';
+import LandingScreen from './../screens/LandingScreen';
 
 
 // firebase
@@ -30,7 +31,7 @@ const Navigation = () => {
         return subscriber; // unsubscribe on unmount
       }, []);
 
-      if (initializing) return <Login />;
+      if (initializing) return <LandingScreen />;
 
       return (
       <NavigationContainer>
