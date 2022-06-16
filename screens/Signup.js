@@ -11,7 +11,6 @@ import { Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import auth from './../firebase'
 
 import {
     StyledContainer,
@@ -60,23 +59,29 @@ const Signup = ({navigation}) => {
                 <Formik
                     initialValues={{fullName: "", email: "", phoneNumber: "", Username: "", password: "", confirmPassword: ""}}
                     onSubmit={(values)  => {
-                        firebase.auth().
-                        createUserWithEmailAndPassword(values.email, values.password)
+                        firebase.auth()                                                 
+                        .createUserWithEmailAndPassword(values.email, values.password)
                         .then( async () => {
-                            const update = {
-                              displayName: values.fullName,
-                              photoURL: null, // profile picture
-                            };
-                            await auth().currentUser.updateProfile(update);
+                            const db = firebase.firestore();
+                            await db.collection("users").doc(firebase.auth().currentUser.uid)
+                            .set({
+                                fullName: values.fullName,
+                                email: values.email,
+                                password: values.password,
+                                phoneNumber: values.phoneNumber,
+                                username: values.Username
+                            });
                             console.log('User account created & signed in!');
                             })
                           .catch(error => {
                             if (error.code === 'auth/email-already-in-use') {
                               console.log('Email address is already in use!');
+                              handleMessage("Email address is already in use!");
                             }
                 
                             if (error.code === 'auth/invalid-phone-number') {
                                 console.log('Phone number is invalid!');
+                                handleMessage("Phone number is invalid!");
                             }
 
                             if (error.code === 'auth/user-not-found') {
@@ -85,10 +90,12 @@ const Signup = ({navigation}) => {
 
                             if (error.code === 'auth/invalid-email') {
                               console.log('That email address is invalid!');
+                              handleMessage("The email address is invalid!");
                             }
                             
                             if (error.code === 'auth/weak-password') {
                                 console.log('Password must be at least 8 characters!');
+                                handleMessage("Password must be at least 8 characters!");
                             }
                 
                             Alert.alert(
@@ -123,7 +130,6 @@ const Signup = ({navigation}) => {
                                 onChangeText= {handleChange('fullName')}
                                 onBlur= {handleBlur('fullName')}
                                 value= {values.fullName}
-                                keyboardType= "email-address"
                             />
 
                             <MyTextInput 
@@ -172,21 +178,7 @@ const Signup = ({navigation}) => {
                                 setHidePassword = {setHidePassword}
                             />
 
-                            <MyTextInput 
-                                label= "Confirm Password"
-                                icon= 'lock'
-                                placeholder= "* * * * * *"
-                                placeholderTextColor= {darkLight}
-                                onChangeText= {handleChange('confirmPassword')}
-                                onBlur= {handleBlur('confirmPassword')}
-                                value= {values.confirmPassword}
-                                secureTextEntry = {hidePassword}
-                                isPassword={true}
-                                hidePassword = {hidePassword}
-                                setHidePassword = {setHidePassword}
-                            />
-
-                            <MessageBox>...</MessageBox>
+                            <MessageBox type={messageType}>{message}</MessageBox>
                             <StyledButton onPress={handleSubmit}>
                                 <ButtonText>Sign up</ButtonText>
                             </StyledButton>

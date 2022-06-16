@@ -7,9 +7,9 @@ const StatusBarHeight = Constants.statusBarHeight;
 // colors
 export const Colors = {
     primary: "#FAF2E9",
-    secondary: "#E5E7EB",
+    secondary: "#D9D9D9",
     tertiary:"#3E3E3E",
-    darkLight: "#9CA3AF",
+    darkLight: "#818181",
     brand: "#FF5757",
     green: "#10B981",
     red: "#EF4444",
@@ -206,8 +206,16 @@ export const TextLinkContent = styled.Text`
 `;
 
 // HomePage
+export const HomeContainer = styled.View`
+    flex: 1;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: ${StatusBarHeight + 5}px;
+    background-color: ${primary};
+`;
+
 export const HeaderHome = styled.View`
-    margin-top: 20px;
+    margin-top: 10px;
     flex-direction: row;
     justify-content: space-between;
     padding-horizontal: 20px;
@@ -217,8 +225,8 @@ export const InputContainer = styled.View`
     flex: 1;
     height: 50px;
     border-radius: 10px;
-    flex-direction: row,
-    background-color: ${tertiary};
+    flex-direction: row;
+    background-color: ${secondary};
     align-items: center;
     padding-horizontal: 20px;
 `;
