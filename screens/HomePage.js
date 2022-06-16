@@ -16,6 +16,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import categories from './../components/categories';
 import foods from './../components/foods';
 import {
+  HomeContainer,
   HeaderHome,
   InputContainer,
   SortBtn,
@@ -106,7 +107,7 @@ const HomePage = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: {primary}}}>
+    <HomeContainer>
       <HeaderHome>
         <View>
           <View style={{flexDirection: "row"}}>
@@ -116,11 +117,11 @@ const HomePage = ({navigation}) => {
             </Text>
           </View>
           <Text style={{marginTop: 5, fontSize: 22, color: {tertiary}}}>
-            What do you want today
+            What do you want to eat today?
           </Text>
         </View>
         <Image
-          source={require('./../assets/LogoOnly.png')}
+          source={require('./../assets/avatar.jpg')}
           style={{height: 50, width: 50, borderRadius: 25}}
         />
       </HeaderHome>
@@ -131,7 +132,7 @@ const HomePage = ({navigation}) => {
           paddingHorizontal: 20,
         }}>
         <InputContainer>
-          <Icon name="search" size={28} />
+          <Icon name="search" size={25} style={{paddingRight:10}} />
           <TextInput
             style={{flex: 1, fontSize: 18}}
             placeholder="Search for food"
@@ -150,7 +151,7 @@ const HomePage = ({navigation}) => {
         data={foods}
         renderItem={({item}) => <Card food={item} />}
       />
-    </SafeAreaView>
+    </HomeContainer>
   );
 };
 
