@@ -307,7 +307,8 @@ export const Holder = styled.View`
 `;
 
 export const LandingLogo = styled.Image`
-    width: 100px;
+    width: 350px;
     max-width: 700px;
     max-height: 200px;
+    top: 50%;
 `;
