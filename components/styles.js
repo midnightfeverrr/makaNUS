@@ -34,6 +34,12 @@ export const StyledContainer = styled.View`
     padding-right: 25px;
     padding-top: ${StatusBarHeight + 50}px;
     background-color: ${primary};
+
+    ${(props) => props.home == true && `
+    padding-top: 50px;
+    padding-left: 0px;
+    padding-right: 0px;
+    `}
 `;
 
 export const InnerContainer = styled.View`
@@ -111,6 +117,13 @@ export const SubTitle = styled.Text`
 
 export const StyledFormArea = styled.View`
     width: 90%;
+    flex: 1;
+    border-radius: 10px;
+
+    ${(props) => props.search == true && `
+        height: 50px;
+        padding-horizontal: 20px;
+    `}
 `;
 
 export const StyledTextInput = styled.TextInput`
@@ -120,9 +133,9 @@ export const StyledTextInput = styled.TextInput`
     padding: 15px;
     padding-left: 55px;
     padding-right: 15px;
-    border-radius: 5px;
+    border-radius: 10px;
     font-size: 14px;
-    height: 60px;
+    height: 50px;
     margin-vertical: 3px;
     margin-bottom: 10px;
     color: ${tertiary};
@@ -139,10 +152,14 @@ export const StyledInputLabel  = styled.Text`
 `;
 
 export const LeftIcon = styled.View`
-    left: 15px;
-    top: 35px;
+    left: 18px;
+    top: 32px;
     position: absolute;
     z-index: 1;
+
+    ${(props) => props.search && `
+        top: 15px;
+    `}
 `;
 
 export const RightIcon = styled.TouchableOpacity`
@@ -157,7 +174,7 @@ export const StyledButton = styled.TouchableOpacity`
     background-color: ${tertiary};
     justify-content: center;
     align-items: center;
-    border-radius: 5px;
+    border-radius: 20px;
     margin-vertical: 5px;
     height: 60px;
 
@@ -182,6 +199,7 @@ export const ButtonText = styled.Text`
 
 export const MessageBox = styled.Text`
     text-align: center;
+    font-family: Trirong-Regular;
     font-size: 13px;
     color: ${red};
 `;
@@ -216,32 +234,56 @@ export const TextLink = styled.TouchableOpacity`
 
 export const TextLinkContent = styled.Text`
     color: ${brand};
+    font-family: Trirong-Regular;
     font-size: 15px;
 `;
 
 // HomePage
-export const HomeContainer = styled.View`
-    flex: 1;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: ${StatusBarHeight + 5}px;
-    background-color: ${primary};
-`;
-
 export const HeaderHome = styled.View`
-    margin-top: 10px;
     flex-direction: row;
     justify-content: space-between;
-    padding-horizontal: 20px;
+    padding-horizontal: 40px;
+    padding-top: ${StatusBarHeight + 10}px;
 `;
 
-export const InputContainer = styled.View`
-    flex: 1;
+export const Greetings = styled.Text`
+    font-family: KottaOne-Regular;
+    font-size: 32px;
+
+    ${(props) => props.user == true && `
+        font-family: KottaOne-Regular;
+    `
+    } 
+
+    ${(props) => props.sub == true && `
+        font-family: Trirong-Regular;
+        font-size: 13px;
+    `
+    } 
+`;
+
+export const ProfilePictureHolder = styled.TouchableOpacity`
+    margin-top: 15px;
     height: 50px;
-    border-radius: 10px;
+    width: 50px;
+`;
+
+export const ProfilePicture = styled.Image`
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+`;
+
+export const LocationHolder = styled.View`
+    margin-top: 15px;
+    padding-horizontal: 40px;
+    justify-content: flex-start;
     flex-direction: row;
-    background-color: ${secondary};
-    align-items: center;
+`
+
+export const BodyOneHome = styled.View`
+    margin-top: 15px;
+    flex-direction: row;
     padding-horizontal: 20px;
 `;
 
@@ -249,8 +291,12 @@ export const SortBtn = styled.View`
     width: 50px;
     height: 50px;
     margin-left: 10px;
+    margin-right: 20px;
+    margin-top: 3px;
     background-color: ${tertiary};
-    border-radius: 10px;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-radius: 2px;
     justify-content: center;
     align-items: center;
 `;
