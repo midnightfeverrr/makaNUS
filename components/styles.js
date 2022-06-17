@@ -1,16 +1,26 @@
 import styled from 'styled-components';
-import {View, Image, Text, TextInput, TouchableOpacity, ScrollView} from 'react-native';
+import { 
+    View, 
+    Image, 
+    Text, 
+    TextInput, 
+    TouchableOpacity, 
+    ScrollView, 
+    Dimensions } 
+from 'react-native';
 import Constants from 'expo-constants';
 
 const StatusBarHeight = Constants.statusBarHeight;
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 // colors
 export const Colors = {
-    primary: "#FAF2E9",
-    secondary: "#D9D9D9",
-    tertiary:"#3E3E3E",
-    darkLight: "#818181",
-    brand: "#FF5757",
+    primary: "#FAF2E9", // white
+    secondary: "#DBDBDB", // grey
+    tertiary:"#3E3E3E", //black
+    darkLight: "#818181", // for text
+    brand: "#FF5757", // pink brand
     green: "#10B981",
     red: "#EF4444",
 };
@@ -22,13 +32,14 @@ export const StyledContainer = styled.View`
     flex: 1;
     padding-left: 25px;
     padding-right: 25px;
-    padding-top: ${StatusBarHeight + 70}px;
+    padding-top: ${StatusBarHeight + 50}px;
     background-color: ${primary};
 `;
 
 export const InnerContainer = styled.View`
     flex: 1;
     width: 100%;
+    height:${windowHeight - 50}px;
     align-items: center;
 `;
 
@@ -73,9 +84,10 @@ export const WelcomeImage = styled.Image`
 `;
 
 export const PageTitle = styled.Text`
-    font-size: 35px;
+    font-size: 25px;
     text-align: center;
-    font-family: KottaOne-Regular;
+    font-family: Montserrat-Medium;
+    letter-spacing: 4px;
     color: ${brand};
     padding: 10px;
 
@@ -87,7 +99,6 @@ export const PageTitle = styled.Text`
 export const SubTitle = styled.Text`
     font-size: 16px;
     margin-bottom: 20px;
-    letter-spacing: 1px;
     font-family: KottaOne-Regular;
     color: ${tertiary};
     
@@ -104,11 +115,13 @@ export const StyledFormArea = styled.View`
 
 export const StyledTextInput = styled.TextInput`
     background-color: ${secondary};
+    font-family: KottaOne-Regular;
+    letter-spacing: 1px;
     padding: 15px;
     padding-left: 55px;
     padding-right: 15px;
     border-radius: 5px;
-    font-size: 16px;
+    font-size: 14px;
     height: 60px;
     margin-vertical: 3px;
     margin-bottom: 10px;
@@ -158,6 +171,7 @@ export const StyledButton = styled.TouchableOpacity`
 export const ButtonText = styled.Text`
     color: ${primary};
     font-size: 16px;
+    font-family: Trirong-Light;
 
     ${(props) => props.google == true && `
     padding-left: 20px;
@@ -176,7 +190,7 @@ export const Line = styled.View`
     height: 1px;
     width: 100%;
     background-color: ${darkLight};
-    margin-top: 4px;
+    margin-top: 10px;
     margin-bottom: 12px;
 `;
 

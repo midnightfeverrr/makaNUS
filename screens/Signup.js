@@ -59,6 +59,9 @@ const Signup = ({navigation}) => {
                 <Formik
                     initialValues={{fullName: "", email: "", phoneNumber: "", Username: "", password: "", confirmPassword: ""}}
                     onSubmit={(values)  => {
+                        if (values.password !== values.confirmPassword){
+                            handleMessage('Password does not match!')
+                        } else {
                         firebase.auth()                                                 
                         .createUserWithEmailAndPassword(values.email, values.password)
                         .then( async () => {
@@ -119,13 +122,14 @@ const Signup = ({navigation}) => {
                 
                           });
                     }}
+                }
                 >
                     {({handleChange, handleBlur, handleSubmit, values}) => (
                         <StyledFormArea>
                             <MyTextInput 
                                 label= "Full name"
                                 icon= 'person'
-                                placeholder= "John Doe"
+                                placeholder= "full name"
                                 placeholderTextColor= {darkLight}
                                 onChangeText= {handleChange('fullName')}
                                 onBlur= {handleBlur('fullName')}
@@ -135,7 +139,7 @@ const Signup = ({navigation}) => {
                             <MyTextInput 
                                 label= "Email Address"
                                 icon= 'mail'
-                                placeholder= "johndoe@gmail.com"
+                                placeholder= "email"
                                 placeholderTextColor= {darkLight}
                                 onChangeText= {handleChange('email')}
                                 onBlur= {handleBlur('email')}
@@ -157,7 +161,7 @@ const Signup = ({navigation}) => {
                             <MyTextInput 
                                 label= "Username"
                                 icon= 'mention'
-                                placeholder= "johndoe"
+                                placeholder= "username"
                                 placeholderTextColor= {darkLight}
                                 onChangeText= {handleChange('Username')}
                                 onBlur= {handleBlur('Username')}
@@ -167,11 +171,24 @@ const Signup = ({navigation}) => {
                             <MyTextInput 
                                 label= "Password"
                                 icon= 'lock'
-                                placeholder= "* * * * * *"
+                                placeholder= "password"
                                 placeholderTextColor= {darkLight}
                                 onChangeText= {handleChange('password')}
                                 onBlur= {handleBlur('password')}
                                 value= {values.password}
+                                secureTextEntry = {hidePassword}
+                                isPassword={true}
+                                hidePassword = {hidePassword}
+                                setHidePassword = {setHidePassword}
+                            />
+                            <MyTextInput 
+                                label= " Confirm Password"
+                                icon= 'lock'
+                                placeholder= "confirm password"
+                                placeholderTextColor= {darkLight}
+                                onChangeText= {handleChange('confirmPassword')}
+                                onBlur= {handleBlur('confirmPassword')}
+                                value= {values.confirmPassword}
                                 secureTextEntry = {hidePassword}
                                 isPassword={true}
                                 hidePassword = {hidePassword}

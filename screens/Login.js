@@ -133,7 +133,7 @@ const Login = ({navigation}) => {
                             <MyTextInput 
                                 label= "Email Address"
                                 icon= 'mail'
-                                placeholder= "johndoe@gmail.com"
+                                placeholder= "email"
                                 placeholderTextColor= {darkLight}
                                 onChangeText= {handleChange('email')}
                                 onBlur= {handleBlur('email')}
@@ -144,7 +144,7 @@ const Login = ({navigation}) => {
                             <MyTextInput 
                                 label= "Password"
                                 icon= 'lock'
-                                placeholder= "* * * * * *"
+                                placeholder= "password"
                                 placeholderTextColor= {darkLight}
                                 onChangeText= {handleChange('password')}
                                 onBlur= {handleBlur('password')}
