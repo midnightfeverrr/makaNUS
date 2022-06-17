@@ -40,6 +40,7 @@ const {brand, darkLight, tertiary, primary} = Colors;
 
 const Signup = ({navigation}) => {
     const [hidePassword, setHidePassword] = useState(true);
+    const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
     const [message, setMessage] = useState();
     const [messageType, setMessageType] = useState();
 
@@ -85,10 +86,6 @@ const Signup = ({navigation}) => {
                             if (error.code === 'auth/invalid-phone-number') {
                                 console.log('Phone number is invalid!');
                                 handleMessage("Phone number is invalid!");
-                            }
-
-                            if (error.code === 'auth/user-not-found') {
-                                console.log('There is no existing user record corresponding to the provided identifier.');
                             }
 
                             if (error.code === 'auth/invalid-email') {
@@ -189,10 +186,10 @@ const Signup = ({navigation}) => {
                                 onChangeText= {handleChange('confirmPassword')}
                                 onBlur= {handleBlur('confirmPassword')}
                                 value= {values.confirmPassword}
-                                secureTextEntry = {hidePassword}
+                                secureTextEntry = {hideConfirmPassword}
                                 isPassword={true}
-                                hidePassword = {hidePassword}
-                                setHidePassword = {setHidePassword}
+                                hidePassword = {hideConfirmPassword}
+                                setHidePassword = {setHideConfirmPassword}
                             />
 
                             <MessageBox type={messageType}>{message}</MessageBox>
@@ -219,7 +216,7 @@ const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, ..
     return (
       <View>
         <LeftIcon>
-            <Octicons name={icon} size={25} color={brand} />
+            <Octicons name={icon} size={20} color={brand} />
         </LeftIcon>        
         <StyledInputLabel>{label}</StyledInputLabel>
         <StyledTextInput {...props}/>

@@ -91,11 +91,11 @@ const Login = ({navigation}) => {
                         firebase.auth()
                           .signInWithEmailAndPassword(values.email, values.password)
                           .then(() => {
-                            console.log('User account created & signed in!');
+                            console.log('User signed in!');
                           })
                           .catch(error => {
                 
-                            if (error.code === 'auth/invalid-email') {
+                            if (error.code === 'auth/user-not-found') {
                               console.log('That email address is invalid!');
                               handleMessage("No account associated with the email address!");
                             }
@@ -185,7 +185,7 @@ const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, ..
     return (
       <View>
         <LeftIcon>
-            <Octicons name={icon} size={25} color={brand} />
+            <Octicons name={icon} size={20} color={brand} />
         </LeftIcon>        
         <StyledInputLabel>{label}</StyledInputLabel>
         <StyledTextInput {...props}/>
