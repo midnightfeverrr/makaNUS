@@ -5,7 +5,9 @@ import {
     Text, 
     TextInput, 
     TouchableOpacity, 
+    TouchableHighlight,
     ScrollView, 
+    FlatList,
     Dimensions } 
 from 'react-native';
 import Constants from 'expo-constants';
@@ -246,9 +248,20 @@ export const HeaderHome = styled.View`
     padding-top: ${StatusBarHeight + 10}px;
 `;
 
+export const TitleHome = styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+    padding-horizontal: 40px;
+`;
+
 export const Greetings = styled.Text`
     font-family: KottaOne-Regular;
     font-size: 32px;
+
+    ${(props) => props.title == true && `
+        font-size: 24px;
+    `
+    } 
 
     ${(props) => props.user == true && `
         font-family: KottaOne-Regular;
@@ -287,7 +300,7 @@ export const BodyOneHome = styled.View`
     padding-horizontal: 20px;
 `;
 
-export const SortBtn = styled.View`
+export const SortBtn = styled.TouchableOpacity`
     width: 50px;
     height: 50px;
     margin-left: 10px;
@@ -301,47 +314,132 @@ export const SortBtn = styled.View`
     align-items: center;
 `;
 
-export const CategoriesListContainer = styled.ScrollView`
+export const CategoriesListContainer = styled.FlatList`
     padding-vertical: 30px;
+    padding-horizontal: 40px;
+`;
+
+export const CategoryBtn = styled.TouchableOpacity`
+    height: 45px;
+    width: 90px;
+    margin-right: 20px;
+    border-radius: 2px;
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    align-items: center;
+    padding-horizontal: 10px;
+    flex-direction: row;
+    justify-content: center;
+    background-color: ${secondary};
+`;
+
+export const CategoryBtnText = styled.Text`
+    font-family: KottaOne-Regular;
+    font-size: 13px;
+    color: ${darkLight};
+`;
+
+export const CardContainer = styled.FlatList`
+    padding-vertical: 15px;
     padding-horizontal: 20px;
 `;
 
-export const CategoryBtn = styled.View`
-    height: 45px;
-    width: 120px;
-    margin-right: 7px;
-    border-radius: 30px;
-    align-items: center;
-    padding-horizontal: 5px;
-    flex-direction: row;
-`;
-
-export const CategoryBtnImgCon = styled.View`
-    height: 35px;
-    width: 35px;
-    background-color: ${primary};
-    border-radius: 30px;
-    justify-content: center;
-    align-items: center;
+export const CardButton = styled.TouchableHighlight`
+    underlay-color: ${primary};
+    active-opacity: 90%;
 `;
 
 export const CardHome = styled.View`
-    height: 220px;
-    width: 100%;
-    margin-horizontal: 10px;
+    height: 260px;
+    width: 200px;
+    margin-horizontal: 20px;
     margin-bottom: 20px;
-    margin-top: 50px;
     border-radius: 15px;
-    elevation: 13;
+    elevation: 10;
+    align-items: center;
     background-color: ${primary};
+
+    ${(props) => props.card2 == true && `
+        height: 85px;
+        width: 225px;
+        align-items: flex-start;
+        flex-direction: row;
+    `}
 `;
-export const AddToCartBtn = styled.View`
+
+export const CardThumbnailHolder = styled.View`
+    height: 168px;
+    width: 168px;
+    margin-horizontal: 50px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    border-radius: 15px;
+    elevation: 10;
+    align-items: center;
+    background-color: ${secondary};
+
+    ${(props) => props.card2 == true && `
+        height: 63px;
+        width: 63px;
+        margin-horizontal: 20px;
+        margin-bottom: 10px;
+        margin-top: 11px;
+        border-radius: 150px;
+    `}
+`;
+
+export const CardThumbnail = styled.Image`
+    height: 168px;
+    width: 168px;
+    border-radius: 15px;
+
+    ${(props) => props.card2 == true && `
+        height: 63px;
+        width: 63px;
+        border-radius: 150px;
+    `}
+`;
+
+export const CardDetails = styled.View`
+    height: 57px;
+    width: 168px;
+    margin-top: 13px;
+    justify-content: space-between;
+    flex-direction: row;
+
+    ${(props) => props.card2 == true && `
+        height: 63px;
+        width: 120px;
+        flex-direction: column;
+        margin-top: 6px;
+    `}
+`;
+
+export const CardTextHolder = styled.View`
+    padding-left: 5px;
+    flex-direction: column;
+`;
+
+export const CardSubtitle = styled.Text`
+    font-family: Trirong-Regular;
+    font-size: 10px;
+    color: ${darkLight};
+`;
+
+export const CardTitle = styled.Text`
+    font-family: Trirong-Bold;
+    letter-spacing: 1px;
+    font-size: 15px;
+    color: ${tertiary};
+`;
+
+export const AddToFavouritesBtn = styled.View`
     height: 30px;
     width: 30px;
     border-radius: 20px;
-    background-color: ${primary};
     justify-content: center;
     align-items: center;
+    padding-top: 10px;
 `;
 
 // LandingScreen
@@ -357,4 +455,9 @@ export const LandingLogo = styled.Image`
     max-width: 700px;
     max-height: 200px;
     top: 50%;
+`;
+
+// BottomTabNavigator
+export const StyledIcon = styled.View`
+    align-items: center;
 `;
