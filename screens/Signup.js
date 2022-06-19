@@ -1,16 +1,18 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
+import * as Location from 'expo-location';
 
 // form
 import { Formik } from 'formik';
 
 // icons
-import { Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
+import { Octicons, Ionicons } from '@expo/vector-icons';
 
 // firebase
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+import { GeoPoint } from 'firebase/firestore';
 
 import {
     StyledContainer,
@@ -43,11 +45,28 @@ const Signup = ({navigation}) => {
     const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
     const [message, setMessage] = useState();
     const [messageType, setMessageType] = useState();
+    const [location, setLocation] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
 
+    // Handling error message in Formik
     const handleMessage = (message, type = false) => {
         setMessage(message);
         setMessageType(type);
     }
+
+    // Handling Location Permissions, and getting user's location
+    useEffect(() => {
+        (async () => {
+          let { status } = await Location.requestForegroundPermissionsAsync();
+          if (status !== 'granted') {
+            setErrorMsg('Permission to access location was denied');
+            return;
+          }
+    
+          let location = await Location.getCurrentPositionAsync({});
+          setLocation(location);
+        })();
+      }, []);
 
     return (
         <KeyboardAvoidingWrapper>
@@ -67,13 +86,15 @@ const Signup = ({navigation}) => {
                         .createUserWithEmailAndPassword(values.email, values.password)
                         .then( async () => {
                             const db = firebase.firestore();
+                            const coordinates = new GeoPoint(location.coords.latitude, location.coords.longitude);
                             await db.collection("users").doc(firebase.auth().currentUser.uid)
                             .set({
                                 fullName: values.fullName,
                                 email: values.email,
                                 password: values.password,
                                 phoneNumber: values.phoneNumber,
-                                username: values.Username
+                                username: values.Username,
+                                coordinate: coordinates
                             });
                             console.log('User account created & signed in!');
                             })

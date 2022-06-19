@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
+import * as Location from 'expo-location';
 
 // form
 import { Formik } from 'formik';
@@ -10,8 +11,9 @@ import { Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
 // firebase
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
+import app from './../firebase'
 import 'firebase/compat/firestore';
-import auth from './../firebase'
+import { GeoPoint } from 'firebase/firestore';
 
 import {
     StyledContainer,
@@ -46,12 +48,40 @@ const Login = ({navigation}) => {
     const [hidePassword, setHidePassword] = useState(true);
     const [message, setMessage] = useState();
     const [messageType, setMessageType] = useState();
+    const [location, setLocation] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
 
+    // Handling error message in Formik
     const handleMessage = (message, type = false) => {
         setMessage(message);
         setMessageType(type);
     }
 
+    // Handling Location Permissions, and getting user's location
+    useEffect(() => {
+        (async () => {
+          let { status } = await Location.requestForegroundPermissionsAsync();
+          if (status !== 'granted') {
+            setErrorMsg('Permission to access location was denied');
+            return Alert.alert(
+                status,
+                errorMsg,
+                [
+                    {
+                        text: "OK",
+                        onPress: () => console.log("OK Pressed"),
+                        style: "OK",
+                    },
+                ]
+            )
+          }
+    
+          let location = await Location.getCurrentPositionAsync({});
+          setLocation(location);
+        })();
+      }, []);
+
+    // Handling Google Sign-in
     const handleGoogle = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth()
@@ -87,10 +117,17 @@ const Login = ({navigation}) => {
 
                 <Formik
                     initialValues={{email: "", password: ""}}
+                    // Authentication using Firebase & Submitting data to Firestore
                     onSubmit= {async (values) => {
                         firebase.auth()
                           .signInWithEmailAndPassword(values.email, values.password)
-                          .then(() => {
+                          .then(async () => {
+                            const db = firebase.firestore();
+                            const coordinates = new GeoPoint(location.coords.latitude, location.coords.longitude);
+                            await db.collection("users").doc(firebase.auth().currentUser.uid)
+                            .update({
+                                coordinate: coordinates,
+                            });
                             console.log('User signed in!');
                           })
                           .catch(error => {
@@ -181,6 +218,7 @@ const Login = ({navigation}) => {
     );
 }
 
+// Form Style
 const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, ...props}) => {
     return (
       <View>
