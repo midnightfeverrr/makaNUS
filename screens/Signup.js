@@ -233,6 +233,7 @@ const Signup = ({navigation}) => {
     );
 }
 
+// Form Style
 const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, ...props}) => {
     return (
       <View>
