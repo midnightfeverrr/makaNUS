@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
 
-
 import {
     StyledContainer,
     InnerContainer,
@@ -28,10 +27,10 @@ const Welcome = ({navigation}) => {
                     <PageTitle welcome={true}><PageTitle style={{color: "#3E3E3E"}}> Welcome to maka</PageTitle>NUS</PageTitle>
                     <SubTitle welcome={true}>John Doe</SubTitle>
                         <StyledFormArea>
-                        <Avatar resizeMode="cover" source={require('./../assets/LogoOnly.png')} />
+                        <Avatar resizeMode="contain" source={require('./../assets/LogoOnly.png')} />
                         <Line />
-                            <StyledButton onPress={() => {navigation.navigate("Login")}}>
-                                <ButtonText>Logout</ButtonText>
+                            <StyledButton onPress={() => {navigation.navigate("HomePage")}}>
+                                <ButtonText>Get Started</ButtonText>
                             </StyledButton>
                         </StyledFormArea>
                 </WelcomeContainer>

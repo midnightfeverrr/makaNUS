@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import {View, Image, Text, TextInput, TouchableOpacity} from 'react-native';
+import {View, Image, Text, TextInput, TouchableOpacity, ScrollView} from 'react-native';
 import Constants from 'expo-constants';
 
 const StatusBarHeight = Constants.statusBarHeight;
@@ -13,10 +13,11 @@ export const Colors = {
     brand: "#FF5757",
     green: "#10B981",
     red: "#EF4444",
-    //grey: "#DBDBDB",
+    // grey: "#DBDBDB",
 };
 
 const { primary, secondary, tertiary, darkLight, brand, green, red } = Colors;
+
 
 export const StyledContainer = styled.View`
     flex: 1;
@@ -203,6 +204,7 @@ export const TextLinkContent = styled.Text`
     font-size: 15px;
 `;
 
+// Profile
 export const ProfileTitle = styled.Text`
     font-size: 30px;
     text-align: center;
@@ -245,4 +247,91 @@ export const EditProfile = styled.TouchableOpacity`
     margin-vertical: 5px;
     height: 30px;
     width: 40%;
+`
+
+// HomePage
+export const HeaderHome = styled.View`
+    margin-top: 20px;
+    flex-direction: 'row';
+    justify-content: 'space-between';
+    padding-horizontal: 20px;
+`;
+
+export const InputContainer = styled.View`
+    flex: 1;
+    height: 50px;
+    border-radius: 10px;
+    flex-direction: 'row',
+    background-color: ${tertiary};
+    align-items: 'center';
+    padding-horizontal: 20px;
+`;
+
+export const SortBtn = styled.View`
+    width: 50px;
+    height: 50px;
+    margin-left: 10px;
+    background-color: ${tertiary};
+    border-radius: 10px;
+    justify-content: 'center';
+    align-items: 'center';
+`;
+
+export const CategoriesListContainer = styled.ScrollView`
+    padding-vertical: 30px;
+    padding-horizontal: 20px;
+`;
+
+export const CategoryBtn = styled.View`
+    height: 45px;
+    width: 120px;
+    margin-right: 7px;
+    border-radius: 30px;
+    align-items: 'center';
+    padding-horizontal: 5px;
+    flex-direction: 'row';
+`;
+
+export const CategoryBtnImgCon = styled.View`
+    height: 35px;
+    width: 35px;
+    background-color: ${primary};
+    border-radius: 30px;
+    justify-content: 'center';
+    align-items: 'center';
+`;
+
+export const CardHome = styled.View`
+    height: 220px;
+    width: 100%;
+    margin-horizontal: 10px;
+    margin-bottom: 20px;
+    margin-top: 50px;
+    border-radius: 15px;
+    elevation: 13;
+    background-color: ${primary};
+`;
+export const AddToCartBtn = styled.View`
+    height: 30px;
+    width: 30px;
+    border-radius: 20px;
+    background-color: ${primary};
+    justify-content: 'center';
+    align-items: 'center';
+`;
+
+export const ProfilePic = styled.Image`
+    width: 180px;
+    height: 180px;
+    margin: auto;
+    border-radius: 90px;
+    border-width: 2px;
+    border-color: ${brand};
+    margin-bottom: 10px;
+    margin-top: 10px;
+`;
+
+// BottomTab
+export const Root = styled.View`
+  align-items: 'center'
 `;

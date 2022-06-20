@@ -19,7 +19,6 @@ const Stack = createNativeStackNavigator();
 
 const RootStack = () => {
     return(
-        <NavigationContainer>
             <Stack.Navigator
                 screenOptions={{
                     headerStyle: {
@@ -41,7 +40,6 @@ const RootStack = () => {
                 <Stack.Screen name="ForgotSent" component={ForgotSent} />
                 <Stack.Screen name="Profile" component={Profile} />
             </Stack.Navigator>
-        </NavigationContainer>
     )
 }
 
