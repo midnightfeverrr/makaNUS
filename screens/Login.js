@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
+import * as Location from 'expo-location';
 
 // form
 import { Formik } from 'formik';
@@ -10,8 +11,9 @@ import { Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
 // firebase
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
+import app from './../firebase'
 import 'firebase/compat/firestore';
-import auth from './../firebase'
+import { GeoPoint } from 'firebase/firestore';
 
 import {
     StyledContainer,
@@ -44,6 +46,65 @@ import KeyboardAvoidingWrapper from './../components/KeyboardAvoidingWrapper';
 
 const Login = ({navigation}) => {
     const [hidePassword, setHidePassword] = useState(true);
+    const [message, setMessage] = useState();
+    const [messageType, setMessageType] = useState();
+    const [location, setLocation] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
+
+    // Handling error message in Formik
+    const handleMessage = (message, type = false) => {
+        setMessage(message);
+        setMessageType(type);
+    }
+
+    // Handling Location Permissions, and getting user's location
+    useEffect(() => {
+        (async () => {
+          let { status } = await Location.requestForegroundPermissionsAsync();
+          if (status !== 'granted') {
+            setErrorMsg('Permission to access location was denied');
+            return Alert.alert(
+                status,
+                errorMsg,
+                [
+                    {
+                        text: "OK",
+                        onPress: () => console.log("OK Pressed"),
+                        style: "OK",
+                    },
+                ]
+            )
+          }
+    
+          let location = await Location.getCurrentPositionAsync({});
+          setLocation(location);
+        })();
+      }, []);
+
+    // Handling Google Sign-in
+    const handleGoogle = () => {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        firebase.auth()
+        .signInWithRedirect(provider)
+        .then((result) => {
+            /** @type {firebase.auth.OAuthCredential} */
+            const credential = result.credential;
+            const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            // ...
+        }).catch((error) => {
+            // Handle Errors here.
+            console.log(error.code)
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // The email of the user's account used.
+            const email = error.customData.email;
+            // The AuthCredential type that was used.
+            const credential = error.credential;
+            // ...
+        });
+    }
 
     return (
         <KeyboardAvoidingWrapper>
@@ -56,20 +117,29 @@ const Login = ({navigation}) => {
 
                 <Formik
                     initialValues={{email: "", password: ""}}
+                    // Authentication using Firebase & Submitting data to Firestore
                     onSubmit= {async (values) => {
                         firebase.auth()
                           .signInWithEmailAndPassword(values.email, values.password)
-                          .then(() => {
-                            console.log('User account created & signed in!');
+                          .then(async () => {
+                            const db = firebase.firestore();
+                            const coordinates = new GeoPoint(location.coords.latitude, location.coords.longitude);
+                            await db.collection("users").doc(firebase.auth().currentUser.uid)
+                            .update({
+                                coordinate: coordinates,
+                            });
+                            console.log('User signed in!');
                           })
                           .catch(error => {
                 
-                            if (error.code === 'auth/invalid-email') {
+                            if (error.code === 'auth/user-not-found') {
                               console.log('That email address is invalid!');
+                              handleMessage("No account associated with the email address!");
                             }
                 
                             if (error.code === 'auth/wrong-password') {
                                 console.log('Wrong password.');
+                                handleMessage("Wrong Password!");
                             }
                 
                             Alert.alert(
@@ -95,12 +165,12 @@ const Login = ({navigation}) => {
                     }
                 }
                 >
-                    {({handleChange, handleBlur, handleSubmit, values}) => (
+                    {({handleChange, handleBlur, handleSubmit,  values}) => (
                         <StyledFormArea>
                             <MyTextInput 
                                 label= "Email Address"
                                 icon= 'mail'
-                                placeholder= "johndoe@gmail.com"
+                                placeholder= "email"
                                 placeholderTextColor= {darkLight}
                                 onChangeText= {handleChange('email')}
                                 onBlur= {handleBlur('email')}
@@ -111,7 +181,7 @@ const Login = ({navigation}) => {
                             <MyTextInput 
                                 label= "Password"
                                 icon= 'lock'
-                                placeholder= "* * * * * *"
+                                placeholder= "password"
                                 placeholderTextColor= {darkLight}
                                 onChangeText= {handleChange('password')}
                                 onBlur= {handleBlur('password')}
@@ -121,7 +191,7 @@ const Login = ({navigation}) => {
                                 hidePassword = {hidePassword}
                                 setHidePassword = {setHidePassword}
                             />
-                            <MessageBox>...</MessageBox>
+                            <MessageBox type={messageType}>{message}</MessageBox>
                             <StyledButton onPress={handleSubmit}>
                                 <ButtonText>Login</ButtonText>
                             </StyledButton>
@@ -132,7 +202,7 @@ const Login = ({navigation}) => {
                                 </TextLink>
                             </ExtraView>
                             <Line />
-                            <StyledButton google={true} onPress={handleSubmit}>
+                            <StyledButton google={true} onPress={handleGoogle}>
                                 <Fontisto name="google" color={primary} size={25} />
                                 <ButtonText google={true}>Sign in with Google</ButtonText>
                             </StyledButton>
@@ -148,11 +218,12 @@ const Login = ({navigation}) => {
     );
 }
 
+// Form Style
 const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, ...props}) => {
     return (
       <View>
         <LeftIcon>
-            <Octicons name={icon} size={25} color={brand} />
+            <Octicons name={icon} size={20} color={brand} />
         </LeftIcon>        
         <StyledInputLabel>{label}</StyledInputLabel>
         <StyledTextInput {...props}/>

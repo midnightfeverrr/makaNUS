@@ -35,7 +35,7 @@ import {View} from 'react-native';
 const {brand, darkLight, tertiary, primary} = Colors;
 
 const Forgot = ({navigation}) => {
-    const [hidePassword, setHidePassword] = useState(true);
+    const [email, setEmail] = useState();
 
     return (
         <StyledContainer>
@@ -48,9 +48,15 @@ const Forgot = ({navigation}) => {
 
                 <Formik
                     initialValues={{username: ""}}
-                    onSubmit={(values)  => {
-                        console.log(values);
-                        navigation.navigate("ForgotSent");
+                    onSubmit={async (values)  => {
+                        firebase.auth().sendPasswordResetEmail(values.email)
+                        .then(() => {
+                            console.log('A password reset email has been sent.');
+                            navigation.navigate("ConfirmCode");
+                        })
+                        .catch(error => {
+                            console.log(error);
+                        })
                     }}
                 >
                     {({handleChange, handleBlur, handleSubmit, values}) => (

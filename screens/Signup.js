@@ -1,17 +1,18 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
+import * as Location from 'expo-location';
 
 // form
 import { Formik } from 'formik';
 
 // icons
-import { Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
+import { Octicons, Ionicons } from '@expo/vector-icons';
 
 // firebase
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import auth from './../firebase'
+import { GeoPoint } from 'firebase/firestore';
 
 import {
     StyledContainer,
@@ -41,6 +42,31 @@ const {brand, darkLight, tertiary, primary} = Colors;
 
 const Signup = ({navigation}) => {
     const [hidePassword, setHidePassword] = useState(true);
+    const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
+    const [message, setMessage] = useState();
+    const [messageType, setMessageType] = useState();
+    const [location, setLocation] = useState(null);
+    const [errorMsg, setErrorMsg] = useState(null);
+
+    // Handling error message in Formik
+    const handleMessage = (message, type = false) => {
+        setMessage(message);
+        setMessageType(type);
+    }
+
+    // Handling Location Permissions, and getting user's location
+    useEffect(() => {
+        (async () => {
+          let { status } = await Location.requestForegroundPermissionsAsync();
+          if (status !== 'granted') {
+            setErrorMsg('Permission to access location was denied');
+            return;
+          }
+    
+          let location = await Location.getCurrentPositionAsync({});
+          setLocation(location);
+        })();
+      }, []);
 
     return (
         <KeyboardAvoidingWrapper>
@@ -53,23 +79,44 @@ const Signup = ({navigation}) => {
                 <Formik
                     initialValues={{fullName: "", email: "", phoneNumber: "", Username: "", password: "", confirmPassword: ""}}
                     onSubmit={(values)  => {
-                        firebase.auth().
-                        createUserWithEmailAndPassword(values.email, values.password)
+                        if (values.password !== values.confirmPassword){
+                            handleMessage('Password does not match!')
+                        } else {
+                        firebase.auth()                                                 
+                        .createUserWithEmailAndPassword(values.email, values.password)
                         .then( async () => {
-                            const update = {
-                              displayName: values.fullName,
-                              photoURL: null, // profile picture
-                            };
-                            await auth().currentUser.updateProfile(update);
+                            const db = firebase.firestore();
+                            const coordinates = new GeoPoint(location.coords.latitude, location.coords.longitude);
+                            await db.collection("users").doc(firebase.auth().currentUser.uid)
+                            .set({
+                                fullName: values.fullName,
+                                email: values.email,
+                                password: values.password,
+                                phoneNumber: values.phoneNumber,
+                                username: values.Username,
+                                coordinate: coordinates
+                            });
                             console.log('User account created & signed in!');
                             })
                           .catch(error => {
-                            if (error.code === 'auth/user-not-found') {
-                              console.log('There is no existing user record corresponding to the provided identifier.');
+                            if (error.code === 'auth/email-already-in-use') {
+                              console.log('Email address is already in use!');
+                              handleMessage("Email address is already in use!");
                             }
                 
+                            if (error.code === 'auth/invalid-phone-number') {
+                                console.log('Phone number is invalid!');
+                                handleMessage("Phone number is invalid!");
+                            }
+
                             if (error.code === 'auth/invalid-email') {
                               console.log('That email address is invalid!');
+                              handleMessage("The email address is invalid!");
+                            }
+                            
+                            if (error.code === 'auth/weak-password') {
+                                console.log('Password must be at least 8 characters!');
+                                handleMessage("Password must be at least 8 characters!");
                             }
                 
                             Alert.alert(
@@ -93,24 +140,24 @@ const Signup = ({navigation}) => {
                 
                           });
                     }}
+                }
                 >
                     {({handleChange, handleBlur, handleSubmit, values}) => (
                         <StyledFormArea>
                             <MyTextInput 
                                 label= "Full name"
                                 icon= 'person'
-                                placeholder= "John Doe"
+                                placeholder= "full name"
                                 placeholderTextColor= {darkLight}
                                 onChangeText= {handleChange('fullName')}
                                 onBlur= {handleBlur('fullName')}
                                 value= {values.fullName}
-                                keyboardType= "email-address"
                             />
 
                             <MyTextInput 
                                 label= "Email Address"
                                 icon= 'mail'
-                                placeholder= "johndoe@gmail.com"
+                                placeholder= "email"
                                 placeholderTextColor= {darkLight}
                                 onChangeText= {handleChange('email')}
                                 onBlur= {handleBlur('email')}
@@ -132,7 +179,7 @@ const Signup = ({navigation}) => {
                             <MyTextInput 
                                 label= "Username"
                                 icon= 'mention'
-                                placeholder= "johndoe"
+                                placeholder= "username"
                                 placeholderTextColor= {darkLight}
                                 onChangeText= {handleChange('Username')}
                                 onBlur= {handleBlur('Username')}
@@ -142,7 +189,7 @@ const Signup = ({navigation}) => {
                             <MyTextInput 
                                 label= "Password"
                                 icon= 'lock'
-                                placeholder= "* * * * * *"
+                                placeholder= "password"
                                 placeholderTextColor= {darkLight}
                                 onChangeText= {handleChange('password')}
                                 onBlur= {handleBlur('password')}
@@ -152,22 +199,21 @@ const Signup = ({navigation}) => {
                                 hidePassword = {hidePassword}
                                 setHidePassword = {setHidePassword}
                             />
-
                             <MyTextInput 
-                                label= "Confirm Password"
+                                label= " Confirm Password"
                                 icon= 'lock'
-                                placeholder= "* * * * * *"
+                                placeholder= "confirm password"
                                 placeholderTextColor= {darkLight}
                                 onChangeText= {handleChange('confirmPassword')}
                                 onBlur= {handleBlur('confirmPassword')}
                                 value= {values.confirmPassword}
-                                secureTextEntry = {hidePassword}
+                                secureTextEntry = {hideConfirmPassword}
                                 isPassword={true}
-                                hidePassword = {hidePassword}
-                                setHidePassword = {setHidePassword}
+                                hidePassword = {hideConfirmPassword}
+                                setHidePassword = {setHideConfirmPassword}
                             />
 
-                            <MessageBox>...</MessageBox>
+                            <MessageBox type={messageType}>{message}</MessageBox>
                             <StyledButton onPress={handleSubmit}>
                                 <ButtonText>Sign up</ButtonText>
                             </StyledButton>
@@ -187,11 +233,12 @@ const Signup = ({navigation}) => {
     );
 }
 
+// Form Style
 const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, ...props}) => {
     return (
       <View>
         <LeftIcon>
-            <Octicons name={icon} size={25} color={brand} />
+            <Octicons name={icon} size={20} color={brand} />
         </LeftIcon>        
         <StyledInputLabel>{label}</StyledInputLabel>
         <StyledTextInput {...props}/>
