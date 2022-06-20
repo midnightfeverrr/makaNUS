@@ -25,7 +25,6 @@ export const Colors = {
     brand: "#FF5757", // pink brand
     green: "#10B981",
     red: "#EF4444",
-    // grey: "#DBDBDB",
 };
 
 const { primary, secondary, tertiary, darkLight, brand, green, red } = Colors;
@@ -37,7 +36,6 @@ export const StyledContainer = styled.View`
     padding-right: 25px;
     padding-top: ${StatusBarHeight + 50}px;
     background-color: ${primary};
-
     ${(props) => props.home == true && `
     padding-top: 50px;
     padding-left: 0px;
@@ -77,10 +75,10 @@ export const PageLogo = styled.Image`
 `;
 
 export const Avatar = styled.Image`
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
     margin: auto;
-    border-radius: 75px;
+    border-radius: 50px;
     border-width: 2px;
     border-color: ${brand};
     margin-bottom: 10px;
@@ -99,7 +97,6 @@ export const PageTitle = styled.Text`
     letter-spacing: 4px;
     color: ${brand};
     padding: 10px;
-
     ${(props) => props.welcome && `
         font-size: 35px;
     `}
@@ -122,7 +119,6 @@ export const StyledFormArea = styled.View`
     width: 90%;
     flex: 1;
     border-radius: 10px;
-
     ${(props) => props.search == true && `
         height: 50px;
         padding-horizontal: 20px;
@@ -142,7 +138,6 @@ export const StyledTextInput = styled.TextInput`
     margin-vertical: 3px;
     margin-bottom: 10px;
     color: ${tertiary};
-
     ${(props) => props.forgot && `
     padding-left: 22px;
 `}
@@ -159,7 +154,6 @@ export const LeftIcon = styled.View`
     top: 32px;
     position: absolute;
     z-index: 1;
-
     ${(props) => props.search && `
         top: 15px;
     `}
@@ -180,7 +174,6 @@ export const StyledButton = styled.TouchableOpacity`
     border-radius: 20px;
     margin-vertical: 5px;
     height: 60px;
-
     ${(props) => props.google == true && `
         background-color: ${brand};
         flex-direction: row;
@@ -192,7 +185,6 @@ export const ButtonText = styled.Text`
     color: ${primary};
     font-size: 16px;
     font-family: Trirong-Light;
-
     ${(props) => props.google == true && `
     padding-left: 20px;
     padding-bottom: 2px;
@@ -241,51 +233,6 @@ export const TextLinkContent = styled.Text`
     font-size: 15px;
 `;
 
-// Profile
-export const ProfileTitle = styled.Text`
-    font-size: 30px;
-    text-align: center;
-    color: 'black';
-    padding: 10px;
-
-    ${(props) => props.welcome && `
-        font-size: 35px;
-    `}
-`;
-
-export const XpTitle = styled.Text`
-    font-size: 20px;
-    text-align: center;
-    color: ${tertiary};
-    padding: 10px;
-
-    ${(props) => props.welcome && `
-        font-size: 35px;
-    `}
-`;
-
-export const MyReviews = styled.TouchableOpacity`
-    padding: 5px;
-    background-color: ${brand};
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    margin-vertical: 5px;
-    height: 30px;
-    width: 40%;
-`;
-
-export const EditProfile = styled.TouchableOpacity`
-    padding: 5px;
-    background-color: ${tertiary}};
-    justify-content: center;
-    align-items: center;
-    border-radius: 5px;
-    margin-vertical: 5px;
-    height: 30px;
-    width: 40%;
-`
-
 // HomePage
 export const HeaderHome = styled.View`
     flex-direction: row;
@@ -303,17 +250,14 @@ export const TitleHome = styled.View`
 export const Greetings = styled.Text`
     font-family: KottaOne-Regular;
     font-size: 32px;
-
     ${(props) => props.title == true && `
         font-size: 24px;
     `
     } 
-
     ${(props) => props.user == true && `
         font-family: KottaOne-Regular;
     `
     } 
-
     ${(props) => props.sub == true && `
         font-family: Trirong-Regular;
         font-size: 13px;
@@ -404,7 +348,6 @@ export const CardHome = styled.View`
     elevation: 10;
     align-items: center;
     background-color: ${primary};
-
     ${(props) => props.card2 == true && `
         height: 85px;
         width: 225px;
@@ -423,7 +366,6 @@ export const CardThumbnailHolder = styled.View`
     elevation: 10;
     align-items: center;
     background-color: ${secondary};
-
     ${(props) => props.card2 == true && `
         height: 63px;
         width: 63px;
@@ -438,7 +380,6 @@ export const CardThumbnail = styled.Image`
     height: 168px;
     width: 168px;
     border-radius: 15px;
-
     ${(props) => props.card2 == true && `
         height: 63px;
         width: 63px;
@@ -452,7 +393,6 @@ export const CardDetails = styled.View`
     margin-top: 13px;
     justify-content: space-between;
     flex-direction: row;
-
     ${(props) => props.card2 == true && `
         height: 63px;
         width: 120px;
@@ -494,27 +434,6 @@ export const Holder = styled.View`
     padding-horizontal: 20px;
     padding-top: 70px;
     background-color: ${primary};
-<<<<<<< HEAD
-    justify-content: 'center';
-    align-items: 'center';
-`;
-
-export const ProfilePic = styled.Image`
-    width: 180px;
-    height: 180px;
-    margin: auto;
-    border-radius: 90px;
-    border-width: 2px;
-    border-color: ${brand};
-    margin-bottom: 10px;
-    margin-top: 10px;
-`;
-
-// BottomTab
-export const Root = styled.View`
-  align-items: 'center'
-`;
-=======
 `;
 
 export const LandingLogo = styled.Image`
@@ -528,4 +447,16 @@ export const LandingLogo = styled.Image`
 export const StyledIcon = styled.View`
     align-items: center;
 `;
->>>>>>> 71db95304129cfd5b84eb995b2fab07488885b6f
+
+// Profile Page
+export const ProfilePic = styled.Image`
+    width: 180px;
+    height: 180px;
+    margin: auto;
+    border-radius: 90px;
+    border-width: 2px;
+    border-color: ${brand};
+    margin-bottom: 10px;
+    margin-top: 10px;
+`;
+
