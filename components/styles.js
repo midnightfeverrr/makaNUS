@@ -350,7 +350,7 @@ export const CardButton = styled.TouchableHighlight`
 `;
 
 export const CardHome = styled.View`
-    height: 260px;
+    height: 290px;
     width: 200px;
     margin-horizontal: 20px;
     margin-bottom: 20px;
@@ -403,7 +403,7 @@ export const CardThumbnail = styled.Image`
 export const CardDetails = styled.View`
     height: 57px;
     width: 168px;
-    margin-top: 13px;
+    margin-top: 12px;
     justify-content: space-between;
     flex-direction: row;
 
@@ -411,7 +411,8 @@ export const CardDetails = styled.View`
         height: 63px;
         width: 120px;
         flex-direction: column;
-        margin-top: 6px;
+        margin-top: 12px;
+        justify-content: center;
     `}
 `;
 
@@ -439,7 +440,7 @@ export const AddToFavouritesBtn = styled.View`
     border-radius: 20px;
     justify-content: center;
     align-items: center;
-    padding-top: 10px;
+    margin-top: 50px;
 `;
 
 // LandingScreen

@@ -68,11 +68,31 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 const db = firebase.firestore();
 
+// Distance Calculator
+function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
+    var R = 6371; // Radius of the earth in km
+    var dLat = deg2rad(lat2-lat1);  // deg2rad below
+    var dLon = deg2rad(lon2-lon1); 
+    var a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2)
+      ; 
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    var d = R * c; // Distance in km
+    return d;
+}
+  
+function deg2rad(deg) {
+    return deg * (Math.PI/180)
+}
 
+// Homepage Render
 const HomePage = ({navigation}) => {
     const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(null);
     const [userData, setUserData] = useState(null);
     const [stallData, setStallData] = useState(null);
+    const [nearbyStallData, setNearbyStallData] = useState(null);
 
     // Get User Data
     const getUser = async () => {
@@ -90,7 +110,6 @@ const HomePage = ({navigation}) => {
     // Get Stall Data
     const getStalls = async () => {
         const stallDatas = [];
-        const stallCategories = [];
         await db
             .collection('stalls')
             .onSnapshot((querySnapshot) => {
@@ -104,6 +123,20 @@ const HomePage = ({navigation}) => {
                         coordinate,
                     } = doc.data();
 
+                    const userLat = userData.coordinate.latitude;
+                    const userLng = userData.coordinate.longitude;
+                    const stallLat = doc.data().coordinate.latitude;
+                    const stallLng = doc.data().coordinate.longitude;
+                    const distanceRaw = getDistanceFromLatLonInKm(userLat, userLng, stallLat, stallLng);
+                    const distance = Math.round(distanceRaw * 10) / 10
+                    console.log(distance)
+
+                    db.collection("stalls").doc(doc.data().name).update(
+                        {
+                            distance: distance
+                        }
+                    )
+
                     stallDatas.push({
                         category: category,
                         location: location,
@@ -111,17 +144,53 @@ const HomePage = ({navigation}) => {
                         price: price,
                         url: url,
                         coordinate: coordinate,
+                        distance: distance,
                     })
 
                     setStallData(stallDatas);
                 })
             })
     }
+
+    // Getting Nearby Stall Data
+    const getNearbyStalls = async () => {
+        const stallDatas = [];
+        await db
+            .collection('stalls').orderBy("distance").limit(5)
+            .onSnapshot((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    const {
+                        category,
+                        location,
+                        name, 
+                        price,
+                        url,
+                        coordinate,
+                        distance
+                    } = doc.data();
+
+                    stallDatas.push({
+                        category: category,
+                        location: location,
+                        name: name,
+                        price: price,
+                        url: url,
+                        coordinate: coordinate,
+                        distance: distance,
+                    })
+
+                    setNearbyStallData(stallDatas);
+                })
+            })
+    }
+
     
     useEffect(() => {
         getUser();
         getStalls();
+        getNearbyStalls();
     }, []);
+
 
     // Logging out process
     const onPressLogOut = () => {
@@ -178,6 +247,8 @@ const HomePage = ({navigation}) => {
                     <CardTextHolder>
                         <CardSubtitle>Restaurant</CardSubtitle>
                         <CardTitle>{food.name}</CardTitle>
+                        <CardSubtitle>Distance</CardSubtitle>
+                        <CardTitle>{food.distance}km</CardTitle>
                     </CardTextHolder>
                     <AddToFavouritesBtn>
                         <Octicons name="heart" size={20} color={brand} />
@@ -198,8 +269,6 @@ const HomePage = ({navigation}) => {
                 <CardDetails card2={true}>
                     <CardSubtitle>Restaurant</CardSubtitle>
                     <CardTitle>{food.name}</CardTitle>
-                    <CardSubtitle>Location</CardSubtitle>
-                    <CardTitle>0.1 km</CardTitle>
                 </CardDetails>
             </CardHome>
         </CardButton>
@@ -250,15 +319,18 @@ const HomePage = ({navigation}) => {
                     <Icon name="tune" size={28} color={primary} />
                 </SortBtn>
             </BodyOneHome>
+            { /*
             <View>
                 <ListCategories />
             </View>
-            <View>
+            */
+            }
+            <View style={{paddingTop:20}}>
                 <CardContainer
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     numColumns={1}
-                    data={stallData}
+                    data={nearbyStallData}
                     ListFooterComponent={<View style={{width: 40}}/>}
                     renderItem={({item}) => <Card food={item} />}
                 />
