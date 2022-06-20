@@ -13,6 +13,7 @@ import Signup from './../screens/Signup';
 import Welcome from './../screens/Welcome';
 import Forgot from './../screens/Forgot';
 import ForgotSent from './../screens/ForgotSent';
+import ProfilePage from '../screens/ProfilePage';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,13 +31,14 @@ const RootStack = () => {
                         paddingLeft: 20
                     }
                 }}
-                initialRouteName="Login"
+                initialRouteName="ProfilePage"
             >
                 <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="Signup" component={Signup} />
                 <Stack.Screen name="Welcome" component={Welcome} />
                 <Stack.Screen name="Forgot" component={Forgot} />
                 <Stack.Screen name="ForgotSent" component={ForgotSent} />
+                <Stack.Screen name="ProfilePage" component={ProfilePage} />
             </Stack.Navigator>
     )
 }
