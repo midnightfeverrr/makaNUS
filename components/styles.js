@@ -454,10 +454,10 @@ export const StyledIcon = styled.View`
 
 // Profile Page
 export const ProfilePic = styled.Image`
-    width: 180px;
-    height: 180px;
+    width: 240px;
+    height: 240px;
     margin: auto;
-    border-radius: 90px;
+    border-radius: 120px;
     border-width: 2px;
     border-color: ${brand};
     margin-bottom: 10px;
@@ -470,6 +470,34 @@ export const ProfileImage = styled.View`
     overflow: hidden;
 `;
 
+export const ProfileText = styled.Text`
+    font-family: Trirong-Regular;
+    font-size: 13px;
+    margin-left: 20px;
+    margin-top: 7px;
+`;
+
+export const Add = styled.TouchableOpacity`
+    background-color: ${tertiary};
+    position: absolute;
+    bottom: 50px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    align-items: center;
+    justify-content: center;
+`;
+
+export const UserInfoSection = styled.View`
+    padding-vertical: 32px;
+    margin-right: 100px;
+`;
+
+export const StatsBox = styled.View`
+    align-items: center;
+    flex: 1;
+`;
 // Stall Page
 export const StallPhoto = styled.Image`
     width: 300px;
