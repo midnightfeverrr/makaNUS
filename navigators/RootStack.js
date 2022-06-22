@@ -14,6 +14,7 @@ import Welcome from './../screens/Welcome';
 import Forgot from './../screens/Forgot';
 import ForgotSent from './../screens/ForgotSent';
 import ProfilePage from '../screens/ProfilePage';
+import StallPage from '../screens/StallPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -31,7 +32,7 @@ const RootStack = () => {
                         paddingLeft: 20
                     }
                 }}
-                initialRouteName="ProfilePage"
+                initialRouteName="StallPage"
             >
                 <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="Signup" component={Signup} />
@@ -39,6 +40,7 @@ const RootStack = () => {
                 <Stack.Screen name="Forgot" component={Forgot} />
                 <Stack.Screen name="ForgotSent" component={ForgotSent} />
                 <Stack.Screen name="ProfilePage" component={ProfilePage} />
+                <Stack.Screen name="StallPage" component={StallPage} />
             </Stack.Navigator>
     )
 }

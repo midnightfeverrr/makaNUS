@@ -34,8 +34,10 @@ export const StyledContainer = styled.View`
     flex: 1;
     padding-left: 25px;
     padding-right: 25px;
-    padding-top: ${StatusBarHeight + 50}px;
+    padding-top: ${StatusBarHeight}px;
+    height: ${windowHeight + StatusBarHeight}px;
     background-color: ${primary};
+
     ${(props) => props.home == true && `
     padding-top: 50px;
     padding-left: 0px;
@@ -46,7 +48,7 @@ export const StyledContainer = styled.View`
 export const InnerContainer = styled.View`
     flex: 1;
     width: 100%;
-    height:${windowHeight - 50}px;
+    margin-top: 50px;
     align-items: center;
 `;
 
@@ -55,7 +57,8 @@ export const ForgotContainer = styled.View`
     width: 100%;
     align-items: center;
     padding: 25px;
-    padding-top: ${StatusBarHeight + 90}px;
+    padding-top: ${StatusBarHeight}px;
+    margin-top: ${StatusBarHeight + 60}px;
     justify-content: center;
 `;
 
@@ -340,7 +343,7 @@ export const CardButton = styled.TouchableHighlight`
 `;
 
 export const CardHome = styled.View`
-    height: 260px;
+    height: 290px;
     width: 200px;
     margin-horizontal: 20px;
     margin-bottom: 20px;
@@ -390,14 +393,15 @@ export const CardThumbnail = styled.Image`
 export const CardDetails = styled.View`
     height: 57px;
     width: 168px;
-    margin-top: 13px;
+    margin-top: 12px;
     justify-content: space-between;
     flex-direction: row;
     ${(props) => props.card2 == true && `
         height: 63px;
         width: 120px;
         flex-direction: column;
-        margin-top: 6px;
+        margin-top: 12px;
+        justify-content: center;
     `}
 `;
 
@@ -425,7 +429,7 @@ export const AddToFavouritesBtn = styled.View`
     border-radius: 20px;
     justify-content: center;
     align-items: center;
-    padding-top: 10px;
+    margin-top: 50px;
 `;
 
 // LandingScreen
@@ -460,3 +464,67 @@ export const ProfilePic = styled.Image`
     margin-top: 10px;
 `;
 
+export const ProfileImage = styled.View`
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+`;
+
+// Stall Page
+export const StallPhoto = styled.Image`
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 10px;
+`;
+
+export const MenuPhoto = styled.Image`
+    width: 150px;
+    height: 150px;
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 10px;
+`;
+
+export const StallContainer = styled.View`
+    flex: 1;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: ${StatusBarHeight}px;
+    height: ${windowHeight + StatusBarHeight}px;
+    background-color: ${brand};
+
+    ${(props) => props.home == true && `
+    padding-top: 50px;
+    padding-left: 0px;
+    padding-right: 0px;
+    `}
+`;
+
+export const DetailsContainer = styled.View`
+    flex: 0.55;
+    background-color: ${primary};
+    margin-horizontal: 0px;
+    margin-bottom: 7px;
+    border-radius: 20px;
+    margin-top: 30px;
+    padding-top: 30px;
+    padding-bottom: 80px;
+    padding-horizontal: 5px;
+`;
+
+export const ReviewButton = styled.TouchableOpacity`
+    border-color: ${tertiary};
+    border-width: 1px;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    width: 90px;
+    height: 40px;
+`;
+
+export const StallRow = styled.View`
+    flex-direction: row;
+    margin-bottom: 30px;
+`;

@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, Pressable } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableOpacity } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import {
     StyledContainer,
@@ -13,38 +13,40 @@ import {
     Line,
     WelcomeContainer,
     Avatar,
-    ProfilePic
+    ProfilePic,
+    ProfileImage,
+    Greetings
 } from './../components/styles';
 
-export default function App() {
+const ProfilePage = ({navigation}) => {
     return (
         <StyledContainer>         
             <ScrollView showsVerticalScrollIndicator={false}>
                 <InnerContainer>
                     <View style={{ alignSelf: "center" }}>
-                        <View style={styles.profileImage}>
-                            <ProfilePic resizeMode="contain" source={require('./../assets/chickenBurger.png')} />
-                        </View>
-                        <View style={styles.add}>
+                        <ProfileImage>
+                            <ProfilePic resizeMode="contain" source={require('./../assets/categories/burger.png')} />
+                        </ProfileImage>
+                        <TouchableOpacity style={styles.add}>
                             <Ionicons name="ios-add" size={48} color="#DFD8C8" style={{ marginTop: 6, marginLeft: 2 }}></Ionicons>
-                        </View>
+                        </TouchableOpacity>
                     </View>
                     <View style={styles.infoContainer}>
-                        <Text style={[styles.text, { fontWeight: "200", fontSize: 40}]}>John Doe</Text>
-                        <Text style={[styles.text, { color: "#AEB5BC", fontSize: 14 }]}>80 Xp to go!</Text>
+                        <Greetings>John Doe</Greetings>
+                        <Greetings sub={true}>80 Xp to go!</Greetings>
                     </View>
                     <View style={styles.statsContainer}>
                         <View style={styles.statsBox}>
-                            <Text style={[styles.text, { fontSize: 24 }]}>10</Text>
-                            <Text style={[styles.text, styles.subText]}>Level</Text>
+                            <Greetings title={true}>10</Greetings>
+                            <Greetings sub={true}>Level</Greetings>
                         </View>
                         <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
-                            <Text style={[styles.text, { fontSize: 24 }]}>53</Text>
-                            <Text style={[styles.text, styles.subText]}>Rates</Text>
+                            <Greetings title={true}>53</Greetings>
+                            <Greetings sub={true}>Rates</Greetings>
                         </View>
                         <View style={styles.statsBox}>
-                            <Text style={[styles.text, { fontSize: 24 }]}>35</Text>
-                            <Text style={[styles.text, styles.subText]}>Comments</Text>
+                            <Greetings title={true}>35</Greetings>
+                            <Greetings sub={true}>Comments</Greetings>
                         </View>
                         </View>
                         <View style={styles.userInfoSection}>
@@ -70,6 +72,8 @@ export default function App() {
         </StyledContainer>
     );
 }
+
+export default ProfilePage;
 
 const styles = StyleSheet.create({
     container: {
