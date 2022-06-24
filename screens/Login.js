@@ -76,7 +76,11 @@ const Login = ({navigation}) => {
             )
           }
     
-          let location = await Location.getCurrentPositionAsync({});
+          let location = await Location.getCurrentPositionAsync({
+            accuracy: Location.Accuracy.Highest,
+            maximumAge: 10000,
+            timeout: 5000
+          });
           setLocation(location);
         })();
       }, []);
@@ -135,6 +139,16 @@ const Login = ({navigation}) => {
                             if (error.code === 'auth/user-not-found') {
                               console.log('That email address is invalid!');
                               handleMessage("No account associated with the email address!");
+                            }
+
+                            if (error.code === 'auth/invalid-email') {
+                                console.log('That email address is invalid!');
+                                handleMessage("The email address is invalid!");
+                            }
+
+                            if (error.code === 'auth/missing-email') {
+                                console.log('Please enter your email!');
+                                handleMessage("Please enter your email!");
                             }
                 
                             if (error.code === 'auth/wrong-password') {

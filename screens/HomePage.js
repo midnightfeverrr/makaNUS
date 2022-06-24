@@ -1,27 +1,14 @@
 import React, {useState, useEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import {
-  Dimensions,
-  Image,
-  SafeAreaView,
-  StyleSheet,
-  Text,
   View,
   Alert,
-  FlatList,
-  ScrollView,
-  TextInput,
-  TouchableHighlight,
-  TouchableOpacity,
 } from 'react-native';
 
 // Icons
 import { Octicons } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-// Components (Temporary for placeholder)
-import categories from './../components/categories';
-import foods from './../components/foods';
 // Styles
 import {
   StyledContainer,
@@ -66,6 +53,7 @@ const {
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
+import { arrayUnion, DocumentSnapshot } from 'firebase/firestore';
 const db = firebase.firestore();
 
 // Distance Calculator
@@ -89,7 +77,6 @@ function deg2rad(deg) {
 
 // Homepage Render
 const HomePage = ({navigation}) => {
-    const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(null);
     const [userData, setUserData] = useState(null);
     const [stallData, setStallData] = useState(null);
     const [nearbyStallData, setNearbyStallData] = useState(null);
@@ -187,9 +174,12 @@ const HomePage = ({navigation}) => {
     
     useEffect(() => {
         getUser();
+    }, []);
+
+    useEffect(() => {
         getStalls();
         getNearbyStalls();
-    }, []);
+    }, [userData]);
 
 
     // Logging out process
@@ -236,7 +226,34 @@ const HomePage = ({navigation}) => {
         );
       };
 
+    
     const Card = ({food}) => {
+        // Add To Favorite
+        const handleFavorite = async () => {
+            await db.collection("users").doc(firebase.auth().currentUser.uid)
+            .collection("favorites").doc(food.name).get().then(
+                (DocumentSnapshot) => {
+                if (DocumentSnapshot.exists) {
+                    db.collection("users").doc(firebase.auth().currentUser.uid)
+                    .collection("favorites").doc(food.name).delete();
+                    console.log("deleted")
+                } else {
+                    db.collection("users").doc(firebase.auth().currentUser.uid)
+                    .collection("favorites").doc(food.name).set({
+                        category: food.category,
+                        coordinate: food.coordinate,
+                        distance: food.distance,
+                        location: food.location,
+                        name: food.name,
+                        price: food.price,
+                        url: food.url,
+                        icon: "heart-fill"
+                    })
+                    console.log("updated")
+                }}
+            )
+        }
+
         return (
         <CardButton>
             <CardHome>
@@ -250,8 +267,8 @@ const HomePage = ({navigation}) => {
                         <CardSubtitle>Distance</CardSubtitle>
                         <CardTitle>{food.distance}km</CardTitle>
                     </CardTextHolder>
-                    <AddToFavouritesBtn>
-                        <Octicons name="heart" size={20} color={brand} />
+                    <AddToFavouritesBtn onPress={handleFavorite}>
+                    <Octicons name="heart" size={20} color={brand}/>
                     </AddToFavouritesBtn>
                 </CardDetails>
             </CardHome>

@@ -8,8 +8,8 @@ import {
     TouchableHighlight,
     ScrollView, 
     FlatList,
-    Dimensions } 
-from 'react-native';
+    Dimensions 
+} from 'react-native';
 import Constants from 'expo-constants';
 
 const StatusBarHeight = Constants.statusBarHeight;
@@ -34,8 +34,10 @@ export const StyledContainer = styled.View`
     flex: 1;
     padding-left: 25px;
     padding-right: 25px;
-    padding-top: ${StatusBarHeight + 50}px;
+    padding-top: ${StatusBarHeight}px;
+    height: ${windowHeight + StatusBarHeight}px;
     background-color: ${primary};
+
     ${(props) => props.home == true && `
     padding-top: 50px;
     padding-left: 0px;
@@ -46,8 +48,12 @@ export const StyledContainer = styled.View`
 export const InnerContainer = styled.View`
     flex: 1;
     width: 100%;
-    height:${windowHeight - 50}px;
+    margin-top: 50px;
     align-items: center;
+
+    ${(props) => props.fav == true && `
+        align-items: flex-start;
+    `}
 `;
 
 export const ForgotContainer = styled.View`
@@ -55,7 +61,8 @@ export const ForgotContainer = styled.View`
     width: 100%;
     align-items: center;
     padding: 25px;
-    padding-top: ${StatusBarHeight + 90}px;
+    padding-top: ${StatusBarHeight}px;
+    margin-top: ${StatusBarHeight + 60}px;
     justify-content: center;
 `;
 
@@ -174,6 +181,7 @@ export const StyledButton = styled.TouchableOpacity`
     border-radius: 20px;
     margin-vertical: 5px;
     height: 60px;
+
     ${(props) => props.google == true && `
         background-color: ${brand};
         flex-direction: row;
@@ -239,6 +247,10 @@ export const HeaderHome = styled.View`
     justify-content: space-between;
     padding-horizontal: 40px;
     padding-top: ${StatusBarHeight + 10}px;
+
+    ${(props) => props.fav == true && `
+        padding-top: 0px;
+    `}
 `;
 
 export const TitleHome = styled.View`
@@ -348,9 +360,11 @@ export const CardHome = styled.View`
     elevation: 10;
     align-items: center;
     background-color: ${primary};
+
     ${(props) => props.card2 == true && `
+        margin-top: 10px;
         height: 85px;
-        width: 225px;
+        width: 325px;
         align-items: flex-start;
         flex-direction: row;
     `}
@@ -366,6 +380,7 @@ export const CardThumbnailHolder = styled.View`
     elevation: 10;
     align-items: center;
     background-color: ${secondary};
+    
     ${(props) => props.card2 == true && `
         height: 63px;
         width: 63px;
@@ -395,7 +410,7 @@ export const CardDetails = styled.View`
     flex-direction: row;
     ${(props) => props.card2 == true && `
         height: 63px;
-        width: 120px;
+        width: 170px;
         flex-direction: column;
         margin-top: 12px;
         justify-content: center;
@@ -420,7 +435,7 @@ export const CardTitle = styled.Text`
     color: ${tertiary};
 `;
 
-export const AddToFavouritesBtn = styled.View`
+export const AddToFavouritesBtn = styled.TouchableOpacity`
     height: 30px;
     width: 30px;
     border-radius: 20px;

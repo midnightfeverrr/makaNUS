@@ -29,15 +29,32 @@ import {
     TextLink,
     TextLinkContent,
 } from './../components/styles';
-import {View} from 'react-native';
+import { View } from 'react-native';
 
 // colors
 const {brand, darkLight, tertiary, primary} = Colors;
 
+// firebase
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import app from './../firebase'
+import 'firebase/compat/firestore';
+
+// keyboard avoiding wrapper
+import KeyboardAvoidingWrapper from './../components/KeyboardAvoidingWrapper';
+
 const Forgot = ({navigation}) => {
-    const [email, setEmail] = useState();
+    const [message, setMessage] = useState();
+    const [messageType, setMessageType] = useState();
+
+    // Handling error message in Formik
+    const handleMessage = (message, type = false) => {
+        setMessage(message);
+        setMessageType(type);
+    }
 
     return (
+        <KeyboardAvoidingWrapper>
         <StyledContainer>
             <ForgotContainer>
             <StatusBar style="dark" />
@@ -52,27 +69,42 @@ const Forgot = ({navigation}) => {
                         firebase.auth().sendPasswordResetEmail(values.email)
                         .then(() => {
                             console.log('A password reset email has been sent.');
-                            navigation.navigate("ConfirmCode");
+                            navigation.navigate("Login")
                         })
                         .catch(error => {
-                            console.log(error);
+                            if (error.code === 'auth/user-not-found') {
+                                console.log('That email address is invalid!');
+                                handleMessage("No account associated with the email address!");
+                              }
+
+                            if (error.code === 'auth/invalid-email') {
+                              console.log('That email address is invalid!');
+                              handleMessage("The email address is invalid!");
+                            }
+
+                            if (error.code === 'auth/missing-email') {
+                                console.log('Please enter your email!');
+                                handleMessage("Please enter your email!");
+                            }
+
+                              console.log(error.code)
                         })
                     }}
                 >
                     {({handleChange, handleBlur, handleSubmit, values}) => (
                         <StyledFormArea>
                             <MyTextInput 
-                                label= "Username"
-                                icon= 'mention'
-                                placeholder= "johndoe"
+                                label= "Email Address"
+                                icon= 'mail'
+                                placeholder= "email"
                                 placeholderTextColor= {darkLight}
-                                onChangeText= {handleChange('Username')}
-                                onBlur= {handleBlur('Username')}
-                                value= {values.Username}
+                                onChangeText= {handleChange('email')}
+                                onBlur= {handleBlur('email')}
+                                value= {values.email}
                                 keyboardType= "email-address"
                             />
 
-                            <MessageBox>...</MessageBox>
+                            <MessageBox type={messageType}>{message}</MessageBox>
                             <StyledButton onPress={handleSubmit}>
                                 <ButtonText>Send Code</ButtonText>
                             </StyledButton>
@@ -88,6 +120,7 @@ const Forgot = ({navigation}) => {
             </InnerContainer>
             </ForgotContainer>
         </StyledContainer>
+        </KeyboardAvoidingWrapper>
     );
 }
 
