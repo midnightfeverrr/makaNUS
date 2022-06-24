@@ -174,6 +174,7 @@ const HomePage = ({navigation}) => {
     
     useEffect(() => {
         getUser();
+<<<<<<< HEAD
     }, []);
 
     useEffect(() => {
@@ -181,6 +182,12 @@ const HomePage = ({navigation}) => {
         getNearbyStalls();
     }, [userData]);
 
+=======
+        getStalls();
+        getNearbyStalls();
+    }, []);
+
+>>>>>>> 9e77c5e0e54c529d02730f02b72248c35579b1b2
 
     // Logging out process
     const onPressLogOut = () => {

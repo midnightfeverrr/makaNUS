@@ -466,13 +466,105 @@ export const StyledIcon = styled.View`
 
 // Profile Page
 export const ProfilePic = styled.Image`
-    width: 180px;
-    height: 180px;
+    width: 240px;
+    height: 240px;
     margin: auto;
-    border-radius: 90px;
+    border-radius: 120px;
     border-width: 2px;
     border-color: ${brand};
     margin-bottom: 10px;
     margin-top: 10px;
 `;
 
+export const ProfileImage = styled.View`
+    width: 300px;
+    height: 300px;
+    overflow: hidden;
+`;
+
+export const ProfileText = styled.Text`
+    font-family: Trirong-Regular;
+    font-size: 13px;
+    margin-left: 20px;
+    margin-top: 7px;
+`;
+
+export const Add = styled.TouchableOpacity`
+    background-color: ${tertiary};
+    position: absolute;
+    bottom: 50px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 30px;
+    align-items: center;
+    justify-content: center;
+`;
+
+export const UserInfoSection = styled.View`
+    padding-vertical: 32px;
+    margin-right: 100px;
+`;
+
+export const StatsBox = styled.View`
+    align-items: center;
+    flex: 1;
+`;
+// Stall Page
+export const StallPhoto = styled.Image`
+    width: 300px;
+    height: 300px;
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 10px;
+`;
+
+export const MenuPhoto = styled.Image`
+    width: 150px;
+    height: 150px;
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 10px;
+`;
+
+export const StallContainer = styled.View`
+    flex: 1;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: ${StatusBarHeight}px;
+    height: ${windowHeight + StatusBarHeight}px;
+    background-color: ${brand};
+
+    ${(props) => props.home == true && `
+    padding-top: 50px;
+    padding-left: 0px;
+    padding-right: 0px;
+    `}
+`;
+
+export const DetailsContainer = styled.View`
+    flex: 0.55;
+    background-color: ${primary};
+    margin-horizontal: 0px;
+    margin-bottom: 7px;
+    border-radius: 20px;
+    margin-top: 30px;
+    padding-top: 30px;
+    padding-bottom: 80px;
+    padding-horizontal: 5px;
+`;
+
+export const ReviewButton = styled.TouchableOpacity`
+    border-color: ${tertiary};
+    border-width: 1px;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    width: 90px;
+    height: 40px;
+`;
+
+export const StallRow = styled.View`
+    flex-direction: row;
+    margin-bottom: 30px;
+`;

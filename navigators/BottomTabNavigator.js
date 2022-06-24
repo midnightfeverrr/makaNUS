@@ -4,7 +4,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomePage from './../screens/HomePage';
+<<<<<<< HEAD
 import FavoritePage from '../screens/FavoritePage';
+=======
+>>>>>>> 9e77c5e0e54c529d02730f02b72248c35579b1b2
 import ProfilePage from './../screens/ProfilePage';
 
 // Icons
@@ -98,7 +101,11 @@ const BottomTabNavigator = () => {
 
             {/* Third Icon (Profile) */}
             <Tab.Screen name = "Profile"
+<<<<<<< HEAD
                 component = {ProfileScreen}
+=======
+                component = {ProfilePage}
+>>>>>>> 9e77c5e0e54c529d02730f02b72248c35579b1b2
                 options = {{
                     tabBarIcon: ({focused}) => (
                         <StyledIcon>
