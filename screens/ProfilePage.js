@@ -1,18 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableOpacity } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import {
     StyledContainer,
     InnerContainer,
-    PageTitle,
-    SubTitle,
-    StyledFormArea,
-    Colors,
-    StyledButton,
-    ButtonText,
-    Line,
-    WelcomeContainer,
-    Avatar,
     ProfilePic,
     ProfileImage,
     Greetings,
@@ -20,99 +11,123 @@ import {
     Add,
     StallRow,
     UserInfoSection,
-    StatsBox
+    StatsBox,
+    InfoContainer,
+    StatsContainer, 
+    Colors,
+    ButtonsContainer,
+    StyledButton,
+    ButtonText
 } from './../components/styles';
 
+// colors
+const {
+    brand, 
+    darkLight, 
+    tertiary, 
+    primary, 
+    secondary,
+    red
+} = Colors;
+
+// Firebase
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+import { arrayUnion, DocumentSnapshot } from 'firebase/firestore';
+const db = firebase.firestore();
+
+
+// Profilepage render
 const ProfilePage = ({navigation}) => {
+    const [userData, setUserData] = useState(null);
+    const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
+
+    // Get User Data
+    const getUser = async () => {
+        await db
+        .collection("users")
+        .doc(firebase.auth().currentUser.uid)
+        .onSnapshot((querySnapshot) => {
+            if( querySnapshot.exists ) {
+                console.log('User Data', querySnapshot.data());
+                setUserData(querySnapshot.data());
+            }
+        })
+    }
+
+    useEffect(() => {
+        getUser();
+    }, []);
+
     return (
         <StyledContainer>         
             <ScrollView showsVerticalScrollIndicator={false}>
                 <InnerContainer>
                     <View style={{ alignSelf: "center" }}>
                         <ProfileImage>
-                            <ProfilePic resizeMode="contain" source={require('./../assets/chickenBurger.png')} />
+                            <ProfilePic resizeMode="contain" 
+                            source={{ uri: userData
+                                    ? userData.userImg || defaultImage
+                                    : defaultImage }} />
                         </ProfileImage>
-                        <Add>
-                            <Ionicons name="ios-add" size={48} color="#DFD8C8" style={{ marginTop: 6, marginLeft: 2 }}></Ionicons>
-                        </Add>
                     </View>
-                    <View style={styles.infoContainer}>
-                        <Greetings>John Doe</Greetings>
+                    <InfoContainer>
+                        <Greetings>{userData
+                        ? userData.fullName
+                        : '' }</Greetings>
                         <Greetings sub={true}>80 Xp to go!</Greetings>
-                    </View>
-                    <View style={styles.statsContainer}>
-                        <View style={styles.statsBox}>
+                    </InfoContainer>
+                    <StatsContainer>
+                        <StatsBox>
                             <Greetings title={true}>10</Greetings>
                             <Greetings sub={true}>Level</Greetings>
-                        </View>
-                        <View style={[styles.statsBox, { borderColor: "#DFD8C8", borderLeftWidth: 1, borderRightWidth: 1 }]}>
+                        </StatsBox>
+                        <StatsBox mid={true}>
                             <Greetings title={true}>53</Greetings>
                             <Greetings sub={true}>Rates</Greetings>
-                        </View>
-                        <View style={styles.statsBox}>
+                        </StatsBox>
+                        <StatsBox>
                             <Greetings title={true}>35</Greetings>
                             <Greetings sub={true}>Comments</Greetings>
-                        </View>
-                        </View>
-                        <UserInfoSection>
+                        </StatsBox>
+                    </StatsContainer>
+                    <ButtonsContainer>
+                            <StyledButton profile={true}>
+                                <ButtonText profile={true}>My Reviews</ButtonText>
+                            </StyledButton>
+                            <StyledButton profile2={true}>
+                                <ButtonText profile={true}>Edit Profile</ButtonText>
+                            </StyledButton>
+                    </ButtonsContainer>
+                    <UserInfoSection>
                         <StallRow>
-                            <Ionicons name="ios-at" size={30} color="#EF4444"></Ionicons>
-                            <ProfileText>johndoe</ProfileText>
+                            <Ionicons name="ios-at" size={30} color={tertiary}></Ionicons>
+                            <ProfileText>{userData
+                        ? userData.username
+                        : '' }</ProfileText>
                         </StallRow>
                         <StallRow>
-                            <Ionicons name="ios-call-outline" size={30} color="#EF4444"></Ionicons>
-                            <ProfileText>+65-12345678</ProfileText>
+                            <Ionicons name="ios-call-outline" size={30} color={tertiary}></Ionicons>
+                            <ProfileText>(+65) {userData
+                        ? userData.phoneNumber
+                        : '' }</ProfileText>
                         </StallRow>
                         <StallRow>
-                            <Ionicons name="ios-mail-outline" size={30} color="#EF4444"></Ionicons>
-                            <ProfileText>john_doe@email.com</ProfileText>
+                            <Ionicons name="ios-mail-outline" size={30} color={tertiary}></Ionicons>
+                            <ProfileText>{userData
+                        ? userData.email
+                        : '' }</ProfileText>
                         </StallRow>
                         <StallRow>
-                            <Ionicons name="ios-location-outline" size={30} color="#EF4444"></Ionicons>
+                            <Ionicons name="ios-location-outline" size={30} color={tertiary}></Ionicons>
                             <ProfileText>Kent Ridge, Singapore</ProfileText>
                         </StallRow>
-                        </UserInfoSection>
-                    </InnerContainer>
-                </ScrollView>
+                    </UserInfoSection>
+                </InnerContainer>
+            </ScrollView>
         </StyledContainer>
     );
 }
 
 export default ProfilePage;
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#FFF"
-    },
-    text: {
-        fontFamily: "HelveticaNeue",
-        color: "#52575D"
-    },
-    
-    titleBar: {
-        flexDirection: "row",
-        justifyContent: "space-between"
-    },
-    
-    profileImage: {
-        width: 200,
-        height: 200,
-        borderRadius: 100,
-        overflow: "hidden"
-    },
-    infoContainer: {
-        alignSelf: "center",
-        alignItems: "center",
-        marginTop: 16
-    },
-    statsContainer: {
-        flexDirection: "row",
-        alignSelf: "center",
-        marginTop: 32
-    },
-    statsBox: {
-        alignItems: "center",
-        flex: 1
-    },
-});
