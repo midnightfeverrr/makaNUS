@@ -1,108 +1,192 @@
-import React from 'react';
-import {SafeAreaView, StyleSheet, View, Text, Image, ScrollView, Pressable, TouchableOpacity} from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { FontAwesome, Octicons } from "@expo/vector-icons";
 import {
     StyledContainer,
-    InnerContainer,
-    PageTitle,
-    SubTitle,
-    StyledFormArea,
     Colors,
-    StyledButton,
-    ButtonText,
-    Line,
-    WelcomeContainer,
-    Avatar,
-    ProfilePic,
     ProfileImage,
     Greetings,
     StallPhoto,
     MenuPhoto,
-    StallContainer,
+    ReviewButton,
+    Title,
     DetailsContainer,
-    ReviewButton
+    Line,
+    AddToFavouritesBtn,
+    ButtonsContainer,
+    CardThumbnailHolder,
+    StallRow,
+    LabelContainer,
+    CardThumbnail,
+    CardButton,
+    CardHome,
+    CardDetails,
+    CardTitle,
+    CardSubtitle,
+    CardContainer,
 } from './../components/styles';
 
-const StallPage = ({navigation}) => {
-  return (
-    <StallContainer>
-        <ScrollView showsVerticalScrollIndicator={false}>
-            <View style={{ alignSelf: "center" }}>
-                <ProfileImage>
-                    <StallPhoto resizeMode="contain" source={require('./../assets/chickenBurger.png')} />
-                </ProfileImage>
-            </View>
-            <View style={style.detailsContainer}>
-            <View
-                style={{
-                    marginLeft: 20,
-                    flexDirection: 'row',
-                    alignItems: 'flex-end',
-                }}>
-            <View/>
-            <View style={style.row}>
-            <Text style={{ fontSize: 30, marginRight: 10}}>Noodle Stall</Text>
-                <TouchableOpacity>
-                    <Ionicons name="ios-heart-outline" size={30} style={{ marginLeft: 5 }}></Ionicons>
-                </TouchableOpacity>
-                <TouchableOpacity>
-                    <Ionicons name="ios-return-up-forward" size={30}  style={{ marginLeft: 5 }}></Ionicons>
-                </TouchableOpacity>
-            </View>
-            </View>
-            <View
-                style={{
-                    marginHorizontal: 40,
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                }}>
-            <Text style={{fontSize: 22, fontWeight: 'bold'}}>Menu</Text>
-            <Text style={{fontSize: 22, fontWeight: 'bold'}}>Reviews</Text>
-            </View>
-            <View style={style.row}>
-                <MenuPhoto resizeMode="contain" source={require('./../assets/chickenBurger.png')} />
-            <View
-                style={{
-                    marginHorizontal: 35,
-                    marginTop: 10,
-                    flexDirection: 'column',
-                    justifyContent: 'space-evenly',
-                }}>
-            <ReviewButton>
-                <Greetings sub={true}>Review 1</Greetings>
-            </ReviewButton> 
-            <ReviewButton>
-                <Greetings sub={true}>Review 2</Greetings>
-            </ReviewButton>
-            <ReviewButton>
-                <Greetings sub={true}>Review 3</Greetings>
-            </ReviewButton>
-            </View>
-            </View>
-            </View>
-        </ScrollView>
-    </StallContainer>
-  );
+// colors
+const {
+    brand, 
+    darkLight, 
+    tertiary, 
+    primary, 
+    secondary,
+    red
+} = Colors;
+
+// Firebase
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+const db = firebase.firestore();
+
+// Stallpage render
+const StallPage = ({navigation, route}) => {
+    const [userData, setUserData] = useState(null);
+    const [stallData, setStallData] = useState(null);
+    const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
+    const { itemId } = route.params;
+
+    // Get User Data
+    const getUser = async () => {
+        await db
+        .collection("users")
+        .doc(firebase.auth().currentUser.uid)
+        .onSnapshot((querySnapshot) => {
+            if( querySnapshot.exists ) {
+                console.log('User Data', querySnapshot.data());
+                setUserData(querySnapshot.data());
+            }
+        })
+    }
+
+    // Get Stall Data
+    const getStalls = async () => {
+        const stallDatas = [];
+        await db
+            .collection('stalls')
+            .doc(itemId)
+            .onSnapshot((querySnapshot) => {
+                if( querySnapshot.exists ) {
+                    console.log('Stall Data', querySnapshot.data());
+                    setStallData(querySnapshot.data());
+                }
+        })
+    }
+
+    useEffect(() => {
+        getUser();
+    }, []);
+
+    useEffect(() => {
+        getStalls();
+    }, [userData]);
+
+    {/* const handleFavorite = async () => {
+        await db.collection("users").doc(firebase.auth().currentUser.uid)
+        .collection("favorites").doc(food.name).get().then(
+            (DocumentSnapshot) => {
+            if (DocumentSnapshot.exists) {
+                db.collection("users").doc(firebase.auth().currentUser.uid)
+                .collection("favorites").doc(food.name).delete();
+                console.log("deleted")
+            } else {
+                db.collection("users").doc(firebase.auth().currentUser.uid)
+                .collection("favorites").doc(food.name).set({
+                    category: food.category,
+                    coordinate: food.coordinate,
+                    distance: food.distance,
+                    location: food.location,
+                    name: food.name,
+                    price: food.price,
+                    url: food.url,
+                    icon: "heart-fill"
+                })
+                console.log("updated")
+            }}
+        )
+    } */}
+
+    const ReviewCard = () => {
+        return (
+            <CardButton>
+            <CardHome card4={true}>
+                <CardThumbnailHolder stall2={true}>
+                    <CardThumbnail stall2={true} source={{
+                            uri: userData
+                            ? userData.img
+                            : defaultImage }} />
+                </CardThumbnailHolder>
+                <CardDetails stall={true}>
+                    <CardSubtitle>"Lorem Ipsum dolor sit amet, consectetur.."</CardSubtitle>
+                </CardDetails>
+            </CardHome>
+        </CardButton>
+        )
+    }
+
+    const priceString = "$";
+
+    return (
+        <StyledContainer stall={true}>
+            <StallPhoto source={{uri: stallData
+                                    ? stallData.url
+                                    : defaultImage }} />
+            <ButtonsContainer back={true}>
+                <AddToFavouritesBtn>
+                    <Octicons name="arrow-left" size={30} color={primary} />
+                </AddToFavouritesBtn>
+            </ButtonsContainer>
+            <DetailsContainer stall={true}>
+                <Title>{stallData
+                        ? stallData.name
+                        : ''}</Title>
+                <Line stall={true}></Line>
+                <Title SubTitle={true}>Category</Title>
+                <Title Detail={true}>{stallData
+                        ? stallData.category[0]
+                        : ''}</Title>
+                <Title SubTitle={true}>Location</Title>
+                <Title Detail={true}>{stallData
+                        ? stallData.location
+                        : ''}</Title>
+                <Title SubTitle={true}>Price</Title>
+                <Title Detail={true}>{stallData
+                        ? priceString.repeat(stallData.price)
+                        : ''}</Title>
+                <ButtonsContainer>
+                    <AddToFavouritesBtn stall={true} onPress={() => (null)}>
+                        <Octicons name="heart" size={30} color={brand}/>
+                    </AddToFavouritesBtn>
+                    <AddToFavouritesBtn stall={true} onPress={() => (null)}>
+                        <FontAwesome name="map-marker" size={30} color={tertiary} />
+                    </AddToFavouritesBtn>
+                </ButtonsContainer>
+            </DetailsContainer>
+            <LabelContainer>
+                <Title Label={true}>Menu</Title>
+                <Title Label={true}>Reviews</Title>
+            </LabelContainer>
+            <StallRow>
+                <CardThumbnailHolder stall={true}>
+                    <CardThumbnail source={{uri: stallData
+                                    ? stallData.url
+                                    : defaultImage }}/>
+                </CardThumbnailHolder>
+                {/*<CardContainer
+                    vertical
+                    showsVerticalScrollIndicator={false}
+                    numColumns={1}
+                    data={nearbyStallData}
+                    ListFooterComponent={<View style={{width: 40}}/>}
+                    renderItem={({item}) => <Card food={item} />}
+                    />*/}
+            </StallRow>
+        </StyledContainer>
+    );
 };
 
-const style = StyleSheet.create({
-    detailsContainer: {
-        flex: 0.55,
-        backgroundColor: Colors.primary,
-        marginHorizontal: 0,
-        marginBottom: 7,
-        borderRadius: 20,
-        marginTop: 30,
-        paddingTop: 30,
-        paddingBottom: 80,
-        paddingHorizontal: 5
-    },
-  row: {
-    flexDirection: 'row',
-    marginBottom: 30,
-  },
-});
 
 export default StallPage;

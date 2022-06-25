@@ -9,31 +9,18 @@ import {
 import { Octicons } from '@expo/vector-icons';
 import { 
     StyledContainer,
+    StyledContainerView,
     InnerContainer,
     HeaderHome,
     Greetings,
-    ProfilePictureHolder,
-    ProfilePicture,
-    StyledFormArea,
-    StyledTextInput,
-    LeftIcon,
-    LocationHolder,
-    BodyOneHome,
-    SortBtn,
-    CategoriesListContainer,
-    CategoryBtn,
-    CategoryBtnText,
     CardHome,
     CardButton,
     CardContainer,
     CardThumbnailHolder,
     CardThumbnail,
     CardDetails,
-    CardTextHolder,
     CardSubtitle,
     CardTitle,
-    AddToFavouritesBtn,
-    TitleHome,
     Colors,
 } from '../components/styles';
 
@@ -95,8 +82,8 @@ const FavoritePage = ({navigation}) => {
 
     const Card = ({food}) => {
         return (
-        <CardButton>
-            <CardHome card2={true}>
+        <CardButton onPress={() => navigation.navigate("StallPage", {itemId: food.name})}>
+            <CardHome card3 ={true}>
                 <CardThumbnailHolder card2={true}>
                     <CardThumbnail card2={true} source={{uri: food.url}} />
                 </CardThumbnailHolder>
@@ -111,7 +98,7 @@ const FavoritePage = ({navigation}) => {
 
 
     return (
-        <StyledContainer home={true}>
+        <StyledContainerView>
             <InnerContainer fav={true}>
                 <HeaderHome fav={true}>
                     <View>
@@ -132,7 +119,7 @@ const FavoritePage = ({navigation}) => {
                     renderItem={({item}) => <Card food={item} />}
                 />
             </InnerContainer>
-        </StyledContainer>
+        </StyledContainerView>
     );
 }
 

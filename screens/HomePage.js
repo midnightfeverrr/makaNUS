@@ -110,8 +110,12 @@ const HomePage = ({navigation}) => {
                         coordinate,
                     } = doc.data();
 
-                    const userLat = userData.coordinate.latitude;
-                    const userLng = userData.coordinate.longitude;
+                    const userLat = userData
+                    ? userData.coordinate.latitude
+                    : userData.coordinate.latitude;
+                    const userLng = userData
+                    ? userData.coordinate.longitude
+                    : userData.coordinate.longitude;
                     const stallLat = doc.data().coordinate.latitude;
                     const stallLng = doc.data().coordinate.longitude;
                     const distanceRaw = getDistanceFromLatLonInKm(userLat, userLng, stallLat, stallLng);
@@ -174,7 +178,6 @@ const HomePage = ({navigation}) => {
     
     useEffect(() => {
         getUser();
-<<<<<<< HEAD
     }, []);
 
     useEffect(() => {
@@ -182,12 +185,6 @@ const HomePage = ({navigation}) => {
         getNearbyStalls();
     }, [userData]);
 
-=======
-        getStalls();
-        getNearbyStalls();
-    }, []);
-
->>>>>>> 9e77c5e0e54c529d02730f02b72248c35579b1b2
 
     // Logging out process
     const onPressLogOut = () => {
@@ -262,7 +259,7 @@ const HomePage = ({navigation}) => {
         }
 
         return (
-        <CardButton>
+        <CardButton onPress={() => navigation.navigate("StallPage", {itemId: food.name})}>
             <CardHome>
                 <CardThumbnailHolder>
                     <CardThumbnail source={{uri: food.url}} />
@@ -285,7 +282,7 @@ const HomePage = ({navigation}) => {
 
     const Card2 = ({food}) => {
         return (
-        <CardButton>
+        <CardButton onPress={() => navigation.navigate("StallPage", {itemId: food.name})}>
             <CardHome card2={true}>
                 <CardThumbnailHolder card2={true}>
                     <CardThumbnail card2={true} source={{uri: food.url}} />
@@ -356,7 +353,9 @@ const HomePage = ({navigation}) => {
                     numColumns={1}
                     data={nearbyStallData}
                     ListFooterComponent={<View style={{width: 40}}/>}
-                    renderItem={({item}) => <Card food={item} />}
+                    renderItem={({item}) => <Card
+                        food={item} 
+                    />}
                 />
             </View>
             <TitleHome>
@@ -369,7 +368,9 @@ const HomePage = ({navigation}) => {
                     numColumns={1}
                     data={stallData}
                     ListFooterComponent={<View style={{width: 40}}/>}
-                    renderItem={({item}) => <Card2 food={item} />}
+                    renderItem={({item}) => <Card2 
+                        food={item} 
+                    />}
                 />
             </View>
         </StyledContainer>
