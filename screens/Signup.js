@@ -94,7 +94,9 @@ const Signup = ({navigation}) => {
                                 password: values.password,
                                 phoneNumber: values.phoneNumber,
                                 username: values.Username,
-                                coordinate: coordinates
+                                coordinate: coordinates,
+                                level: 1,
+                                userImg: null
                             });
                             console.log('User account created & signed in!');
                             })

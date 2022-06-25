@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { 
     View, 
     Image, 
+    ImageBackground,
     Text, 
     TextInput, 
     TouchableOpacity, 
@@ -30,7 +31,7 @@ export const Colors = {
 const { primary, secondary, tertiary, darkLight, brand, green, red } = Colors;
 
 
-export const StyledContainer = styled.View`
+export const StyledContainer = styled.ScrollView`
     flex: 1;
     padding-left: 25px;
     padding-right: 25px;
@@ -43,6 +44,21 @@ export const StyledContainer = styled.View`
     padding-left: 0px;
     padding-right: 0px;
     `}
+
+    ${(props) => props.stall == true && `
+    padding-top: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    `}
+`;
+
+export const StyledContainerView = styled.View`
+    flex: 1;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 50px;
+    height: ${windowHeight + StatusBarHeight}px;
+    background-color: ${primary};
 `;
 
 export const InnerContainer = styled.View`
@@ -213,6 +229,12 @@ export const Line = styled.View`
     background-color: ${darkLight};
     margin-top: 10px;
     margin-bottom: 12px;
+
+    ${(props) => props.stall == true && `
+        width: 15%;
+        margin-top: 5px;
+        margin-bottom: 25px;
+    `}
 `;
 
 export const ExtraView = styled.View`
@@ -346,9 +368,8 @@ export const CardContainer = styled.FlatList`
     padding-horizontal: 20px;
 `;
 
-export const CardButton = styled.TouchableHighlight`
+export const CardButton = styled.TouchableOpacity`
     underlay-color: ${primary};
-    active-opacity: 90%;
 `;
 
 export const CardHome = styled.View`
@@ -364,9 +385,25 @@ export const CardHome = styled.View`
     ${(props) => props.card2 == true && `
         margin-top: 10px;
         height: 85px;
-        width: 325px;
+        width: 250px;
         align-items: flex-start;
         flex-direction: row;
+    `}
+
+    ${(props) => props.card3 == true && `
+        margin-top: 10px;
+        height: 85px;
+        width: 300px;
+        align-items: flex-start;
+        flex-direction: row;
+    `}
+
+    ${(props) => props.card4 == true && `
+        margin-top: 10px;
+        height: 55px;
+        width: 150px;
+        align-items: flex-start;
+        flex-direction: row
     `}
 `;
 
@@ -389,15 +426,38 @@ export const CardThumbnailHolder = styled.View`
         margin-top: 11px;
         border-radius: 150px;
     `}
+
+    ${(props) => props.stall == true && `
+        margin-horizontal: 20px;
+    `}
+
+    ${(props) => props.stall2 == true && `
+        height: 33px;
+        width: 33px;
+        margin-horizontal: 15px;
+        margin-bottom: 10px;
+        margin-top: 11px;
+        border-radius: 150px;
+    `}
 `;
 
 export const CardThumbnail = styled.Image`
     height: 168px;
     width: 168px;
     border-radius: 15px;
+
     ${(props) => props.card2 == true && `
         height: 63px;
         width: 63px;
+        border-radius: 150px;
+    `}
+
+    ${(props) => props.stall2 == true && `
+        height: 33px;
+        width: 33px;
+        margin-horizontal: 15px;
+        margin-bottom: 10px;
+        margin-top: 11px;
         border-radius: 150px;
     `}
 `;
@@ -408,11 +468,21 @@ export const CardDetails = styled.View`
     margin-top: 12px;
     justify-content: space-between;
     flex-direction: row;
+
     ${(props) => props.card2 == true && `
         height: 63px;
         width: 170px;
         flex-direction: column;
         margin-top: 12px;
+        justify-content: center;
+    `}
+
+    ${(props) => props.stall == true && `
+        height: 43px;
+        width: 100px;
+        flex-direction: column;
+        padding-right: 1px;
+        margin-top: 5px;
         justify-content: center;
     `}
 `;
@@ -442,6 +512,12 @@ export const AddToFavouritesBtn = styled.TouchableOpacity`
     justify-content: center;
     align-items: center;
     margin-top: 50px;
+
+    ${(props) => props.stall == true && `
+        margin-top: 0px;
+        align-items: flex-start;
+        margin-right: 35px;
+    `}
 `;
 
 // LandingScreen
@@ -466,8 +542,8 @@ export const StyledIcon = styled.View`
 
 // Profile Page
 export const ProfilePic = styled.Image`
-    width: 240px;
-    height: 240px;
+    width: 150px;
+    height: 150px;
     margin: auto;
     border-radius: 120px;
     border-width: 2px;
@@ -477,8 +553,8 @@ export const ProfilePic = styled.Image`
 `;
 
 export const ProfileImage = styled.View`
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px;
     overflow: hidden;
 `;
 
@@ -489,13 +565,13 @@ export const ProfileText = styled.Text`
     margin-top: 7px;
 `;
 
-export const Add = styled.TouchableOpacity`
-    background-color: ${tertiary};
+export const Add = styled.View`
+    background-color: ${secondary};
     position: absolute;
-    bottom: 50px;
-    right: 30px;
-    width: 60px;
-    height: 60px;
+    bottom: 20px;
+    right: 78px;
+    width: 40px;
+    height: 40px;
     border-radius: 30px;
     align-items: center;
     justify-content: center;
@@ -509,14 +585,30 @@ export const UserInfoSection = styled.View`
 export const StatsBox = styled.View`
     align-items: center;
     flex: 1;
+    border-color: ${secondary};
+
+    ${(props) => props.mid == true && `
+        border-left-width: 1px;
+        border-right-width: 1px;
+    `}
 `;
+
+export const InfoContainer = styled.View`
+    align-items: center;
+    margin-top: 16px;
+`;
+
+export const StatsContainer = styled.View`
+    flex-direction: row;
+    align-self: center;
+    margin-top: 32px;
+`;
+
 // Stall Page
-export const StallPhoto = styled.Image`
-    width: 300px;
+export const StallPhoto = styled.ImageBackground`
+    width: ${windowWidth}px;
     height: 300px;
-    margin: auto;
     margin-bottom: 10px;
-    margin-top: 10px;
 `;
 
 export const MenuPhoto = styled.Image`
@@ -527,31 +619,52 @@ export const MenuPhoto = styled.Image`
     margin-top: 10px;
 `;
 
-export const StallContainer = styled.View`
-    flex: 1;
-    padding-left: 25px;
-    padding-right: 25px;
-    padding-top: ${StatusBarHeight}px;
-    height: ${windowHeight + StatusBarHeight}px;
-    background-color: ${brand};
+export const Title = styled.Text`
+    font-family: Trirong-Medium;
+    font-size: 32px;
+    color: ${tertiary};
 
-    ${(props) => props.home == true && `
-    padding-top: 50px;
-    padding-left: 0px;
-    padding-right: 0px;
+    ${(props) => props.SubTitle && `
+    font-family: Trirong-Regular;
+    font-size: 14px;
+    `}
+
+    ${(props) => props.Detail && `
+    font-family: Trirong-Bold;
+    font-size: 15px;
+    margin-bottom: 15px;
+    `}
+
+    ${(props) => props.Label && `
+    font-family: Trirong-Regular;
+    font-size: 20px;
+    margin-right: 150px;
     `}
 `;
 
 export const DetailsContainer = styled.View`
-    flex: 0.55;
-    background-color: ${primary};
-    margin-horizontal: 0px;
-    margin-bottom: 7px;
-    border-radius: 20px;
-    margin-top: 30px;
-    padding-top: 30px;
-    padding-bottom: 80px;
-    padding-horizontal: 5px;
+    padding-top: 5px;
+    margin-top: 5px;
+    margin-horizontal: 25px;
+`;
+
+export const LabelContainer = styled.View`
+    padding-top: 5px;
+    margin-top: 5px;
+    margin-horizontal: 25px;
+    flex-direction: row;
+`;
+
+export const ButtonsContainer = styled.View`
+    flex-direction: row;
+    height: 30px;
+    margin-top: 15px;
+
+    ${(props) => props.back == true && `
+        margin-top: 0px;
+        position: absolute;
+        left: 20px;
+    `}
 `;
 
 export const ReviewButton = styled.TouchableOpacity`

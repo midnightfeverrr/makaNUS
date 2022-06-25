@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import RootStack from './RootStack';
 import LoggedInNavigator from './LoggedInStack';
-import Login from '../screens/Login';
 import LandingScreen from './../screens/LandingScreen';
 
 
@@ -13,7 +10,6 @@ import LandingScreen from './../screens/LandingScreen';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import auth from './../firebase'
 
 
 const Navigation = () => {
