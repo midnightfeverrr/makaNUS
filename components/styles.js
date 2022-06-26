@@ -584,7 +584,7 @@ export const ProfileText = styled.Text`
     margin-top: 7px;
 `;
 
-export const Add = styled.View`
+export const Add = styled.TouchableOpacity`
     background-color: ${secondary};
     position: absolute;
     bottom: 20px;
@@ -700,4 +700,20 @@ export const ReviewButton = styled.TouchableOpacity`
 export const StallRow = styled.View`
     flex-direction: row;
     margin-bottom: 30px;
+`;
+
+// Edit Profile Page
+export const Action = styled.View`
+    flex-direction: row;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-bottom-width: 1px;
+    border-bottom-color: ${secondary};
+    padding-bottom: 5px;
+`;
+
+export const EditProfileTextInput = styled.View`
+    flex: 1;
+    padding-left: 10px;
+    color: ${darkLight};
 `;
