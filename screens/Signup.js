@@ -186,7 +186,6 @@ const Signup = ({navigation}) => {
                                 onChangeText= {handleChange('Username')}
                                 onBlur= {handleBlur('Username')}
                                 value= {values.Username}
-                                keyboardType= "email-address"
                             />
                             <MyTextInput 
                                 label= "Password"
