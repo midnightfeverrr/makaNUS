@@ -203,16 +203,35 @@ export const StyledButton = styled.TouchableOpacity`
         flex-direction: row;
         justify-content: center;
     `}
+
+    ${(props) => props.profile == true && `
+        width: 150px;
+        height: 45px;
+        margin-horizontal: 10px;
+        padding: 0px;
+    `}
+
+    ${(props) => props.profile2 == true && `
+        background-color: ${brand};
+        width: 150px;
+        height: 45px;
+        padding: 0px;
+    `}
 `;
 
 export const ButtonText = styled.Text`
     color: ${primary};
     font-size: 16px;
     font-family: Trirong-Light;
+
     ${(props) => props.google == true && `
-    padding-left: 20px;
-    padding-bottom: 2px;
-    padding-right: 20px;
+        padding-left: 20px;
+        padding-bottom: 2px;
+        padding-right: 20px;
+    `}
+
+    ${(props) => props.profile == true && `
+        padding-bottom: 0px;
     `}
 `;
 
@@ -601,6 +620,7 @@ export const InfoContainer = styled.View`
 export const StatsContainer = styled.View`
     flex-direction: row;
     align-self: center;
+    justify-content: center;
     margin-top: 32px;
 `;
 
@@ -664,7 +684,7 @@ export const ButtonsContainer = styled.View`
         margin-top: 0px;
         position: absolute;
         left: 20px;
-    `}
+    `}   
 `;
 
 export const ReviewButton = styled.TouchableOpacity`
