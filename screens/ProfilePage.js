@@ -41,8 +41,8 @@ const db = firebase.firestore();
 // Profilepage render
 const ProfilePage = ({navigation}) => {
     const [userData, setUserData] = useState(null);
-    const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
-
+    
+const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
     // Get User Data
     const getUser = async () => {
         await db
@@ -96,31 +96,34 @@ const ProfilePage = ({navigation}) => {
                             <StyledButton profile={true}>
                                 <ButtonText profile={true}>My Reviews</ButtonText>
                             </StyledButton>
-                            <StyledButton profile2={true}>
+                            <StyledButton 
+                                profile2={true}
+                                onPress={() => navigation.navigate("EditProfilePage")}
+                                >
                                 <ButtonText profile={true}>Edit Profile</ButtonText>
                             </StyledButton>
                     </ButtonsContainer>
                     <UserInfoSection>
                         <StallRow>
-                            <Ionicons name="ios-at" size={30} color={tertiary}></Ionicons>
+                            <Ionicons name="ios-at" size={20} color={tertiary}></Ionicons>
                             <ProfileText>{userData
                         ? userData.username
                         : '' }</ProfileText>
                         </StallRow>
                         <StallRow>
-                            <Ionicons name="ios-call-outline" size={30} color={tertiary}></Ionicons>
+                            <Ionicons name="ios-call-outline" size={20} color={tertiary}></Ionicons>
                             <ProfileText>(+65) {userData
                         ? userData.phoneNumber
                         : '' }</ProfileText>
                         </StallRow>
                         <StallRow>
-                            <Ionicons name="ios-mail-outline" size={30} color={tertiary}></Ionicons>
+                            <Ionicons name="ios-mail-outline" size={20} color={tertiary}></Ionicons>
                             <ProfileText>{userData
                         ? userData.email
                         : '' }</ProfileText>
                         </StallRow>
                         <StallRow>
-                            <Ionicons name="ios-location-outline" size={30} color={tertiary}></Ionicons>
+                            <Ionicons name="ios-location-outline" size={20} color={tertiary}></Ionicons>
                             <ProfileText>Kent Ridge, Singapore</ProfileText>
                         </StallRow>
                     </UserInfoSection>

@@ -120,6 +120,7 @@ export const PageTitle = styled.Text`
     letter-spacing: 4px;
     color: ${brand};
     padding: 10px;
+
     ${(props) => props.welcome && `
         font-size: 35px;
     `}
@@ -161,9 +162,16 @@ export const StyledTextInput = styled.TextInput`
     margin-vertical: 3px;
     margin-bottom: 10px;
     color: ${tertiary};
+    
     ${(props) => props.forgot && `
-    padding-left: 22px;
-`}
+        padding-left: 22px;
+    `}
+
+    ${(props) => props.editprofile && `
+        background-color: ${primary};
+        border-bottom-width: 1px;
+        border-bottom-color: ${secondary};
+    `}
 `;
 
 export const StyledInputLabel  = styled.Text`
@@ -177,9 +185,14 @@ export const LeftIcon = styled.View`
     top: 32px;
     position: absolute;
     z-index: 1;
+
     ${(props) => props.search && `
         top: 15px;
     `}
+
+    ${(props) => props.editprofile && `
+        top: 17px;
+    `}    
 `;
 
 export const RightIcon = styled.TouchableOpacity`
@@ -187,6 +200,10 @@ export const RightIcon = styled.TouchableOpacity`
     top: 35px;
     position: absolute;
     z-index: 1;
+
+    ${(props) => props.editprofile && `
+        top: 17px;
+    `}    
 `;
 
 export const StyledButton = styled.TouchableOpacity`
@@ -273,6 +290,12 @@ export const ExtraText = styled.Text`
 export const TextLink = styled.TouchableOpacity`
     justify-content: center;
     align-items: center;
+    
+    
+    ${(props) => props.profile == true && `
+        padding-top: 10px;
+        margin-bottom: 10px;
+    `}
 `;
 
 
@@ -280,6 +303,10 @@ export const TextLinkContent = styled.Text`
     color: ${brand};
     font-family: Trirong-Regular;
     font-size: 15px;
+
+    ${(props) => props.profile == true && `
+        font-size: 13px;
+    `}
 `;
 
 // HomePage
@@ -303,19 +330,23 @@ export const TitleHome = styled.View`
 export const Greetings = styled.Text`
     font-family: KottaOne-Regular;
     font-size: 32px;
+
     ${(props) => props.title == true && `
         font-size: 24px;
-    `
-    } 
+    `} 
+
     ${(props) => props.user == true && `
         font-family: KottaOne-Regular;
-    `
-    } 
+    `} 
+
     ${(props) => props.sub == true && `
         font-family: Trirong-Regular;
         font-size: 13px;
-    `
-    } 
+    `} 
+
+    ${(props) => props.profile == true && `
+        padding: 10px;
+    `} 
 `;
 
 export const ProfilePictureHolder = styled.TouchableOpacity`
@@ -537,6 +568,12 @@ export const AddToFavouritesBtn = styled.TouchableOpacity`
         align-items: flex-start;
         margin-right: 35px;
     `}
+
+    ${(props) => props.profile == true && `
+        margin-top: 30px;
+        align-items: flex-start;
+        margin-right: 35px;
+    `}
 `;
 
 // LandingScreen
@@ -581,7 +618,7 @@ export const ProfileText = styled.Text`
     font-family: Trirong-Regular;
     font-size: 13px;
     margin-left: 20px;
-    margin-top: 7px;
+    margin-top: 0px;
 `;
 
 export const Add = styled.TouchableOpacity`
@@ -599,6 +636,7 @@ export const Add = styled.TouchableOpacity`
 export const UserInfoSection = styled.View`
     padding-vertical: 32px;
     margin-right: 100px;
+    margin-top: 20px;
 `;
 
 export const StatsBox = styled.View`
@@ -685,6 +723,11 @@ export const ButtonsContainer = styled.View`
         position: absolute;
         left: 20px;
     `}   
+
+    ${(props) => props.back2 == true && `
+        margin-top: 0px;
+        position: absolute;
+    `}   
 `;
 
 export const ReviewButton = styled.TouchableOpacity`
@@ -700,20 +743,4 @@ export const ReviewButton = styled.TouchableOpacity`
 export const StallRow = styled.View`
     flex-direction: row;
     margin-bottom: 30px;
-`;
-
-// Edit Profile Page
-export const Action = styled.View`
-    flex-direction: row;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    border-bottom-width: 1px;
-    border-bottom-color: ${secondary};
-    padding-bottom: 5px;
-`;
-
-export const EditProfileTextInput = styled.View`
-    flex: 1;
-    padding-left: 10px;
-    color: ${darkLight};
 `;
