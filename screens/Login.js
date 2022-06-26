@@ -11,7 +11,7 @@ import { Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
 // firebase
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
-import app from './../firebase'
+import app from './../firebase';
 import 'firebase/compat/firestore';
 import { GeoPoint } from 'firebase/firestore';
 
