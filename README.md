@@ -35,6 +35,9 @@ makaNUS is meant to be an exclusive NUS food guide and service. The main feature
 3. Searching and Sorting stalls.
 4. Rate and Reviewing stalls.
 
+To view the details of the features for each page, please refer to this document
+https://docs.google.com/document/d/12jqATNUCA6wPw8BWMwAecb451I9bPBGxqw0Gn0SPIYw/edit?usp=sharing (As of Milestone #2)
+
 ## Problems
 1. "expo-app-loading is deprecated in favor of expo-splash-screen" pops up when application is first ran because we are using AppLoading instead of SplashScreen. 
 How we plan to handle: Use splashscreen for loading.
