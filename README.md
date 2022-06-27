@@ -35,9 +35,21 @@ makaNUS is meant to be an exclusive NUS food guide and service. The main feature
 3. Searching and Sorting stalls.
 4. Rate and Reviewing stalls.
 
+To view the details of the features for each page, please refer to this document
+https://docs.google.com/document/d/12jqATNUCA6wPw8BWMwAecb451I9bPBGxqw0Gn0SPIYw/edit?usp=sharing (As of Milestone #2)
+
+## Problems
+1. "expo-app-loading is deprecated in favor of expo-splash-screen" pops up when application is first ran because we are using AppLoading instead of SplashScreen. 
+How we plan to handle: Use splashscreen for loading.
+2. Sign in with Google does not work in Login screen. It is said that auth is not supported in the environment
+How we plan to handle: More research to fix the problem.
+3. Add to Favorite button does not change when toggled.
+How we plan to handle: More research to fix the problem.
+
+## Project Log
+Link : https://docs.google.com/spreadsheets/d/1z-jnL2-027T6RmRsfHD0B3mGm9rHz39l/edit?usp=sharing&ouid=111446439061801316810&rtpof=true&sd=true
+
 ## Progress
 Milestone #1 : Front-end and User Authentication feature completed.
 
 Milestone #2 : Added most of the pages/screens and features.
-
-
