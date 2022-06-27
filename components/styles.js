@@ -307,6 +307,11 @@ export const TextLinkContent = styled.Text`
     ${(props) => props.profile == true && `
         font-size: 13px;
     `}
+
+    ${(props) => props.logout == true && `
+        font-size: 13px;
+        text-decoration: underline;
+    `}
 `;
 
 // HomePage
@@ -318,6 +323,7 @@ export const HeaderHome = styled.View`
 
     ${(props) => props.fav == true && `
         padding-top: 0px;
+        align-items: center;
     `}
 `;
 
@@ -634,7 +640,7 @@ export const Add = styled.TouchableOpacity`
 `;
 
 export const UserInfoSection = styled.View`
-    padding-vertical: 32px;
+    padding-top: 32px;
     margin-right: 100px;
     margin-top: 20px;
 `;

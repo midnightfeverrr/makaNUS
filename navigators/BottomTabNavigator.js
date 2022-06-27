@@ -103,7 +103,7 @@ const BottomTabNavigator = () => {
 
             {/* Third Icon (Profile) */}
             <Tab.Screen name = "Profile"
-                component = {ProfilePage}
+                component = {ProfileScreen}
                 options = {{
                     tabBarIcon: ({focused}) => (
                         <StyledIcon>
