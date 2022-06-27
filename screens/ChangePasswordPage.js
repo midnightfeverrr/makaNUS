@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput, Alert } from "react-native";
 import { Ionicons, Octicons } from "@expo/vector-icons";
 import {
     StyledContainer,
@@ -102,14 +102,34 @@ const ChangePasswordPage = ({navigation}) => {
                             .update({
                                 password: values.password
                             })
-                            navigation.navigate("EditProfilePage")
-                            handleMessage('Password successfully changed !')
+                            firebase.auth().currentUser.updatePassword(values.password)
                             .catch(error => {
                                 if (error.code === 'auth/weak-password') {
                                     console.log('Password must be at least 8 characters!');
                                     handleMessage("Password must be at least 8 characters!");
                                 }                  
                             });
+                            
+                            navigation.navigate("EditProfilePage")
+                            
+                            Alert.alert(
+                                "Password Change",
+                                "You have successfully changed your password!",
+                                [
+                                    {
+                                        text: "OK",
+                                        onPress: () => console.log("OK Pressed"),
+                                        style: "OK",
+                                    },
+                                ],
+                                {
+                                    cancelable: false,
+                                    onDismiss: () =>
+                                    console.log(
+                                        "This alert was dismissed by tapping outside of the alert dialog."
+                                    ),
+                                }
+                            )
                         }}
                     }
                     >
