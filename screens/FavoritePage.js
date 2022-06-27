@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import {
   View,
@@ -6,7 +7,7 @@ import {
 } from 'react-native';
 
 // Icons
-import { Octicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { 
     StyledContainer,
     StyledContainerView,
@@ -22,6 +23,7 @@ import {
     CardSubtitle,
     CardTitle,
     Colors,
+    AddToFavouritesBtn,
 } from '../components/styles';
 
 // colors
@@ -77,7 +79,6 @@ const FavoritePage = ({navigation}) => {
 
     useEffect(() => {
         getFavoriteStalls();
-        console.log("refreshed")
     }, []);
 
     const Card = ({food}) => {
@@ -110,6 +111,12 @@ const FavoritePage = ({navigation}) => {
                         </Greetings>
                         */}
                     </View>
+                    <AddToFavouritesBtn 
+                        stall={true}
+                        onPress={getFavoriteStalls}
+                    >
+                        <Ionicons name="refresh" size={20} color={tertiary} />
+                    </AddToFavouritesBtn>
                 </HeaderHome>
                 <CardContainer
                     showsVerticalScrollIndicator={false}
