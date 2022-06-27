@@ -135,7 +135,7 @@ const StallPage = ({navigation, route}) => {
                                     ? stallData.url
                                     : defaultImage }} />
             <ButtonsContainer back={true}>
-                <AddToFavouritesBtn>
+                <AddToFavouritesBtn onPress={() => navigation.goBack()}>
                     <Octicons name="arrow-left" size={30} color={primary} />
                 </AddToFavouritesBtn>
             </ButtonsContainer>
