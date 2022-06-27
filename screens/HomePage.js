@@ -80,6 +80,7 @@ const HomePage = ({navigation}) => {
     const [userData, setUserData] = useState(null);
     const [stallData, setStallData] = useState(null);
     const [nearbyStallData, setNearbyStallData] = useState(null);
+    const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
 
     // Get User Data
     const getUser = async () => {
@@ -112,12 +113,15 @@ const HomePage = ({navigation}) => {
 
                     const userLat = userData
                     ? userData.coordinate.latitude
-                    : userData.coordinate.latitude;
+                    : null;
                     const userLng = userData
                     ? userData.coordinate.longitude
-                    : userData.coordinate.longitude;
+                    : null;
                     const stallLat = doc.data().coordinate.latitude;
                     const stallLng = doc.data().coordinate.longitude;
+                    if (userLat == null || userLng == null) {
+                        return;
+                    } else {
                     const distanceRaw = getDistanceFromLatLonInKm(userLat, userLng, stallLat, stallLng);
                     const distance = Math.round(distanceRaw * 10) / 10
                     console.log(distance)
@@ -138,7 +142,7 @@ const HomePage = ({navigation}) => {
                         distance: distance,
                     })
 
-                    setStallData(stallDatas);
+                    setStallData(stallDatas);}
                 })
             })
     }
@@ -178,38 +182,26 @@ const HomePage = ({navigation}) => {
     
     useEffect(() => {
         getUser();
+
+        const interval=setInterval(()=>{
+            getUser()
+           },60000)
+             
+             
+        return()=>clearInterval(interval)
     }, []);
 
     useEffect(() => {
         getStalls();
         getNearbyStalls();
+
+        const interval=setInterval(()=>{
+            getNearbyStalls()
+           },60000)
+             
+             
+        return()=>clearInterval(interval)
     }, [userData]);
-
-
-    // Logging out process
-    const onPressLogOut = () => {
-        Alert.alert(
-            "Log Out",
-            "Are you sure you want to log out?",
-            [{
-                text: "Cancel",
-                onPress: () => {
-                    navigation.navigate("HomePage");
-                    console.log('User decided not to log out');
-                },
-                style: 'cancel'
-            }, {
-                text: 'Log Out',
-                onPress: onSigningOut ,
-            }]
-        );
-    }
-
-    const onSigningOut = () => {
-        firebase.auth()
-          .signOut()
-          .then(() => console.log('User signed out!'));
-    }
 
     const ListCategories = () => {
         return (
@@ -313,11 +305,13 @@ const HomePage = ({navigation}) => {
                     */}
                 </View>
                 <ProfilePictureHolder
-                    onPress={onPressLogOut}
+                    onPress={() => navigation.navigate("ProfilePage")}
                 >
                     <ProfilePicture 
-                        source={require('./../assets/avatar.jpg')}
-                    />
+                        source={{ uri: userData
+                                  ? userData.userImg || defaultImage
+                                  : defaultImage }}
+                    />  
                 </ProfilePictureHolder>
             </HeaderHome>
             <LocationHolder>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableOpacity } from "react-native";
+import { View, Alert } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import {
     StyledContainer,
@@ -17,7 +17,9 @@ import {
     Colors,
     ButtonsContainer,
     StyledButton,
-    ButtonText
+    ButtonText,
+    TextLink,
+    TextLinkContent
 } from './../components/styles';
 
 // colors
@@ -41,8 +43,8 @@ const db = firebase.firestore();
 // Profilepage render
 const ProfilePage = ({navigation}) => {
     const [userData, setUserData] = useState(null);
+    const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
     
-const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
     // Get User Data
     const getUser = async () => {
         await db
@@ -60,9 +62,32 @@ const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makan
         getUser();
     }, []);
 
+    // Logging out process
+    const onPressLogOut = () => {
+        Alert.alert(
+            "Log Out",
+            "Are you sure you want to log out?",
+            [{
+                text: "Cancel",
+                onPress: () => {
+                    console.log('User decided not to log out');
+                },
+                style: 'cancel'
+            }, {
+                text: 'Log Out',
+                onPress: onSigningOut ,
+            }]
+        );
+    }
+
+    const onSigningOut = () => {
+        firebase.auth()
+          .signOut()
+          .then(() => console.log('User signed out!'));
+    }
+
     return (
         <StyledContainer>         
-            <ScrollView showsVerticalScrollIndicator={false}>
                 <InnerContainer>
                     <View style={{ alignSelf: "center" }}>
                         <ProfileImage>
@@ -127,8 +152,10 @@ const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makan
                             <ProfileText>Kent Ridge, Singapore</ProfileText>
                         </StallRow>
                     </UserInfoSection>
+                    <TextLink onPress={onPressLogOut}>
+                        <TextLinkContent logout={true}>Log out from account</TextLinkContent>
+                    </TextLink>
                 </InnerContainer>
-            </ScrollView>
         </StyledContainer>
     );
 }

@@ -151,10 +151,13 @@ const EditProfilePage = ({navigation}) => {
             userImg: imgUrl,
           })
           .then(() => {
+            handleMessage('User Profile Picture updated!')
             console.log('User Profile Picture updated!');
-          });
+          })
+          .finally(
+            () => {navigation.goBack()}
+          );
     
-        navigation.goBack();
     
         return () => {
           unmounted = true;
