@@ -40,4 +40,8 @@ Milestone #1 : Front-end and User Authentication feature completed.
 
 Milestone #2 : Added most of the pages/screens and features.
 
-
+## Problems
+1. aaaaa
+2. bbbbb
+3. 
+4. Add to Favorite button does not change when toggled.
