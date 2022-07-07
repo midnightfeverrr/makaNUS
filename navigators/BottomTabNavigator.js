@@ -7,6 +7,8 @@ import HomePage from './../screens/HomePage';
 import FavoritePage from './../screens/FavoritePage';
 import ProfilePage from './../screens/ProfilePage';
 import StallPage from './../screens/StallPage';
+import StallCategoryPage from './../screens/StallCategoryPage';
+import SearchPage from './../screens/SearchPage';
 
 // Icons
 import { Octicons, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -31,6 +33,7 @@ const HomeStackScreen = () => {
             initialRouteName="HomePage">
             <HomeStack.Screen name="HomePage" component={HomePage} />
             <HomeStack.Screen name="StallPage" component={StallPage} />
+            <HomeStack.Screen name="StallCategoryPage" component={StallCategoryPage} />
         </HomeStack.Navigator>
         );
 }
@@ -43,6 +46,16 @@ const FavoriteScreen = () => {
             <HomeStack.Screen name="StallPage" component={StallPage} />
         </HomeStack.Navigator>
         );
+}
+
+// Searchpage
+const SearchScreen = () => {
+    return (
+        <HomeStack.Navigator screenOptions={{headerShown: false}}>
+            <HomeStack.Screen name="SearchPage" component={SearchPage} />
+            <HomeStack.Screen name="StallPage" component={StallPage} />
+        </HomeStack.Navigator>
+    );
 }
 
 // Profilepage
@@ -101,7 +114,23 @@ const BottomTabNavigator = () => {
                 }}
             />
 
-            {/* Third Icon (Profile) */}
+            {/* Third Icon (Search) */}
+            <Tab.Screen name = "Search"
+                component = {SearchScreen}
+                options = {{
+                    tabBarIcon: ({focused}) => (
+                        <StyledIcon>
+                            <Octicons 
+                            color= {tertiary}
+                            size={ focused ? 23 : 20 } 
+                            name={"search"} 
+                            />
+                        </StyledIcon>
+                    )
+                }}
+            />            
+
+            {/* Fourth Icon (Profile) */}
             <Tab.Screen name = "Profile"
                 component = {ProfileScreen}
                 options = {{

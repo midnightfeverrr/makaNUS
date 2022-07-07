@@ -6,6 +6,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import BottomTabNavigator from './BottomTabNavigator';
 import EditProfilePage from './../screens/EditProfilePage';
 import ChangePasswordPage from './../screens/ChangePasswordPage';
+import MakeReviewPage from './../screens/MakeReviewPage';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,9 @@ const LoggedInNavigator = () => {
             />
             <Stack.Screen name = "ChangePasswordPage" 
                 component={ChangePasswordPage}
+            />
+            <Stack.Screen name = "MakeReviewPage"
+                component={MakeReviewPage}
             />
         </Stack.Navigator>
 
