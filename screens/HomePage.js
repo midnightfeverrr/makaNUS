@@ -29,6 +29,7 @@ import {
   CardButton,
   CardContainer,
   CardThumbnailHolder,
+  CardThumbnailOpacity,
   CardThumbnail,
   CardDetails,
   CardTextHolder,
@@ -80,6 +81,7 @@ const HomePage = ({navigation}) => {
     const [userData, setUserData] = useState(null);
     const [stallData, setStallData] = useState(null);
     const [nearbyStallData, setNearbyStallData] = useState(null);
+    const [categoryData, setCategoryData] = useState(null);
     const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
 
     // Get User Data
@@ -123,7 +125,7 @@ const HomePage = ({navigation}) => {
                         return;
                     } else {
                     const distanceRaw = getDistanceFromLatLonInKm(userLat, userLng, stallLat, stallLng);
-                    const distance = Math.round(distanceRaw * 10) / 10
+                    const distance = Math.round(distanceRaw * 10) / 10;
                     console.log(distance)
 
                     db.collection("stalls").doc(doc.data().name).update(
@@ -179,6 +181,27 @@ const HomePage = ({navigation}) => {
             })
     }
 
+    // Get Category Data
+    const getCategories = async () => {
+        const categoryDatas = [];
+        await db
+            .collection('categories')
+            .onSnapshot((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    const {
+                        category,
+                        uri
+                    } = doc.data();
+
+                    categoryDatas.push({
+                        category: category,
+                        uri: uri
+                    })
+
+                    setCategoryData(categoryDatas);
+                })
+            })
+    }
     
     useEffect(() => {
         getUser();
@@ -194,6 +217,7 @@ const HomePage = ({navigation}) => {
     useEffect(() => {
         getStalls();
         getNearbyStalls();
+        getCategories();
 
         const interval=setInterval(()=>{
             getNearbyStalls()
@@ -202,26 +226,6 @@ const HomePage = ({navigation}) => {
              
         return()=>clearInterval(interval)
     }, [userData]);
-
-    const ListCategories = () => {
-        return (
-            <CategoriesListContainer
-                data = {stallData}
-                extraData = {selectedCategoryIndex}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                ListFooterComponent={<View style={{width: 60}}/>}
-                renderItem={({item}) => (
-                    <CategoryBtn>
-                        <CategoryBtnText>
-                            {item.category[0]}
-                        </CategoryBtnText>
-                    </CategoryBtn>
-                )}
-            />
-        );
-      };
-
     
     const Card = ({food}) => {
         // Add To Favorite
@@ -243,7 +247,6 @@ const HomePage = ({navigation}) => {
                         name: food.name,
                         price: food.price,
                         url: food.url,
-                        icon: "heart-fill"
                     })
                     console.log("updated")
                 }}
@@ -264,7 +267,7 @@ const HomePage = ({navigation}) => {
                         <CardTitle>{food.distance}km</CardTitle>
                     </CardTextHolder>
                     <AddToFavouritesBtn onPress={handleFavorite}>
-                    <Octicons name="heart" size={20} color={brand}/>
+                        <Octicons name="heart" size={20} color={brand}/>
                     </AddToFavouritesBtn>
                 </CardDetails>
             </CardHome>
@@ -288,6 +291,19 @@ const HomePage = ({navigation}) => {
         )
     }
 
+    const CardCategory = ({food}) => {
+        return (
+            <CardButton onPress={() => navigation.navigate("StallCategoryPage", {itemId: food.category})}>
+            <CardHome category={true}>
+                <CardThumbnailHolder category={true}>
+                    <CardThumbnail category={true} source={{uri: food.uri}} />
+                    <CardTitle category={true}>{food.category}</CardTitle>
+                </CardThumbnailHolder>
+            </CardHome>
+        </CardButton>
+        )
+    };
+
     return(
         <StyledContainer home={true}>
         <StatusBar style="dark" />
@@ -305,7 +321,7 @@ const HomePage = ({navigation}) => {
                     */}
                 </View>
                 <ProfilePictureHolder
-                    onPress={() => navigation.navigate("ProfilePage")}
+                    onPress={() => navigation.navigate("Profile")}
                 >
                     <ProfilePicture 
                         source={{ uri: userData
@@ -363,6 +379,20 @@ const HomePage = ({navigation}) => {
                     data={stallData}
                     ListFooterComponent={<View style={{width: 40}}/>}
                     renderItem={({item}) => <Card2 
+                        food={item} 
+                    />}
+                />
+            </View>
+            <TitleHome>
+                <Greetings title={true}>Browse</Greetings>
+            </TitleHome>
+            <View>
+                <CardContainer
+                    showsVerticalScrollIndicator={false}
+                    numColumns={2}
+                    data={categoryData}
+                    ListFooterComponent={<View style={{height: 50}}/>}
+                    renderItem={({item}) => <CardCategory
                         food={item} 
                     />}
                 />

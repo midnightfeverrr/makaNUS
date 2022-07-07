@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Linking } from 'react-native';
 import { FontAwesome, Octicons } from "@expo/vector-icons";
 import {
     StyledContainer,
@@ -24,6 +24,10 @@ import {
     CardTitle,
     CardSubtitle,
     CardContainer,
+    ExtraView,
+    ExtraText,
+    TextLink,
+    TextLinkContent
 } from './../components/styles';
 
 // colors
@@ -84,34 +88,33 @@ const StallPage = ({navigation, route}) => {
         getStalls();
     }, [userData]);
 
-    {/* const handleFavorite = async () => {
+    const handleFavorite = async () => {
         await db.collection("users").doc(firebase.auth().currentUser.uid)
-        .collection("favorites").doc(food.name).get().then(
+        .collection("favorites").doc(itemId).get().then(
             (DocumentSnapshot) => {
             if (DocumentSnapshot.exists) {
                 db.collection("users").doc(firebase.auth().currentUser.uid)
-                .collection("favorites").doc(food.name).delete();
+                .collection("favorites").doc(itemId).delete();
                 console.log("deleted")
             } else {
                 db.collection("users").doc(firebase.auth().currentUser.uid)
-                .collection("favorites").doc(food.name).set({
-                    category: food.category,
-                    coordinate: food.coordinate,
-                    distance: food.distance,
-                    location: food.location,
-                    name: food.name,
-                    price: food.price,
-                    url: food.url,
-                    icon: "heart-fill"
+                .collection("favorites").doc(itemId).set({
+                    category: stallData.category,
+                    coordinate: stallData.coordinate,
+                    distance: stallData.distance,
+                    location: stallData.location,
+                    name: stallData.name,
+                    price: stallData.price,
+                    url: stallData.url,
                 })
                 console.log("updated")
             }}
         )
-    } */}
+    }
 
-    const ReviewCard = () => {
+    const ReviewCard = ({food}) => {
         return (
-            <CardButton>
+        <CardButton>
             <CardHome card4={true}>
                 <CardThumbnailHolder stall2={true}>
                     <CardThumbnail stall2={true} source={{
@@ -128,6 +131,19 @@ const StallPage = ({navigation, route}) => {
     }
 
     const priceString = "$";
+    const stallLat = stallData ? stallData.coordinate.latitude : null;
+    const stallLng = stallData ? stallData.coordinate.longitude : null;
+    const stallUrl = "http://maps.google.com?q=" + stallLat + "," + stallLng;
+
+    const handleClick = () => {
+        Linking.canOpenURL(stallUrl).then(supported => {
+          if (supported) {
+            Linking.openURL(stallUrl);
+          } else {
+            console.log("Don't know how to open URI: " + stallUrl);
+          }
+        });
+      };
 
     return (
         <StyledContainer stall={true}>
@@ -157,17 +173,26 @@ const StallPage = ({navigation, route}) => {
                         ? priceString.repeat(stallData.price)
                         : ''}</Title>
                 <ButtonsContainer>
-                    <AddToFavouritesBtn stall={true} onPress={() => (null)}>
+                    <AddToFavouritesBtn stall={true} onPress={handleFavorite}>
                         <Octicons name="heart" size={30} color={brand}/>
                     </AddToFavouritesBtn>
-                    <AddToFavouritesBtn stall={true} onPress={() => (null)}>
+                    <AddToFavouritesBtn stall={true} onPress={handleClick}>
                         <FontAwesome name="map-marker" size={30} color={tertiary} />
                     </AddToFavouritesBtn>
                 </ButtonsContainer>
             </DetailsContainer>
             <LabelContainer>
                 <Title Label={true}>Menu</Title>
-                <Title Label={true}>Reviews</Title>
+                <Title Label2={true}>Review</Title>
+                <AddToFavouritesBtn 
+                    Label={true} 
+                    onPress={() => navigation.navigate("MakeReviewPage", {params: itemId})}>
+                    <Octicons 
+                        name={'plus'} 
+                        size={15} 
+                        color={tertiary} 
+                    />
+                </AddToFavouritesBtn>
             </LabelContainer>
             <StallRow>
                 <CardThumbnailHolder stall={true}>
@@ -175,14 +200,14 @@ const StallPage = ({navigation, route}) => {
                                     ? stallData.url
                                     : defaultImage }}/>
                 </CardThumbnailHolder>
-                {/*<CardContainer
+                <CardContainer
                     vertical
                     showsVerticalScrollIndicator={false}
                     numColumns={1}
-                    data={nearbyStallData}
+                    data={stallData}
                     ListFooterComponent={<View style={{width: 40}}/>}
-                    renderItem={({item}) => <Card food={item} />}
-                    />*/}
+                    renderItem={({item}) => <ReviewCard food={item} />}
+                />
             </StallRow>
         </StyledContainer>
     );
