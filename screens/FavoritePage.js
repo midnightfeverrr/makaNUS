@@ -122,7 +122,7 @@ const FavoritePage = ({navigation}) => {
                     showsVerticalScrollIndicator={false}
                     numColumns={1}
                     data={favoriteStall}
-                    ListFooterComponent={<View style={{width: 40}}/>}
+                    ListFooterComponent={<View style={{height: 40}}/>}
                     renderItem={({item}) => <Card food={item} />}
                 />
             </InnerContainer>
