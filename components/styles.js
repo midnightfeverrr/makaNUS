@@ -26,6 +26,7 @@ export const Colors = {
     brand: "#FF5757", // pink brand
     green: "#10B981",
     red: "#EF4444",
+    yellow: "#BFA331"
 };
 
 const { primary, secondary, tertiary, darkLight, brand, green, red } = Colors;
@@ -143,14 +144,22 @@ export const StyledFormArea = styled.View`
     width: 90%;
     flex: 1;
     border-radius: 10px;
+
     ${(props) => props.search == true && `
         height: 50px;
         padding-horizontal: 20px;
     `}
+
+    ${(props) => props.review == true && `
+        width: 100%;
+        justify-content: flex-start;
+        align-items: center;
+        padding-vertical: 30px;
+        margin-bottom: 50px;
+    `}
 `;
 
 export const StyledTextInput = styled.TextInput`
-    background-color: ${secondary};
     font-family: KottaOne-Regular;
     letter-spacing: 1px;
     padding: 15px;
@@ -162,6 +171,8 @@ export const StyledTextInput = styled.TextInput`
     margin-vertical: 3px;
     margin-bottom: 10px;
     color: ${tertiary};
+    border-bottom-width: 1px;
+    border-bottom-color: ${secondary};
     
     ${(props) => props.forgot && `
         padding-left: 22px;
@@ -171,6 +182,16 @@ export const StyledTextInput = styled.TextInput`
         background-color: ${primary};
         border-bottom-width: 1px;
         border-bottom-color: ${secondary};
+    `}
+
+    ${(props) => props.review && `
+        height: 85%;
+        width: 100%;
+        background-color: ${primary};
+        border-width: 1px;
+        border-color: ${secondary};
+        padding-left: 25px;
+        padding-right: 25px;
     `}
 `;
 
@@ -231,6 +252,13 @@ export const StyledButton = styled.TouchableOpacity`
     ${(props) => props.profile2 == true && `
         background-color: ${brand};
         width: 150px;
+        height: 45px;
+        padding: 0px;
+    `}
+
+    ${(props) => props.addphotos == true && `
+        background-color: ${brand};
+        width: 30%;
         height: 45px;
         padding: 0px;
     `}
@@ -320,6 +348,7 @@ export const HeaderHome = styled.View`
     justify-content: space-between;
     padding-horizontal: 40px;
     padding-top: ${StatusBarHeight + 10}px;
+    width: 100%;
 
     ${(props) => props.fav == true && `
         padding-top: 0px;
@@ -461,6 +490,18 @@ export const CardHome = styled.View`
         align-items: flex-start;
         flex-direction: row
     `}
+
+    ${(props) => props.category == true && `
+        margin-top: 10px;
+        height: 145px;
+        width: 145px;
+    `}
+
+    ${(props) => props.search == true && `
+        margin-top: 10px;
+        height: 240px;
+        width: 90%;
+    `}
 `;
 
 export const CardThumbnailHolder = styled.View`
@@ -481,6 +522,7 @@ export const CardThumbnailHolder = styled.View`
         margin-bottom: 10px;
         margin-top: 11px;
         border-radius: 150px;
+        max-width: 45px;
     `}
 
     ${(props) => props.stall == true && `
@@ -494,6 +536,26 @@ export const CardThumbnailHolder = styled.View`
         margin-bottom: 10px;
         margin-top: 11px;
         border-radius: 150px;
+    `}
+
+    ${(props) => props.category == true && `
+        flex: 1;
+        height: 145px;
+        width: 145px;
+        margin-horizontal: 0px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        position: absolute;
+        align-items: center;
+        justify-content: center;
+    `}
+
+    ${(props) => props.search == true && `
+        flex: 1;
+        height: 145px;
+        width: 100%;
+        margin-horizontal: 0px;
+        margin-top: 0px;
     `}
 `;
 
@@ -515,6 +577,21 @@ export const CardThumbnail = styled.Image`
         margin-bottom: 10px;
         margin-top: 11px;
         border-radius: 150px;
+    `}
+
+    ${(props) => props.category == true && `
+        height: 100%;
+        width: 100%;
+        border-radius: 15px;
+        resize-mode: cover;
+    `}
+
+    ${(props) => props.search == true && `
+        flex: 1;
+        height: 145px;
+        width: 100%;
+        margin-horizontal: 0px;
+        margin-top: 0px;
     `}
 `;
 
@@ -541,11 +618,29 @@ export const CardDetails = styled.View`
         margin-top: 5px;
         justify-content: center;
     `}
+
+    ${(props) => props.search == true && `
+        width: 90%;
+        margin-horizontal: 10px;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        justify-content: flex-start;
+    `}
 `;
 
 export const CardTextHolder = styled.View`
     padding-left: 5px;
     flex-direction: column;
+
+    ${(props) => props.search == true && `
+        flex-direction: column;
+        width: 50%;
+    `}
+
+    ${(props) => props.addphotos == true && `
+        padding-top:10px;
+        height: 8%;
+    `}
 `;
 
 export const CardSubtitle = styled.Text`
@@ -559,6 +654,20 @@ export const CardTitle = styled.Text`
     letter-spacing: 1px;
     font-size: 15px;
     color: ${tertiary};
+
+    ${(props) => props.category == true && `
+        position: absolute;
+        font-family: Trirong-ExtraBold;
+        font-size: 25px;
+        color: ${primary};
+        text-shadow: -1px 1px 10px rgba(0, 0, 0, 0.75);
+    `}
+
+    ${(props) => props.addphotos == true && `
+        font-family: Trirong-Light;
+        letter-spacing: 0px;
+        font-size: 20px;
+    `}
 `;
 
 export const AddToFavouritesBtn = styled.TouchableOpacity`
@@ -575,10 +684,24 @@ export const AddToFavouritesBtn = styled.TouchableOpacity`
         margin-right: 35px;
     `}
 
+    ${(props) => props.stall2 == true && `
+        margin-top: 0px;
+        padding-bottom: 3px;
+        align-items: flex-start;
+        margin-right: 5px;
+    `}
+
     ${(props) => props.profile == true && `
         margin-top: 30px;
         align-items: flex-start;
         margin-right: 35px;
+    `}
+
+    ${(props) => props.Label == true && `
+        margin-top: 8px;
+        height: 15px;
+        width: 15px;
+        border-radius: 0px;
     `}
 `;
 
@@ -702,7 +825,13 @@ export const Title = styled.Text`
     ${(props) => props.Label && `
     font-family: Trirong-Regular;
     font-size: 20px;
-    margin-right: 150px;
+    width: 50%;
+    `}
+
+    ${(props) => props.Label2 && `
+    font-family: Trirong-Regular;
+    font-size: 20px;
+    width: 20%;
     `}
 `;
 
@@ -710,13 +839,13 @@ export const DetailsContainer = styled.View`
     padding-top: 5px;
     margin-top: 5px;
     margin-horizontal: 25px;
+    margin-bottom: 15px;
 `;
 
 export const LabelContainer = styled.View`
-    padding-top: 5px;
-    margin-top: 5px;
     margin-horizontal: 25px;
     flex-direction: row;
+    justify-content: flex-start;
 `;
 
 export const ButtonsContainer = styled.View`
@@ -734,6 +863,12 @@ export const ButtonsContainer = styled.View`
         margin-top: 0px;
         position: absolute;
     `}   
+
+    ${(props) => props.back3 == true && `
+        margin-top: 0px;
+        position: absolute;
+        left: 30px;
+    `}   
 `;
 
 export const ReviewButton = styled.TouchableOpacity`
@@ -749,4 +884,44 @@ export const ReviewButton = styled.TouchableOpacity`
 export const StallRow = styled.View`
     flex-direction: row;
     margin-bottom: 30px;
+`;
+
+// Make Review Page
+export const StyledRatingBar = styled.View`
+    justify-content: flex-start;
+    flex-direction: row;
+    padding-horizontal: 40px;
+    margin-top: 30px;
+    padding-bottom: 40px;
+`;
+
+export const AddPhotobox = styled.View`
+    height: 520px;;
+    width: 80%;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    elevation: 10;
+    align-items: center;
+    background-color: ${primary};
+    justify-content: flex-start;
+    
+    ${(props) => props.addphotos == true && `
+        margin-top: 20px;
+        height: 30%;
+        width: 50%;
+        elevation: 0;
+        border-width: 2px;
+        border-style: dashed;
+        border-color: ${secondary};
+        justify-content: center;
+        margin-bottom: 5px;
+    `}
+`;
+
+export const ReviewThumbnail = styled.Image`
+    height: 100%;
+    width: 100%;
+    border-radius: 15px;
+    resize-mode: cover;
+    position: absolute;
 `;
