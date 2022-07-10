@@ -339,23 +339,15 @@ const HomePage = ({navigation}) => {
                     />
                 <Greetings sub={true}>Kent Ridge, Singapore</Greetings>
             </LocationHolder>
-            <BodyOneHome>
-                <StyledFormArea search={true}>
-                    <MyTextInput 
-                        icon="search"
-                        placeholder="Search here"
-                    />
-                </StyledFormArea>
-                <SortBtn>
-                    <Icon name="tune" size={28} color={primary} />
-                </SortBtn>
-            </BodyOneHome>
             { /*
             <View>
                 <ListCategories />
             </View>
             */
             }
+            <TitleHome>
+                <Greetings title={true}>Foods Nearby</Greetings>
+            </TitleHome>
             <View style={{paddingTop:20}}>
                 <CardContainer
                     horizontal
@@ -400,15 +392,5 @@ const HomePage = ({navigation}) => {
         </StyledContainer>
     )
 }
-
-const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, ...props}) => {
-    return (
-      <View>
-        <LeftIcon search={true}>
-            <Octicons name={icon} size={25} color={darkLight} />
-        </LeftIcon>        
-        <StyledTextInput {...props}/>
-      </View>);
-};
 
 export default HomePage;
