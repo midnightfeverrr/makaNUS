@@ -12,30 +12,13 @@ import {
     ButtonsContainer,
     HeaderHome,
     Greetings,
-    ProfilePictureHolder,
     ProfilePicture,
     StyledFormArea,
     StyledTextInput,
     MessageBox,
-    LeftIcon,
-    LocationHolder,
-    BodyOneHome,
-    SortBtn,
-    CategoriesListContainer,
-    CategoryBtn,
-    CategoryBtnText,
-    CardHome,
-    CardButton,
-    CardContainer,
-    CardThumbnailHolder,
-    CardThumbnailOpacity,
-    CardThumbnail,
-    CardDetails,
     CardTextHolder,
-    CardSubtitle,
     CardTitle,
     AddToFavouritesBtn,
-    TitleHome,
     StyledRatingBar,
     AddPhotobox,
     Colors,
@@ -208,14 +191,14 @@ const MakeReviewPage = ({navigation, route}) => {
     }
 
     return (
-        <StyledContainer home={true}>
+        <StyledContainer review={true}>
+        <ButtonsContainer back4={true}>
+                <AddToFavouritesBtn onPress={() => navigation.goBack()}>
+                    <Octicons name="arrow-left" size={30} color={tertiary} />
+                </AddToFavouritesBtn>
+        </ButtonsContainer>
         <StatusBar style="dark" />
         <InnerContainer>
-            <ButtonsContainer back={true}>
-                <AddToFavouritesBtn onPress={() => navigation.goBack()}>
-                    <Octicons name="arrow-left" size={30} color={primary} />
-                </AddToFavouritesBtn>
-            </ButtonsContainer>
             <HeaderHome>
                 <View>
                     <View style={{flexDirection: "row"}}>
@@ -224,19 +207,12 @@ const MakeReviewPage = ({navigation, route}) => {
                     <Greetings>for {stallData 
                                     ? stallData.name
                                     : ""} </Greetings>
-                    { /*
-                    <Greetings sub={true}>
-                        What do you want to eat today?
-                    </Greetings>
-                    */}
                 </View>
-                <ProfilePictureHolder>
                     <ProfilePicture 
                         source={{ uri: userData
                                   ? userData.userImg || defaultImage
                                   : defaultImage }}
                     />  
-                </ProfilePictureHolder>
             </HeaderHome>
             <CustomRatingBar />
             <AddPhotobox>
@@ -263,8 +239,30 @@ const MakeReviewPage = ({navigation, route}) => {
                             rating: defaultRating,
                             review: values.review,
                             reviewImg: imgUrl,
+                            createdAt: new Date()
+                        })
+                        .then(() =>{
+                          db
+                          .collection('stalls')
+                          .doc(params)
+                          .collection("reviews")
+                          .doc(firebase.auth().currentUser.uid)
+                          .set({
+                            rating: defaultRating,
+                            review: values.review,
+                            reviewImg: imgUrl,
+                            createdAt: new Date()
+                          })
                         })
                         .then(() => {
+                          db
+                          .collection('users')
+                          .doc(firebase.auth().currentUser.uid)
+                          .update({
+                            xp: userData.xp+10,
+                            level: (userData.xp+10) % 100 == 0 ? userData.level + 1 : userData.level
+                          })
+                        
                           console.log('Review submitted!');
                           navigation.goBack();
                         })
