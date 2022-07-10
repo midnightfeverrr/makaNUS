@@ -147,6 +147,9 @@ const MyReviewsPage = ({navigation}) => {
                     <CardSubtitle review={true}>{userData ? userData.username : ''}</CardSubtitle>
                     <Octicons name={'star-fill'} size={15} />
                 </CardDetails>
+                <View>
+                    
+                </View>
             </CardHome>
         </CardButton>
         )
