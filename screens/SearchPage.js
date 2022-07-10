@@ -7,7 +7,7 @@ import { Octicons } from '@expo/vector-icons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {
-    StyledContainer,
+    StyledContainerView,
     HeaderHome,
     Greetings,
     ProfilePictureHolder,
@@ -154,7 +154,7 @@ const SearchPage = ({navigation}) => {
     }
 
     return (
-        <StyledContainer home={true}>
+        <StyledContainerView>
         <StatusBar style="dark" />
             <HeaderHome>
                 <View>
@@ -183,7 +183,7 @@ const SearchPage = ({navigation}) => {
                     />}
                 />
             </View>
-        </StyledContainer>
+        </StyledContainerView>
     )
 }
 
