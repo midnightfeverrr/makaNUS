@@ -43,6 +43,7 @@ const db = firebase.firestore();
 // Profilepage render
 const ProfilePage = ({navigation}) => {
     const [userData, setUserData] = useState(null);
+    const [userReviews, setUserReviews] = useState(0);
     const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
     
     // Get User Data
@@ -58,8 +59,21 @@ const ProfilePage = ({navigation}) => {
         })
     }
 
+    // Get User's Reviews
+    const getUserReviews = async () => {
+        await db
+        .collection("users")
+        .doc(firebase.auth().currentUser.uid)
+        .collection("reviews")
+        .onSnapshot((querySnapshot) => {
+                console.log(querySnapshot.size);
+                setUserReviews(querySnapshot.size);
+        })
+    }    
+
     useEffect(() => {
         getUser();
+        getUserReviews();
     }, []);
 
     // Logging out process
@@ -101,30 +115,37 @@ const ProfilePage = ({navigation}) => {
                         <Greetings>{userData
                         ? userData.fullName
                         : '' }</Greetings>
-                        <Greetings sub={true}>80 Xp to go!</Greetings>
+                        <Greetings sub={true}>
+                            {100 * (userData ? userData.level : 0) - (userData ? userData.xp : 0)} Xp to next level!
+                        </Greetings>
                     </InfoContainer>
                     <StatsContainer>
                         <StatsBox>
-                            <Greetings title={true}>10</Greetings>
+                            <Greetings title={true}>{userData
+                        ? userData.level
+                        : '' }</Greetings>
                             <Greetings sub={true}>Level</Greetings>
                         </StatsBox>
                         <StatsBox mid={true}>
-                            <Greetings title={true}>53</Greetings>
+                            <Greetings title={true}>{userReviews}</Greetings>
                             <Greetings sub={true}>Rates</Greetings>
                         </StatsBox>
                         <StatsBox>
                             <Greetings title={true}>35</Greetings>
-                            <Greetings sub={true}>Comments</Greetings>
+                            <Greetings sub={true}>Followers</Greetings>
                         </StatsBox>
                     </StatsContainer>
                     <ButtonsContainer>
-                            <StyledButton profile={true}>
+                            <StyledButton 
+                                profile={true}
+                                onPress={() => navigation.navigate("MyReviewsPage")}
+                            >
                                 <ButtonText profile={true}>My Reviews</ButtonText>
                             </StyledButton>
                             <StyledButton 
                                 profile2={true}
                                 onPress={() => navigation.navigate("EditProfilePage")}
-                                >
+                            >
                                 <ButtonText profile={true}>Edit Profile</ButtonText>
                             </StyledButton>
                     </ButtonsContainer>
