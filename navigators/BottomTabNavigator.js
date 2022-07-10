@@ -9,6 +9,7 @@ import ProfilePage from './../screens/ProfilePage';
 import StallPage from './../screens/StallPage';
 import StallCategoryPage from './../screens/StallCategoryPage';
 import SearchPage from './../screens/SearchPage';
+import MyReviewsPage from './../screens/MyReviewsPage';
 
 // Icons
 import { Octicons, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -63,6 +64,7 @@ const ProfileScreen = () => {
     return (
         <HomeStack.Navigator screenOptions={{headerShown: false}}>
             <HomeStack.Screen name="ProfilePage" component={ProfilePage} />
+            <HomeStack.Screen name="MyReviewsPage" component={MyReviewsPage} />
         </HomeStack.Navigator>
         );
 }

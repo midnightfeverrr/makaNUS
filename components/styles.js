@@ -5,6 +5,7 @@ import {
     ImageBackground,
     Text, 
     TextInput, 
+    Touchable,
     TouchableOpacity, 
     TouchableHighlight,
     ScrollView, 
@@ -31,7 +32,6 @@ export const Colors = {
 
 const { primary, secondary, tertiary, darkLight, brand, green, red } = Colors;
 
-
 export const StyledContainer = styled.ScrollView`
     flex: 1;
     padding-left: 25px;
@@ -42,6 +42,12 @@ export const StyledContainer = styled.ScrollView`
 
     ${(props) => props.home == true && `
     padding-top: 50px;
+    padding-left: 0px;
+    padding-right: 0px;
+    `}
+
+    ${(props) => props.review == true && `
+    padding-top: 30px;
     padding-left: 0px;
     padding-right: 0px;
     `}
@@ -354,6 +360,16 @@ export const HeaderHome = styled.View`
         padding-top: 0px;
         align-items: center;
     `}
+
+    ${(props) => props.review == true && `
+        padding-top: 0px;
+        padding-bottom: 10px;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        border-bottom-width: 1px;
+        border-bottom-color: ${secondary};
+    `}
 `;
 
 export const TitleHome = styled.View`
@@ -394,6 +410,11 @@ export const ProfilePicture = styled.Image`
     height: 50px;
     width: 50px;
     border-radius: 25px;
+
+    ${(props) => props.review == true && `
+        height: 30px;;
+        width: 30px;;
+    `} 
 `;
 
 export const LocationHolder = styled.View`
@@ -401,6 +422,7 @@ export const LocationHolder = styled.View`
     padding-horizontal: 40px;
     justify-content: flex-start;
     flex-direction: row;
+    margin-bottom: 30px;
 `
 
 export const BodyOneHome = styled.View`
@@ -451,6 +473,11 @@ export const CategoryBtnText = styled.Text`
 export const CardContainer = styled.FlatList`
     padding-vertical: 15px;
     padding-horizontal: 20px;
+
+    ${(props) => props.review == true && `
+        padding-vertical: 0px;
+        padding-horizontal: 0px;
+    `}
 `;
 
 export const CardButton = styled.TouchableOpacity`
@@ -501,6 +528,18 @@ export const CardHome = styled.View`
         margin-top: 10px;
         height: 240px;
         width: 90%;
+    `}
+
+    ${(props) => props.review == true && `
+        width: 100%;
+        height: 200px;
+        margin-horizontal: 0px;
+        margin-bottom: 0px;
+        border-radius: 0px;
+        border-bottom-width: 1px;
+        border-bottom-color: ${secondary};
+        flex-direction: row;
+        align-items: flex-start;
     `}
 `;
 
@@ -626,6 +665,12 @@ export const CardDetails = styled.View`
         margin-top: 10px;
         justify-content: flex-start;
     `}
+    
+    ${(props) => props.review == true && `
+        flex-direction: column;
+        margin-top: 12px;
+        justify-content: flex-start;
+    `}
 `;
 
 export const CardTextHolder = styled.View`
@@ -647,6 +692,11 @@ export const CardSubtitle = styled.Text`
     font-family: Trirong-Regular;
     font-size: 10px;
     color: ${darkLight};
+
+    ${(props) => props.review == true && `
+        color: ${tertiary};
+        font-size: 11px;
+    `}
 `;
 
 export const CardTitle = styled.Text`
@@ -869,6 +919,11 @@ export const ButtonsContainer = styled.View`
         position: absolute;
         left: 30px;
     `}   
+
+    ${(props) => props.back4 == true && `
+        margin-top: 0px;
+        left: 35px;
+    `}  
 `;
 
 export const ReviewButton = styled.TouchableOpacity`
@@ -886,7 +941,7 @@ export const StallRow = styled.View`
     margin-bottom: 30px;
 `;
 
-// Make Review Page
+// Review Page
 export const StyledRatingBar = styled.View`
     justify-content: flex-start;
     flex-direction: row;
@@ -924,4 +979,17 @@ export const ReviewThumbnail = styled.Image`
     border-radius: 15px;
     resize-mode: cover;
     position: absolute;
+`;
+
+export const StyledReviewBody = styled.View`
+    flex-direction: row;
+    width: 100%;
+    background-color: ${secondary}
+`;
+
+export const ReviewerProfilePicture = styled.View`
+    width: 10%;
+    margin-top: 15px;
+    margin-left: 13px;
+    align-items: center;
 `;
