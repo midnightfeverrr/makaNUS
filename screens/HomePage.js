@@ -81,6 +81,7 @@ const HomePage = ({navigation}) => {
     const [userData, setUserData] = useState(null);
     const [stallData, setStallData] = useState(null);
     const [nearbyStallData, setNearbyStallData] = useState(null);
+    const [popularStallData, setPopularStallData] = useState(null);
     const [categoryData, setCategoryData] = useState(null);
     const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
 
@@ -181,6 +182,38 @@ const HomePage = ({navigation}) => {
             })
     }
 
+    // Getting Popular Stall Data
+    const getPopularStalls = async () => {
+        const stallDatas = [];
+        await db
+            .collection('stalls').orderBy("numOfRatings").limit(5)
+            .onSnapshot((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    const {
+                        category,
+                        location,
+                        name, 
+                        price,
+                        url,
+                        coordinate,
+                        distance
+                    } = doc.data();
+
+                    stallDatas.push({
+                        category: category,
+                        location: location,
+                        name: name,
+                        price: price,
+                        url: url,
+                        coordinate: coordinate,
+                        distance: distance,
+                    })
+
+                    setPopularStallData(stallDatas);
+                })
+            })
+    }
+
     // Get Category Data
     const getCategories = async () => {
         const categoryDatas = [];
@@ -217,6 +250,7 @@ const HomePage = ({navigation}) => {
     useEffect(() => {
         getStalls();
         getNearbyStalls();
+        getPopularStalls();
         getCategories();
 
         const interval=setInterval(()=>{
@@ -229,6 +263,20 @@ const HomePage = ({navigation}) => {
     
     const Card = ({food}) => {
         // Add To Favorite
+        const [favorited, setFavorited] = useState(false);
+        const isInFavorite = async () => {
+            await db.collection("users").doc(firebase.auth().currentUser.uid)
+            .collection("favorites").doc(food.name).get().then(
+                (DocumentSnapshot) => {
+                if (DocumentSnapshot.exists) {
+                    setFavorited(true);
+                } else {
+                    setFavorited(false);
+                }}
+            )
+        }
+        isInFavorite();
+
         const handleFavorite = async () => {
             await db.collection("users").doc(firebase.auth().currentUser.uid)
             .collection("favorites").doc(food.name).get().then(
@@ -236,6 +284,7 @@ const HomePage = ({navigation}) => {
                 if (DocumentSnapshot.exists) {
                     db.collection("users").doc(firebase.auth().currentUser.uid)
                     .collection("favorites").doc(food.name).delete();
+                    setFavorited(false);
                     console.log("deleted")
                 } else {
                     db.collection("users").doc(firebase.auth().currentUser.uid)
@@ -248,9 +297,26 @@ const HomePage = ({navigation}) => {
                         price: food.price,
                         url: food.url,
                     })
+                    setFavorited(true);
                     console.log("updated")
                 }}
             )
+        }
+
+        const FavoriteIcon = () => {
+            if (favorited) {
+                return (
+                    <AddToFavouritesBtn onPress={handleFavorite}>
+                        <Octicons name="heart-fill" size={20} color={brand}/>
+                    </AddToFavouritesBtn>
+                )
+            } else {
+                return (
+                    <AddToFavouritesBtn onPress={handleFavorite}>
+                        <Octicons name="heart" size={20} color={brand}/>
+                    </AddToFavouritesBtn>
+                )
+            }
         }
 
         return (
@@ -266,9 +332,7 @@ const HomePage = ({navigation}) => {
                         <CardSubtitle>Distance</CardSubtitle>
                         <CardTitle>{food.distance}km</CardTitle>
                     </CardTextHolder>
-                    <AddToFavouritesBtn onPress={handleFavorite}>
-                        <Octicons name="heart" size={20} color={brand}/>
-                    </AddToFavouritesBtn>
+                    <FavoriteIcon />
                 </CardDetails>
             </CardHome>
         </CardButton>
@@ -368,7 +432,7 @@ const HomePage = ({navigation}) => {
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     numColumns={1}
-                    data={stallData}
+                    data={popularStallData}
                     ListFooterComponent={<View style={{width: 40}}/>}
                     renderItem={({item}) => <Card2 
                         food={item} 
