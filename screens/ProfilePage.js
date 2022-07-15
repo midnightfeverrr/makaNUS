@@ -131,8 +131,10 @@ const ProfilePage = ({navigation}) => {
                             <Greetings sub={true}>Rates</Greetings>
                         </StatsBox>
                         <StatsBox>
-                            <Greetings title={true}>35</Greetings>
-                            <Greetings sub={true}>Followers</Greetings>
+                            <Greetings title={true}>{userData
+                        ? userData.xp
+                        : '' }</Greetings>
+                            <Greetings sub={true}>Xp</Greetings>
                         </StatsBox>
                     </StatsContainer>
                     <ButtonsContainer>
