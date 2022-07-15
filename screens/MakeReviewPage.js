@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Alert, TouchableOpacity, Image } from 'react-native';
+import { View, Alert, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
 import { FontAwesome, Octicons } from "@expo/vector-icons";
 import * as ImagePicker from 'expo-image-picker';
 
@@ -247,7 +247,7 @@ const MakeReviewPage = ({navigation, route}) => {
                           .collection('stalls')
                           .doc(params)
                           .collection("reviews")
-                          .doc(userData.username)
+                          .doc(firebase.auth().currentUser.uid)
                           .set({
                             rating: defaultRating,
                             review: values.review,
@@ -297,6 +297,12 @@ const MakeReviewPage = ({navigation, route}) => {
                         <StyledButton addphotos={true} onPress={handleSubmit}>
                             <ButtonText>Upload</ButtonText>
                         </StyledButton>
+                        {uploading ? (
+                            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                            <ActivityIndicator size="small" color="#000000" />
+                            <Greetings sub={true}> {transferred}% completed</Greetings>
+                            </View>
+                        ) : null}
                     </StyledFormArea>
                 )}
                 </Formik>

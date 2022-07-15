@@ -1,5 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput } from "react-native";
+import { 
+    StyleSheet, 
+    Text, 
+    View, 
+    SafeAreaView, 
+    Image, 
+    ScrollView, 
+    TouchableOpacity, 
+    TextInput,
+    ActivityIndicator,
+} from "react-native";
 import { Ionicons, Octicons } from "@expo/vector-icons";
 import {
     StyledContainer,
@@ -202,12 +212,18 @@ const EditProfilePage = ({navigation}) => {
                 </Greetings>
                 <View style={{ alignSelf: "center" }}>
                     <ProfileImage>
-                        <ProfilePic resizeMode="contain" source={{ uri: defaultImage}} />
+                        { image && <ProfilePic resizeMode="contain" source={{uri:image}}/>}
                     </ProfileImage>
                     <Add onPress={choosePhotoFromLibrary}>
                         <Ionicons name="ios-add" size={42} color="#000000" ></Ionicons>
                     </Add>
                 </View>
+                {uploading ? (
+                    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                    <ActivityIndicator size="small" color="#000000" />
+                    <Greetings sub={true}>Please wait... {transferred}% completed</Greetings>
+                    </View>
+                ) : null}
                 <Formik
                     initialValues={{
                         fullName: userData
