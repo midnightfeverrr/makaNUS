@@ -144,6 +144,17 @@ export const SubTitle = styled.Text`
         font-size: 12px;
         font-weight: normal;
     `}
+
+    ${(props) => props.review && `
+        font-size: 14px;
+        font-family: Trirong-Medium;
+        margin-bottom: 0px;
+    `}
+
+    ${(props) => props.review2 && `
+        font-size: 14px;
+        margin-bottom: 10px;
+    `}
 `;
 
 export const StyledFormArea = styled.View`
@@ -325,9 +336,12 @@ export const TextLink = styled.TouchableOpacity`
     justify-content: center;
     align-items: center;
     
-    
     ${(props) => props.profile == true && `
         padding-top: 10px;
+        margin-bottom: 10px;
+    `}
+
+    ${(props) => props.stall == true && `
         margin-bottom: 10px;
     `}
 `;
@@ -571,7 +585,7 @@ export const CardThumbnailHolder = styled.View`
     `}
 
     ${(props) => props.stall == true && `
-        margin-horizontal: 20px;
+        margin-horizontal: 0px;
     `}
 
     ${(props) => props.stall2 == true && `
@@ -613,6 +627,13 @@ export const CardThumbnail = styled.Image`
         height: 63px;
         width: 63px;
         border-radius: 150px;
+    `}
+
+    ${(props) => props.review == true && `
+        height: 70px;
+        width: 70px;
+        border-radius: 15px;
+        margin-top: 10px;
     `}
 
     ${(props) => props.stall2 == true && `
@@ -736,6 +757,11 @@ export const CardTitle = styled.Text`
         font-size: 13px;
         margin-horizontal: 15px;
     `}
+
+    ${(props) => props.review2 == true && `
+        color: ${primary};
+        margin-right: 3px;
+    `}
 `;
 
 export const AddToFavouritesBtn = styled.TouchableOpacity`
@@ -763,13 +789,6 @@ export const AddToFavouritesBtn = styled.TouchableOpacity`
         margin-top: 30px;
         align-items: flex-start;
         margin-right: 35px;
-    `}
-
-    ${(props) => props.Label == true && `
-        margin-top: 8px;
-        height: 15px;
-        width: 15px;
-        border-radius: 0px;
     `}
 `;
 
@@ -904,16 +923,26 @@ export const Title = styled.Text`
 `;
 
 export const DetailsContainer = styled.View`
+    flex-direction: row;
     padding-top: 5px;
     margin-top: 5px;
     margin-horizontal: 25px;
     margin-bottom: 15px;
+
+    ${(props) => props.inner == true && `
+        width: 55%;
+        flex-direction: column;
+        padding-top: 0px;
+        margin-top: 0px;
+        margin-horizontal: 0px;
+        margin-bottom: 0px;
+    `}
 `;
 
 export const LabelContainer = styled.View`
     margin-horizontal: 25px;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
 `;
 
 export const ButtonsContainer = styled.View`
@@ -957,6 +986,29 @@ export const ReviewButton = styled.TouchableOpacity`
 export const StallRow = styled.View`
     flex-direction: row;
     margin-bottom: 30px;
+    padding-horizontal: 20px;
+`;
+
+export const StyledReviewDetails = styled.View`
+    width: 45%;
+    align-items: flex-end;
+`;
+
+export const StyledReviewBox = styled.View`
+    width: 35%;
+    border-radius: 15px;
+    elevation: 10;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+
+    ${(props) => props.inside == true && `
+        width: 100%;
+        border-bottom-right-radius: 0px;
+        border-bottom-left-radius: 0px;
+        flex-direction: row;
+        elevation: 10;
+    `}  
 `;
 
 // Review Page
@@ -1029,14 +1081,35 @@ export const CardReview = styled.View`
     border-bottom-width: 1px;
     background-color: ${primary};
     border-bottom-color: ${secondary};
+
+    ${(props) => props.stall == true && `
+        flex-direction: row;
+        align-items: flex-start;
+        margin-horizontal: 0px;
+        margin-bottom: 10px;
+        border-radius: 15px;
+        elevation: 0;
+        background-color: ${primary};
+        border-width: 1px;
+        border-color: ${secondary};
+        width: 100%;
+    `}
 `;
 
 export const ReviewDetails = styled.View`
     flex-direction: column;
     margin-top: 18px;
-    padding-left: 5px;
+    padding-left: 15px;
     margin-bottom: 18px;
     justify-content: flex-start;
+    width: 80%;
+`;
+
+export const ReviewDetailsScroll = styled.ScrollView`
+    flex-direction: column;
+    margin-top: 18px;
+    padding-left: 15px;
+    margin-bottom: 18px;
     width: 80%;
 `;
 
