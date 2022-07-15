@@ -5,6 +5,7 @@ import { FontAwesome, Octicons } from "@expo/vector-icons";
 import {
   View,
   Alert,
+  TouchableOpacity
 } from 'react-native';
 
 // Icons
@@ -26,6 +27,10 @@ import {
     CardTitle,
     Colors,
     AddToFavouritesBtn,
+    CardReview,
+    ReviewDetails,
+    StallDetails,
+    StyledRatingBar
 } from '../components/styles';
 
 // colors
@@ -35,7 +40,8 @@ const {
     tertiary, 
     primary, 
     secondary,
-    red
+    red,
+    yellow
 } = Colors;
 
 // Firebase
@@ -49,7 +55,9 @@ const MyReviewsPage = ({navigation}) => {
     const [userData, setUserData] = useState(null);
     const [reviewData, setReviewData] = useState(null);
     const [stallData, setStallData] = useState(null);
+    const [maxRating, setMaxRating] = useState([1,2,3,4,5]);
     const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
+    const defaultImage2 = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/default.jpg?alt=media&token=bd1e73fa-4b63-422a-bd0e-1140c94640d1";
 
     // Get User Data
     const getUser = async () => {
@@ -77,14 +85,16 @@ const MyReviewsPage = ({navigation}) => {
                 const {
                     rating, 
                     review,
-                    reviewImg
+                    reviewImg,
+                    createdAt,
                 } = doc.data();
 
                 reviewDatas.push({
                     name: doc.id,
                     rating: rating,
                     review: review,
-                    reviewImg: reviewImg
+                    reviewImg: reviewImg,
+                    createdAt: createdAt.toDate().toString(),
                 })
 
                 setReviewData(reviewDatas);
@@ -119,8 +129,8 @@ const MyReviewsPage = ({navigation}) => {
                         distance: distance,
                     })
 
-                    setStallData(stallDatas);}
-                )
+                    setStallData(stallDatas);
+                })
             })
     }
 
@@ -131,27 +141,56 @@ const MyReviewsPage = ({navigation}) => {
     }, []);
 
     const Card = ({review}) => {
+        const CustomRatingBar = () => {
+            return (
+                <StyledRatingBar review={true}>
+                    {
+                        maxRating.map((item, key) => {
+                            return (
+                                <Octicons 
+                                    name={
+                                        item <= review.rating
+                                        ? 'star-fill'
+                                        : 'star'    
+                                    }
+                                    size={15}
+                                    color={yellow}
+                                />
+                            )
+                        })
+                    }
+                </StyledRatingBar>
+            )
+        }
+
         return (
-        <CardButton>
-            <CardHome review={true}>
-                <ReviewerProfilePicture>
+        <CardReview>
+            <ReviewerProfilePicture>
+                <ProfilePicture 
+                    review={true}
+                    source={{ uri: 
+                        userData
+                        ? userData.userImg || defaultImage
+                        : defaultImage }}
+                />
+            </ReviewerProfilePicture>
+            <ReviewDetails review={true}>
+                <CardSubtitle review={true}>{userData ? userData.username : ''}</CardSubtitle>
+                <CustomRatingBar />
+                <CardSubtitle timestamp={true}>{review.createdAt}</CardSubtitle>
+                <CardSubtitle review2={true}>{review.review}</CardSubtitle>
+                <StallDetails>
                     <ProfilePicture 
-                        review={true}
-                        source={{ uri: 
-                            userData
-                            ? userData.userImg || defaultImage
-                            : defaultImage }}
+                    review2={true}
+                    source={{ uri: 
+                        review.reviewImg !== null
+                        ? review.reviewImg || defaultImage2
+                        : defaultImage2 }}
                     />
-                </ReviewerProfilePicture>
-                <CardDetails review={true}>
-                    <CardSubtitle review={true}>{userData ? userData.username : ''}</CardSubtitle>
-                    <Octicons name={'star-fill'} size={15} />
-                </CardDetails>
-                <View>
-                    
-                </View>
-            </CardHome>
-        </CardButton>
+                    <CardTitle review={true}>{review.name}</CardTitle>
+                </StallDetails>
+            </ReviewDetails>
+        </CardReview>
         )
     }
     
