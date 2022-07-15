@@ -10,6 +10,7 @@ import StallPage from './../screens/StallPage';
 import StallCategoryPage from './../screens/StallCategoryPage';
 import SearchPage from './../screens/SearchPage';
 import MyReviewsPage from './../screens/MyReviewsPage';
+import StallReviewsPage from './../screens/StallReviewsPage';
 
 // Icons
 import { Octicons, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
@@ -35,6 +36,7 @@ const HomeStackScreen = () => {
             <HomeStack.Screen name="HomePage" component={HomePage} />
             <HomeStack.Screen name="StallPage" component={StallPage} />
             <HomeStack.Screen name="StallCategoryPage" component={StallCategoryPage} />
+            <HomeStack.Screen name="StallReviewsPage" component={StallReviewsPage} />
         </HomeStack.Navigator>
         );
 }
@@ -45,6 +47,7 @@ const FavoriteScreen = () => {
         <HomeStack.Navigator screenOptions={{headerShown: false}}>
             <HomeStack.Screen name="FavoritePage" component={FavoritePage} />
             <HomeStack.Screen name="StallPage" component={StallPage} />
+            <HomeStack.Screen name="StallReviewsPage" component={StallReviewsPage} />
         </HomeStack.Navigator>
         );
 }
@@ -55,6 +58,7 @@ const SearchScreen = () => {
         <HomeStack.Navigator screenOptions={{headerShown: false}}>
             <HomeStack.Screen name="SearchPage" component={SearchPage} />
             <HomeStack.Screen name="StallPage" component={StallPage} />
+            <HomeStack.Screen name="StallReviewsPage" component={StallReviewsPage} />
         </HomeStack.Navigator>
     );
 }
