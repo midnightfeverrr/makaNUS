@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Linking } from 'react-native';
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, Linking, Alert } from 'react-native';
 import { FontAwesome, Octicons } from "@expo/vector-icons";
 import {
     StyledContainer,
@@ -305,6 +305,55 @@ const StallPage = ({navigation, route}) => {
         )
     }
 
+    // Add Review Button
+    const AddReview = () => {
+        const [reviewed, setReviewed] = useState(false);
+        const isReviewed = async () => {
+            await db
+            .collection("users")
+            .doc(firebase.auth().currentUser.uid)
+            .collection("reviews")
+            .doc(itemId)
+            .onSnapshot((querySnapshot) => {
+                if( querySnapshot.exists ) {
+                    setReviewed(true);
+                } else {
+                    setReviewed(false);
+                }
+            })
+        } 
+        isReviewed();
+
+        if (reviewed) {
+            return (
+                <TextLink 
+                    onPress={() => Alert.alert(
+                        "Cannot Add Review!",
+                        "Stall has been reviewed",
+                        [
+                            {
+                                text: "OK",
+                                onPress: () => console.log("OK Pressed"),
+                                style: "OK",
+                            },
+                        ],
+                        {
+                            cancelable: false,
+                        }
+                    )}>
+                    <TextLinkContent profile={true}>add review</TextLinkContent>
+                </TextLink>
+            )
+        } else {
+            return (
+                <TextLink 
+                    onPress={() => navigation.navigate("MakeReviewPage", {params: itemId})}>
+                    <TextLinkContent profile={true}>add review</TextLinkContent>
+                </TextLink>
+            )
+        }
+    }
+
     return (
         <StyledContainer stall={true}>
             <StallPhoto source={{uri: stallData
@@ -354,10 +403,7 @@ const StallPage = ({navigation, route}) => {
             </StallRow>
             <LabelContainer>
                 <Title Label2={true}>Review</Title>
-                <TextLink 
-                    onPress={() => navigation.navigate("MakeReviewPage", {params: itemId})}>
-                    <TextLinkContent profile={true}>add review</TextLinkContent>
-                </TextLink>
+                <AddReview />
             </LabelContainer>
             <View>
                 <CardContainer
