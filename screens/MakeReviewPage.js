@@ -145,7 +145,6 @@ const MakeReviewPage = ({navigation, route}) => {
     }
 
     const getStalls = async () => {
-        const stallDatas=[]
         await db
             .collection('stalls')
             .doc(params)
@@ -228,6 +227,8 @@ const MakeReviewPage = ({navigation, route}) => {
                 <Formik 
                     initialValues={{review: ""}}
                     onSubmit={async (values) => {
+                        let newAvgRating = ((stallData.rating * stallData.numOfRatings) + defaultRating) / (stallData.numOfRatings + 1); 
+
                         let imgUrl = await uploadImage();
 
                         await db
@@ -241,18 +242,27 @@ const MakeReviewPage = ({navigation, route}) => {
                             reviewImg: imgUrl,
                             createdAt: new Date()
                         })
-                        .then(() =>{
+                        .then(() => {
                           db
                           .collection('stalls')
                           .doc(params)
                           .collection("reviews")
-                          .doc(firebase.auth().currentUser.uid)
+                          .doc(userData.username)
                           .set({
                             rating: defaultRating,
                             review: values.review,
                             reviewImg: imgUrl,
                             createdAt: new Date()
                           })
+                        })
+                        .then(() => {
+                            db
+                            .collection('stalls')
+                            .doc(params)
+                            .update({
+                                rating: newAvgRating,
+                                numOfRatings: stallData.numOfRatings + 1
+                            })
                         })
                         .then(() => {
                           db
