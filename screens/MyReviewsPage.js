@@ -79,7 +79,7 @@ const MyReviewsPage = ({navigation}) => {
         .collection("users")
         .doc(firebase.auth().currentUser.uid)
         .collection("reviews")
-        .orderBy("createdAt")
+        .orderBy("createdAt", "desc")
         .onSnapshot((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 const {
@@ -176,7 +176,6 @@ const MyReviewsPage = ({navigation}) => {
                     showsVerticalScrollIndicator={false}
                     numColumns={1}
                     data={reviewData}
-                    ListFooterComponent={<View style={{height: 50}}/>}
                     renderItem={({item}) => <Card review={item} />}
                 />
             </StyledReviewBody>
