@@ -102,42 +102,9 @@ const MyReviewsPage = ({navigation}) => {
         })
     }    
 
-    // Get Stall Data
-    const getStalls = async () => {
-        const stallDatas = [];
-        await db
-            .collection('stalls')
-            .onSnapshot((querySnapshot) => {
-                querySnapshot.forEach((doc) => {
-                    const {
-                        category,
-                        location,
-                        name, 
-                        price,
-                        url,
-                        coordinate,
-                        distance
-                    } = doc.data();
-
-                    stallDatas.push({
-                        category: category,
-                        location: location,
-                        name: name,
-                        price: price,
-                        url: url,
-                        coordinate: coordinate,
-                        distance: distance,
-                    })
-
-                    setStallData(stallDatas);
-                })
-            })
-    }
-
     useEffect(() => {
         getUser();
         getUserReviews();
-        getStalls();
     }, []);
 
     const Card = ({review}) => {
