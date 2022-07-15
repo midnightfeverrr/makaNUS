@@ -412,8 +412,14 @@ export const ProfilePicture = styled.Image`
     border-radius: 25px;
 
     ${(props) => props.review == true && `
-        height: 30px;;
-        width: 30px;;
+        height: 30px;
+        width: 30px;
+    `} 
+
+    ${(props) => props.review2 == true && `
+        height: 40px;
+        width: 40px;
+        border-radius: 15px;
     `} 
 `;
 
@@ -532,7 +538,7 @@ export const CardHome = styled.View`
 
     ${(props) => props.review == true && `
         width: 100%;
-        height: 200px;
+        height: auto;
         margin-horizontal: 0px;
         margin-bottom: 0px;
         border-radius: 0px;
@@ -665,12 +671,6 @@ export const CardDetails = styled.View`
         margin-top: 10px;
         justify-content: flex-start;
     `}
-    
-    ${(props) => props.review == true && `
-        flex-direction: column;
-        margin-top: 12px;
-        justify-content: flex-start;
-    `}
 `;
 
 export const CardTextHolder = styled.View`
@@ -697,6 +697,17 @@ export const CardSubtitle = styled.Text`
         color: ${tertiary};
         font-size: 11px;
     `}
+
+    ${(props) => props.review2 == true && `
+        color: ${tertiary};
+        font-size: 13px;
+    `}
+
+    ${(props) => props.timestamp == true && `
+        color: ${darkLight};
+        padding-vertical: 5px;
+        font-size: 11px;
+    `}
 `;
 
 export const CardTitle = styled.Text`
@@ -717,6 +728,13 @@ export const CardTitle = styled.Text`
         font-family: Trirong-Light;
         letter-spacing: 0px;
         font-size: 20px;
+    `}
+
+    ${(props) => props.review == true && `
+        font-family: Trirong-Regular;
+        letter-spacing: 1px;
+        font-size: 13px;
+        margin-horizontal: 15px;
     `}
 `;
 
@@ -948,6 +966,12 @@ export const StyledRatingBar = styled.View`
     padding-horizontal: 40px;
     margin-top: 30px;
     padding-bottom: 40px;
+
+    ${(props) => props.review == true && `
+        padding-horizontal: 0px;
+        margin-top: 3px;
+        padding-bottom: 3px;
+    `}  
 `;
 
 export const AddPhotobox = styled.View`
@@ -984,7 +1008,8 @@ export const ReviewThumbnail = styled.Image`
 export const StyledReviewBody = styled.View`
     flex-direction: row;
     width: 100%;
-    background-color: ${secondary}
+    flex: 1;
+    background-color: ${primary}
 `;
 
 export const ReviewerProfilePicture = styled.View`
@@ -992,4 +1017,36 @@ export const ReviewerProfilePicture = styled.View`
     margin-top: 15px;
     margin-left: 13px;
     align-items: center;
+`;
+
+export const CardReview = styled.View`
+    flex-direction: row;
+    align-items: flex-start;
+    elevation: 10;
+    margin-horizontal: 0px;
+    margin-bottom: 0px;
+    border-radius: 0px;
+    border-bottom-width: 1px;
+    background-color: ${primary};
+    border-bottom-color: ${secondary};
+`;
+
+export const ReviewDetails = styled.View`
+    flex-direction: column;
+    margin-top: 18px;
+    padding-left: 5px;
+    margin-bottom: 18px;
+    justify-content: flex-start;
+    width: 80%;
+`;
+
+export const StallDetails = styled.View`
+    background-color: ${primary};
+    align-self: flex-start;
+    elevation: 10;
+    margin-top: 10px;
+    border-radius: 15px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
 `;
