@@ -84,6 +84,7 @@ const HomePage = ({navigation}) => {
     const [popularStallData, setPopularStallData] = useState(null);
     const [categoryData, setCategoryData] = useState(null);
     const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
+    const defaultImage2 = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/default.jpg?alt=media&token=bd1e73fa-4b63-422a-bd0e-1140c94640d1";
 
     // Get User Data
     const getUser = async () => {
@@ -186,7 +187,7 @@ const HomePage = ({navigation}) => {
     const getPopularStalls = async () => {
         const stallDatas = [];
         await db
-            .collection('stalls').orderBy("numOfRatings").limit(5)
+            .collection('stalls').orderBy("numOfRatings", "desc").limit(5)
             .onSnapshot((querySnapshot) => {
                 querySnapshot.forEach((doc) => {
                     const {
@@ -323,7 +324,7 @@ const HomePage = ({navigation}) => {
         <CardButton onPress={() => navigation.navigate("StallPage", {itemId: food.name})}>
             <CardHome>
                 <CardThumbnailHolder>
-                    <CardThumbnail source={{uri: food.url}} />
+                    <CardThumbnail source={{uri: food.url == "" ? defaultImage2 : food.url}} />
                 </CardThumbnailHolder>
                 <CardDetails>
                     <CardTextHolder>
@@ -344,7 +345,7 @@ const HomePage = ({navigation}) => {
         <CardButton onPress={() => navigation.navigate("StallPage", {itemId: food.name})}>
             <CardHome card2={true}>
                 <CardThumbnailHolder card2={true}>
-                    <CardThumbnail card2={true} source={{uri: food.url}} />
+                    <CardThumbnail card2={true} source={{uri: food.url == "" ? defaultImage2 : food.url}} />
                 </CardThumbnailHolder>
                 <CardDetails card2={true}>
                     <CardSubtitle>Restaurant</CardSubtitle>
@@ -360,7 +361,7 @@ const HomePage = ({navigation}) => {
             <CardButton onPress={() => navigation.navigate("StallCategoryPage", {itemId: food.category})}>
             <CardHome category={true}>
                 <CardThumbnailHolder category={true}>
-                    <CardThumbnail category={true} source={{uri: food.uri}} />
+                    <CardThumbnail category={true} source={{uri: food.url == "" ? defaultImage2 : food.url}} />
                     <CardTitle category={true}>{food.category}</CardTitle>
                 </CardThumbnailHolder>
             </CardHome>
