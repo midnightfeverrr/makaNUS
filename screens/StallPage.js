@@ -357,7 +357,7 @@ const StallPage = ({navigation, route}) => {
     return (
         <StyledContainer stall={true}>
             <StallPhoto source={{uri: stallData
-                                    ? stallData.url
+                                    ? stallData.url == "" ? defaultImage2 : stallData.url
                                     : defaultImage2 }} />
             <ButtonsContainer back={true}>
                 <AddToFavouritesBtn onPress={() => navigation.goBack()}>
@@ -397,7 +397,7 @@ const StallPage = ({navigation, route}) => {
             <StallRow>
                 <CardThumbnailHolder stall={true}>
                     <CardThumbnail source={{uri: stallData
-                                    ? stallData.url
+                                    ? stallData.url == "" ? defaultImage2 : stallData.url
                                     : defaultImage2 }}/>
                 </CardThumbnailHolder>
             </StallRow>
