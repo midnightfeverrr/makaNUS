@@ -196,7 +196,7 @@ const StallReviewsPage = ({navigation, route}) => {
                 <AddToFavouritesBtn stall2={true} onPress={() => navigation.goBack()}>
                     <Octicons name="arrow-left" size={30} color={tertiary} />
                 </AddToFavouritesBtn>
-                <Greetings title={true}>My Reviews </Greetings>
+                <Greetings title={true}>Stall Reviews </Greetings>
             </HeaderHome>
             <StyledReviewBody>
                 <CardContainer
