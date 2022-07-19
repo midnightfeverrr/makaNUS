@@ -4,6 +4,7 @@ import {
   View,
   Alert,
 } from 'react-native';
+import * as Location from 'expo-location';
 
 // Icons
 import { Octicons } from '@expo/vector-icons';
@@ -83,6 +84,8 @@ const HomePage = ({navigation}) => {
     const [nearbyStallData, setNearbyStallData] = useState(null);
     const [popularStallData, setPopularStallData] = useState(null);
     const [categoryData, setCategoryData] = useState(null);
+    const [district, setDistrict] = useState('');
+    const [country, setCountry] = useState('');
     const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
     const defaultImage2 = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/default.jpg?alt=media&token=bd1e73fa-4b63-422a-bd0e-1140c94640d1";
 
@@ -97,6 +100,22 @@ const HomePage = ({navigation}) => {
                 setUserData(querySnapshot.data());
             }
         })
+    }
+
+    // Get User Location Address
+    const getAddress = async () => {
+        let location = await Location.getCurrentPositionAsync({
+            accuracy: Location.Accuracy.Highest,
+            maximumAge: 10000,
+            timeout: 5000
+        });
+        let address = await Location.reverseGeocodeAsync({
+            latitude : location.coords.latitude,
+            longitude : location.coords.longitude
+        });
+
+        address.find( p => {setDistrict(p.district);})
+        address.find( p => {setCountry(p.country);})
     }
 
     // Get Stall Data
@@ -239,6 +258,7 @@ const HomePage = ({navigation}) => {
     
     useEffect(() => {
         getUser();
+        getAddress();
 
         const interval=setInterval(()=>{
             getUser()
@@ -402,7 +422,7 @@ const HomePage = ({navigation}) => {
                     color={red}
                     style={{paddingRight:10}} 
                     />
-                <Greetings sub={true}>Kent Ridge, Singapore</Greetings>
+                <Greetings sub={true}>{district}, {country}</Greetings>
             </LocationHolder>
             { /*
             <View>
