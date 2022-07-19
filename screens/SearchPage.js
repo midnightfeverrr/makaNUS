@@ -57,7 +57,7 @@ const db = firebase.firestore();
 const SearchPage = ({navigation}) => {
     const [userData, setUserData] = useState(null);
     const [stallData, setStallData] = useState(null);
-    const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
+    const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/default.jpg?alt=media&token=bd1e73fa-4b63-422a-bd0e-1140c94640d1";
     const [search, setSearch] = useState({
         loading: false,
         data: stallData,
@@ -135,7 +135,7 @@ const SearchPage = ({navigation}) => {
         <CardButton onPress={() => navigation.navigate("StallPage", {itemId: food.name})}>
             <CardHome search={true}>
                 <CardThumbnailHolder search={true}>
-                    <CardThumbnail search={true} source={{uri: food.url}} />
+                    <CardThumbnail search={true} source={{uri: food.url == "" ? defaultImage : food.url}} />
                 </CardThumbnailHolder>
                 <CardDetails search={true}>
                     <CardTextHolder search={true}>
@@ -177,7 +177,7 @@ const SearchPage = ({navigation}) => {
                     showsVerticalScrollIndicator={false}
                     numColumns={1}
                     data={search.data}
-                    ListFooterComponent={<View style={{height: 50}}/>}
+                    ListFooterComponent={<View style={{height: 180}}/>}
                     renderItem={({item}) => <Card
                         food={item} 
                     />}

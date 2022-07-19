@@ -45,6 +45,7 @@ const db = firebase.firestore();
 // Favoritepage Render
 const FavoritePage = ({navigation}) => {
     const [favoriteStall, setFavoriteStall] = useState(null);
+    const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/default.jpg?alt=media&token=bd1e73fa-4b63-422a-bd0e-1140c94640d1";
 
     const getFavoriteStalls = async () => {
         const stallDatas = [];
@@ -86,7 +87,7 @@ const FavoritePage = ({navigation}) => {
         <CardButton onPress={() => navigation.navigate("StallPage", {itemId: food.name})}>
             <CardHome card3 ={true}>
                 <CardThumbnailHolder card2={true}>
-                    <CardThumbnail card2={true} source={{uri: food.url}} />
+                    <CardThumbnail card2={true} source={{uri: food.url == "" ? defaultImage : food.url}} />
                 </CardThumbnailHolder>
                 <CardDetails card2={true}>
                     <CardSubtitle>Restaurant</CardSubtitle>
