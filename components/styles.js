@@ -1,3 +1,4 @@
+// Import Statements
 import styled from 'styled-components';
 import { 
     View, 
@@ -14,6 +15,7 @@ import {
 } from 'react-native';
 import Constants from 'expo-constants';
 
+// Window Dimensions
 const StatusBarHeight = Constants.statusBarHeight;
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -29,9 +31,9 @@ export const Colors = {
     red: "#EF4444",
     yellow: "#BFA331"
 };
-
 const { primary, secondary, tertiary, darkLight, brand, green, red } = Colors;
 
+// Styles
 export const StyledContainer = styled.ScrollView`
     flex: 1;
     padding-left: 25px;

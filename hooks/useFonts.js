@@ -39,5 +39,4 @@ export default useFonts = async () =>
     'Trirong-SemiBoldItalic': require('./../assets/font/Trirong-SemiBoldItalic.ttf'),
     'Trirong-Thin': require('./../assets/font/Trirong-Thin.ttf'),
     'Trirong-ThinItalic': require('./../assets/font/Trirong-ThinItalic.ttf'),
-
   });
