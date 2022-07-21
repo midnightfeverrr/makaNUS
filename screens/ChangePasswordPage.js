@@ -1,5 +1,6 @@
+// Import Statements
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableOpacity, TextInput, Alert } from "react-native";
+import { View, Alert } from "react-native";
 import { Ionicons, Octicons } from "@expo/vector-icons";
 import {
     StyledContainer,
@@ -11,18 +12,14 @@ import {
     AddToFavouritesBtn,
     Colors,
     MessageBox,
-    messageType,
     LeftIcon,
     RightIcon,
     StyledTextInput,
     StyledFormArea,
-    TextLink,
-    TextLinkContent,
     StyledButton,
     ButtonText,
-    Line,
-    Greetings
 } from './../components/styles';
+import { Formik } from 'formik';
 
 // colors
 const {
@@ -34,9 +31,6 @@ const {
     red
 } = Colors;
 
-// form
-import { Formik } from 'formik';
-
 // Firebase
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -44,8 +38,14 @@ import 'firebase/compat/firestore';
 import { arrayUnion, DocumentSnapshot } from 'firebase/firestore';
 const db = firebase.firestore();
 
-// EditProfilepage Render
+/**
+ * Anonymous class that renders ChangePasswordPage.
+ *
+ * @param {*} navigation Navigation prop.
+ * @returns Render of ChangePasswordPage
+ */
 const ChangePasswordPage = ({navigation}) => {
+    // States
     const [userData, setUserData] = useState(null);
     const [hideOldPassword, setHideOldPassword] = useState(true);
     const [hidePassword, setHidePassword] = useState(true);
@@ -53,13 +53,17 @@ const ChangePasswordPage = ({navigation}) => {
     const [message, setMessage] = useState();
     const [messageType, setMessageType] = useState();
 
-    // Handling error message in Formik
+    /** 
+     * Handling error message in Formik
+     */
     const handleMessage = (message, type = false) => {
         setMessage(message);
         setMessageType(type);
     }
 
-    // Get User Data
+    /**
+     * Get User Data From Firestore
+     */
     const getUser = async () => {
         await db
         .collection("users")
@@ -72,9 +76,27 @@ const ChangePasswordPage = ({navigation}) => {
         })
     }    
     
+    /**
+     * React hook to fetch user data upon accessing the page.
+     */
     useEffect(() => {
         getUser();
-    }, []);
+    }, []);    
+
+    const MyTextInput = ({icon, isPassword, hidePassword, setHidePassword, ...props}) => {
+        return (
+        <View>
+            <LeftIcon editprofile={true}>
+                <Ionicons name={icon} size={20} color={tertiary} />
+            </LeftIcon>        
+            <StyledTextInput editprofile={true} {...props}/>
+            {isPassword && (
+                <RightIcon editprofile={true} onPress={() => setHidePassword(!hidePassword )}>
+                    <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={25} color={darkLight} />
+                </RightIcon>
+            )}
+        </View>);
+    };
 
     return (
         <StyledContainer>
@@ -183,21 +205,5 @@ const ChangePasswordPage = ({navigation}) => {
         </StyledContainer>
     );
 }
-
-// Form Style
-const MyTextInput = ({icon, isPassword, hidePassword, setHidePassword, ...props}) => {
-    return (
-      <View>
-        <LeftIcon editprofile={true}>
-            <Ionicons name={icon} size={20} color={tertiary} />
-        </LeftIcon>        
-        <StyledTextInput editprofile={true} {...props}/>
-        {isPassword && (
-            <RightIcon editprofile={true} onPress={() => setHidePassword(!hidePassword )}>
-                <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={25} color={darkLight} />
-            </RightIcon>
-        )}
-      </View>);
-};
 
 export default ChangePasswordPage;

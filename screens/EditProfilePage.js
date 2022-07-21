@@ -1,21 +1,13 @@
+// Import Statements
 import React, { useState, useEffect } from "react";
 import { 
-    StyleSheet, 
-    Text, 
     View, 
-    SafeAreaView, 
-    Image, 
-    ScrollView, 
-    TouchableOpacity, 
-    TextInput,
     ActivityIndicator,
 } from "react-native";
 import { Ionicons, Octicons } from "@expo/vector-icons";
 import {
     StyledContainer,
     InnerContainer,
-    PageTitle,
-    SubTitle,
     ButtonsContainer,
     AddToFavouritesBtn,
     Colors,
@@ -23,7 +15,6 @@ import {
     ProfileImage,
     Add,
     Greetings,
-    Action,
     LeftIcon,
     RightIcon,
     MessageBox,
@@ -36,6 +27,7 @@ import {
     ButtonText
 } from './../components/styles';
 import * as ImagePicker from 'expo-image-picker';
+import { Formik } from 'formik';
 
 // colors
 const {
@@ -47,9 +39,6 @@ const {
     red
 } = Colors;
 
-// form
-import { Formik } from 'formik';
-
 // Firebase
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
@@ -58,23 +47,29 @@ import 'firebase/compat/firestore';
 import 'firebase/compat/storage';
 const db = firebase.firestore();
 
-// EditProfilepage Render
+/**
+ * Anonymous class that renders EditProfilePage.
+ *
+ * @param {*} navigation Navigation prop.
+ * @returns Render of EditProfilePage
+ */
 const EditProfilePage = ({navigation}) => {
+    // States
     const [userData, setUserData] = useState(null);
     const [message, setMessage] = useState();
     const [messageType, setMessageType] = useState();
     const [transferred, setTransferred] = useState(0);
     const [uploading, setUploading] = useState(false);
     const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
-
-    // change the image uri
     const [image, setImage] = useState(
         userData
         ? userData.userImg
         : defaultImage,
     );
 
-    // Choosing Photo From Library
+    /**
+     * Function to choose an image from phone gallery via ImagePicker package.
+     */
     const choosePhotoFromLibrary = () => {
         ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -92,7 +87,12 @@ const EditProfilePage = ({navigation}) => {
           });
       };
 
-    // Uploading image
+    /**
+     * Function to upload user's profile picture
+     * into Firebase storage.
+     * 
+     * @returns File Uri.
+     */
     const uploadImage = async () => {
         if (image == null) {
           return null;
@@ -146,6 +146,12 @@ const EditProfilePage = ({navigation}) => {
         }
     };
 
+    /**
+     * Function to save changes that the user made to their
+     * profile picture and store it to the backend.
+     *
+     * @returns Clean-up function.
+     */
     const handleSubmitPP = async () => {
         let unmounted = false;
         let imgUrl = await uploadImage();
@@ -174,13 +180,17 @@ const EditProfilePage = ({navigation}) => {
         };
     }; 
 
-    // Handling error message in Formik
+    /** 
+     * Handling error message in Formik
+     */
     const handleMessage = (message, type = false) => {
         setMessage(message);
         setMessageType(type);
     }
 
-    // Get User Data
+    /**
+     * Function to fetch user data from Firestore database.
+     */
     const getUser = async () => {
         await db
         .collection("users")
@@ -193,9 +203,32 @@ const EditProfilePage = ({navigation}) => {
         })
     }    
     
+    /**
+     * React hook to fetch user data upon accessing the page.
+     */
     useEffect(() => {
+        let unmounted = false;
         getUser();
+        return () => {
+        unmounted = true;
+        };
     }, []);
+
+    // Form Style
+    const MyTextInput = ({icon, isPassword, hidePassword, setHidePassword, ...props}) => {
+        return (
+        <View>
+            <LeftIcon editprofile={true}>
+                <Ionicons name={icon} size={20} color={tertiary} />
+            </LeftIcon>        
+            <StyledTextInput editprofile={true} {...props}/>
+            {isPassword && (
+                <RightIcon onPress={() => setHidePassword(!hidePassword )}>
+                    <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={25} color={darkLight} />
+                </RightIcon>
+            )}
+        </View>);
+    };
 
     return (
         <StyledContainer>
@@ -323,21 +356,5 @@ const EditProfilePage = ({navigation}) => {
         </StyledContainer>
     );
 }
-
-// Form Style
-const MyTextInput = ({icon, isPassword, hidePassword, setHidePassword, ...props}) => {
-    return (
-      <View>
-        <LeftIcon editprofile={true}>
-            <Ionicons name={icon} size={20} color={tertiary} />
-        </LeftIcon>        
-        <StyledTextInput editprofile={true} {...props}/>
-        {isPassword && (
-            <RightIcon onPress={() => setHidePassword(!hidePassword )}>
-                <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={25} color={darkLight} />
-            </RightIcon>
-        )}
-      </View>);
-};
 
 export default EditProfilePage;
