@@ -1,12 +1,9 @@
+// Import Statements
 import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-
-// form
+import { View } from 'react-native';
 import { Formik } from 'formik';
-
-// icons
-import { Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
-
+import { Octicons, Ionicons } from '@expo/vector-icons';
 import {
     StyledContainer,
     InnerContainer,
@@ -23,35 +20,65 @@ import {
     StyledButton,
     ButtonText,
     MessageBox,
-    Line,
     ExtraView,
     ExtraText,
     TextLink,
     TextLinkContent,
 } from './../components/styles';
-import { View } from 'react-native';
+import KeyboardAvoidingWrapper from './../components/KeyboardAvoidingWrapper';
 
 // colors
-const {brand, darkLight, tertiary, primary} = Colors;
+const {brand, darkLight } = Colors;
 
 // firebase
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
-import app from './../firebase'
 import 'firebase/compat/firestore';
 
-// keyboard avoiding wrapper
-import KeyboardAvoidingWrapper from './../components/KeyboardAvoidingWrapper';
-
+/**
+ * Anonymous class that renders ForgotPasswordPage.
+ *
+ * @param {*} navigation Navigation prop.
+ * @returns Render of ForgotPasswordPage.
+ */
 const Forgot = ({navigation}) => {
+    // States
     const [message, setMessage] = useState();
     const [messageType, setMessageType] = useState();
 
-    // Handling error message in Formik
+    /** 
+     * Handling error message in Formik.
+     */
     const handleMessage = (message, type = false) => {
         setMessage(message);
         setMessageType(type);
     }
+
+    /**
+     * Anonymous class that renders Text Input for Formik.
+     *
+     * @param {string} icon Name of Icon.
+     * @param {boolean} isPassword Determine whether input is password or not.
+     * @param {boolean} hidePassword Determine whether to show password or not.
+     * @param {boolean} setHidePassword Set state to hide password/show password.
+     * @param {*} props Other props set on the render method.
+     * @returns Render of Formik Text Input.
+     */
+    const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, ...props}) => {
+        return (
+          <View>
+            <LeftIcon>
+                <Octicons name={icon} size={25} color={brand} />
+            </LeftIcon>        
+            <StyledInputLabel>{label}</StyledInputLabel>
+            <StyledTextInput {...props}/>
+            {isPassword && (
+                <RightIcon onPress={() => setHidePassword(!hidePassword )}>
+                    <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={25} color={darkLight} />
+                </RightIcon>
+            )}
+          </View>);
+    };
 
     return (
         <KeyboardAvoidingWrapper>
@@ -123,21 +150,5 @@ const Forgot = ({navigation}) => {
         </KeyboardAvoidingWrapper>
     );
 }
-
-const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, ...props}) => {
-    return (
-      <View>
-        <LeftIcon>
-            <Octicons name={icon} size={25} color={brand} />
-        </LeftIcon>        
-        <StyledInputLabel>{label}</StyledInputLabel>
-        <StyledTextInput {...props}/>
-        {isPassword && (
-            <RightIcon onPress={() => setHidePassword(!hidePassword )}>
-                <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={25} color={darkLight} />
-            </RightIcon>
-        )}
-      </View>);
-};
 
 export default Forgot;

@@ -31,12 +31,8 @@ import { Formik } from 'formik';
 
 // colors
 const {
-    brand, 
     darkLight, 
     tertiary, 
-    primary, 
-    secondary,
-    red
 } = Colors;
 
 // Firebase
@@ -51,7 +47,7 @@ const db = firebase.firestore();
  * Anonymous class that renders EditProfilePage.
  *
  * @param {*} navigation Navigation prop.
- * @returns Render of EditProfilePage
+ * @returns Render of EditProfilePage.
  */
 const EditProfilePage = ({navigation}) => {
     // States
@@ -60,12 +56,15 @@ const EditProfilePage = ({navigation}) => {
     const [messageType, setMessageType] = useState();
     const [transferred, setTransferred] = useState(0);
     const [uploading, setUploading] = useState(false);
-    const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
     const [image, setImage] = useState(
         userData
         ? userData.userImg
         : defaultImage,
     );
+
+    // Default Image(s)
+    const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
+    
 
     /**
      * Function to choose an image from phone gallery via ImagePicker package.
@@ -181,7 +180,7 @@ const EditProfilePage = ({navigation}) => {
     }; 
 
     /** 
-     * Handling error message in Formik
+     * Handling error message in Formik.
      */
     const handleMessage = (message, type = false) => {
         setMessage(message);
@@ -214,7 +213,16 @@ const EditProfilePage = ({navigation}) => {
         };
     }, []);
 
-    // Form Style
+    /**
+     * Anonymous class that renders Text Input for Formik.
+     *
+     * @param {string} icon Name of Icon.
+     * @param {boolean} isPassword Determine whether input is password or not.
+     * @param {boolean} hidePassword Determine whether to show password or not.
+     * @param {boolean} setHidePassword Set state to hide password/show password.
+     * @param {*} props Other props set on the render method.
+     * @returns Render of ChangePasswordPage.
+     */
     const MyTextInput = ({icon, isPassword, hidePassword, setHidePassword, ...props}) => {
         return (
         <View>

@@ -23,12 +23,8 @@ import { Formik } from 'formik';
 
 // colors
 const {
-    brand, 
     darkLight, 
-    tertiary, 
-    primary, 
-    secondary,
-    red
+    tertiary,
 } = Colors;
 
 // Firebase
@@ -42,7 +38,7 @@ const db = firebase.firestore();
  * Anonymous class that renders ChangePasswordPage.
  *
  * @param {*} navigation Navigation prop.
- * @returns Render of ChangePasswordPage
+ * @returns Render of ChangePasswordPage.
  */
 const ChangePasswordPage = ({navigation}) => {
     // States
@@ -54,7 +50,7 @@ const ChangePasswordPage = ({navigation}) => {
     const [messageType, setMessageType] = useState();
 
     /** 
-     * Handling error message in Formik
+     * Handling error message in Formik.
      */
     const handleMessage = (message, type = false) => {
         setMessage(message);
@@ -62,7 +58,7 @@ const ChangePasswordPage = ({navigation}) => {
     }
 
     /**
-     * Get User Data From Firestore
+     * Get User Data From Firestore.
      */
     const getUser = async () => {
         await db
@@ -83,6 +79,16 @@ const ChangePasswordPage = ({navigation}) => {
         getUser();
     }, []);    
 
+    /**
+     * Anonymous class that renders Text Input for Formik.
+     *
+     * @param {string} icon Name of Icon.
+     * @param {boolean} isPassword Determine whether input is password or not.
+     * @param {boolean} hidePassword Determine whether to show password or not.
+     * @param {boolean} setHidePassword Set state to hide password/show password.
+     * @param {*} props Other props set on the render method.
+     * @returns Render of Formik Text Input.
+     */
     const MyTextInput = ({icon, isPassword, hidePassword, setHidePassword, ...props}) => {
         return (
         <View>
@@ -91,7 +97,7 @@ const ChangePasswordPage = ({navigation}) => {
             </LeftIcon>        
             <StyledTextInput editprofile={true} {...props}/>
             {isPassword && (
-                <RightIcon editprofile={true} onPress={() => setHidePassword(!hidePassword )}>
+                <RightIcon editprofile={true} onPress={() => setHidePassword(!hidePassword)}>
                     <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={25} color={darkLight} />
                 </RightIcon>
             )}

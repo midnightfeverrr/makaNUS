@@ -1,15 +1,8 @@
+// Import Statements
 import React, { useState, useEffect } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
-import {
-  View,
-  Alert,
-} from 'react-native';
-
-// Icons
+import { View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { 
-    StyledContainer,
     StyledContainerView,
     InnerContainer,
     HeaderHome,
@@ -27,14 +20,7 @@ import {
 } from '../components/styles';
 
 // colors
-const {
-    brand, 
-    darkLight, 
-    tertiary, 
-    primary, 
-    secondary,
-    red
-} = Colors;
+const { tertiary } = Colors;
 
 // Firebase
 import firebase from 'firebase/compat/app';
@@ -42,11 +28,23 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 const db = firebase.firestore();
 
-// Favoritepage Render
+/**
+ * Anonymous class that renders FavoritePage.
+ *
+ * @param {*} navigation Navigation prop.
+ * @returns Render of FavoritePage.
+ */
 const FavoritePage = ({navigation}) => {
+    // States
     const [favoriteStall, setFavoriteStall] = useState(null);
+
+    // Default Image(s)
     const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/default.jpg?alt=media&token=bd1e73fa-4b63-422a-bd0e-1140c94640d1";
 
+    /**
+     * Function to fetch user's favorite stalls
+     * data from Firestore database.
+     */
     const getFavoriteStalls = async () => {
         const stallDatas = [];
         await db.collection("users").doc(firebase.auth().currentUser.uid)
@@ -78,10 +76,19 @@ const FavoritePage = ({navigation}) => {
             })
     }
 
+    /**
+     * React hook to fetch user data upon accessing the page.
+     */
     useEffect(() => {
         getFavoriteStalls();
     }, []);
 
+    /**
+     * Anonymous class that renders a flatlist element.
+     *
+     * @param {*} food stall data of a particular stall.
+     * @returns Render of Cards that displays favorited stalls.
+     */
     const Card = ({food}) => {
         return (
         <CardButton onPress={() => navigation.navigate("StallPage", {itemId: food.name})}>
@@ -97,7 +104,6 @@ const FavoritePage = ({navigation}) => {
         </CardButton>
         )
     }
-
 
     return (
         <StyledContainerView>

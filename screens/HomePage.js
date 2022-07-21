@@ -1,37 +1,19 @@
 import React, {useState, useEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import {
-  View,
-  Alert,
-  RefreshControl,
-} from 'react-native';
+import { View, RefreshControl } from 'react-native';
 import * as Location from 'expo-location';
-
-// Icons
 import { Octicons } from '@expo/vector-icons';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-
-// Styles
 import {
   StyledContainer,
   HeaderHome,
   Greetings,
   ProfilePictureHolder,
   ProfilePicture,
-  StyledFormArea,
-  StyledTextInput,
-  LeftIcon,
   LocationHolder,
-  BodyOneHome,
-  SortBtn,
-  CategoriesListContainer,
-  CategoryBtn,
-  CategoryBtnText,
   CardHome,
   CardButton,
   CardContainer,
   CardThumbnailHolder,
-  CardThumbnailOpacity,
   CardThumbnail,
   CardDetails,
   CardTextHolder,
@@ -43,23 +25,24 @@ import {
 } from '../components/styles';
 
 // colors
-const {
-    brand, 
-    darkLight, 
-    tertiary, 
-    primary, 
-    secondary,
-    red
-} = Colors;
+const { brand, red } = Colors;
 
 // Firebase
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
-import { arrayUnion, DocumentSnapshot } from 'firebase/firestore';
 const db = firebase.firestore();
 
-// Distance Calculator
+/**
+ * Function to calculate distance 
+ * between two coordinate points.
+ * 
+ * @param {double} lat1 Latitude of the first coordinate point.
+ * @param {double} lon1 Longitude of the first coordinate point.
+ * @param {double} lat2 Latitude of the second coordinate point.
+ * @param {double} lon2 Longitude of the second coordinate point.
+ * @returns Calculated distance of two coordinate points.
+ */
 function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
     var R = 6371; // Radius of the earth in km
     var dLat = deg2rad(lat2-lat1);  // deg2rad below
@@ -74,11 +57,22 @@ function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
     return d;
 }
   
+/**
+ * Function to convert degrees to radian.
+ * 
+ * @param {double} deg Distance in degrees.
+ * @returns Calculated distance of two coordinate points in radians.
+ */
 function deg2rad(deg) {
     return deg * (Math.PI/180)
 }
 
-// Homepage Render
+/**
+ * Anonymous class that renders HomePage.
+ *
+ * @param {*} navigation Navigation prop.
+ * @returns Render of HomePage.
+ */
 const HomePage = ({navigation}) => {
     const [userData, setUserData] = useState(null);
     const [stallData, setStallData] = useState(null);
@@ -92,17 +86,20 @@ const HomePage = ({navigation}) => {
     const defaultImage2 = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/default.jpg?alt=media&token=bd1e73fa-4b63-422a-bd0e-1140c94640d1";
 
     /**
-     * Function to refresh the page
+     * Function to refresh the page.
      */
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         getStalls()
+        .then(getNearbyStalls())
         .then(getPopularStalls())
         .then(getCategories())
         .then(() => setRefreshing(false));
       }, []);
 
-    // Get User Data
+    /**
+     * Function to fetch user data from Firestore database.
+     */
     const getUser = async () => {
         await db
         .collection("users")
@@ -115,7 +112,9 @@ const HomePage = ({navigation}) => {
         })
     }
 
-    // Get User Location Address
+    /**
+     * Function to fetch user's address using Expo Location.
+     */
     const getAddress = async () => {
         let location = await Location.getCurrentPositionAsync({
             accuracy: Location.Accuracy.Highest,
@@ -131,7 +130,9 @@ const HomePage = ({navigation}) => {
         address.find( p => {setCountry(p.country);})
     }
 
-    // Get Stall Data
+    /**
+     * Function to fetch stall data from Firestore database.
+     */
     const getStalls = async () => {
         const stallDatas = [];
         await db
@@ -183,7 +184,9 @@ const HomePage = ({navigation}) => {
             })
     }
 
-    // Getting Nearby Stall Data
+    /**
+     * Function to fetch nearby stall data from Firestore database.
+     */
     const getNearbyStalls = async () => {
         const stallDatas = [];
         await db
@@ -215,7 +218,9 @@ const HomePage = ({navigation}) => {
             })
     }
 
-    // Getting Popular Stall Data
+    /**
+     * Function to fetch popular stall data from Firestore database.
+     */
     const getPopularStalls = async () => {
         const stallDatas = [];
         await db
@@ -247,7 +252,9 @@ const HomePage = ({navigation}) => {
             })
     }
 
-    // Get Category Data
+    /**
+     * Function to fetch stall category data from Firestore database.
+     */
     const getCategories = async () => {
         const categoryDatas = [];
         await db
@@ -269,6 +276,10 @@ const HomePage = ({navigation}) => {
             })
     }
     
+    /**
+     * React hook to fetch user data and address
+     * upon accessing the page, and refreshing it every minute.
+     */
     useEffect(() => {
         let unmounted = false;
         getUser();
@@ -284,6 +295,11 @@ const HomePage = ({navigation}) => {
         clearInterval(interval)
     }, []);
 
+    /**
+     * React hook to fetch stall data, nearby stall data,
+     * popular stall data, and stall category data
+     * upon getting user data, and refreshing it every minute.
+     */
     useEffect(() => {
         let unmounted = false;
         getStalls();
@@ -301,9 +317,24 @@ const HomePage = ({navigation}) => {
         clearInterval(interval)
     }, [userData]);
     
+    /**
+     * Anonymous class that renders a flatlist element.
+     *
+     * @param {*} food stall data of a particular stall.
+     * @returns Render of Cards that displays nearby stalls.
+     */
     const Card = ({food}) => {
-        // Add To Favorite
+        /**
+         * State that shows whether a stall is in favorite.
+         */
         const [favorited, setFavorited] = useState(false);
+
+        /**
+         * Function to check whether a particular stall
+         * is in user's favorite page or not.
+         * 
+         * @returns Clean-up function.
+         */
         const isInFavorite = async () => {
             let unmounted = false;
             await db.collection("users").doc(firebase.auth().currentUser.uid)
@@ -321,6 +352,12 @@ const HomePage = ({navigation}) => {
         }
         isInFavorite();
 
+        /**
+         * Function to save a particular stall
+         * to user's favorite page.
+         * 
+         * @returns Clean-up function.
+         */
         const handleFavorite = async () => {
             let unmounted = false;
             await db.collection("users").doc(firebase.auth().currentUser.uid)
@@ -351,6 +388,13 @@ const HomePage = ({navigation}) => {
             };
         }
 
+        /**
+         * Anonymous class that renders the favorite icon.
+         * If the stall is in user's favorite page,
+         * the icon will be highlighted (fill-icon), vice versa.
+         * 
+         * @returns Render of Favorite (Love) Icon
+         */
         const FavoriteIcon = () => {
             if (favorited) {
                 return (
@@ -387,6 +431,12 @@ const HomePage = ({navigation}) => {
         )
     }
 
+    /**
+     * Anonymous class that renders a flatlist element.
+     *
+     * @param {*} food stall data of a particular stall.
+     * @returns Render of Cards that displays popular stalls.
+     */
     const Card2 = ({food}) => {
         return (
         <CardButton onPress={() => navigation.navigate("StallPage", {itemId: food.name})}>
@@ -403,6 +453,12 @@ const HomePage = ({navigation}) => {
         )
     }
 
+    /**
+     * Anonymous class that renders a flatlist element.
+     *
+     * @param {*} food stall data of a particular stall category.
+     * @returns Render of Cards that displays stall categories.
+     */
     const CardCategory = ({food}) => {
         return (
             <CardButton onPress={() => navigation.navigate("StallCategoryPage", {itemId: food.category})}>
