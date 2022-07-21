@@ -509,7 +509,9 @@ export const CardButton = styled.TouchableOpacity`
 export const CardHome = styled.View`
     height: 290px;
     width: 200px;
-    z-index: 999;
+    shadow-offset: {width: 0,height: 2};
+    shadow-color: #000;
+    shadow-opacity: 0.2;
     margin-horizontal: 20px;
     margin-bottom: 20px;
     border-radius: 15px;
