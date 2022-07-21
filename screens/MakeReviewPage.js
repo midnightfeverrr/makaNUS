@@ -228,7 +228,7 @@ const MakeReviewPage = ({navigation, route}) => {
                     initialValues={{review: ""}}
                     onSubmit={async (values) => {
                         let newAvgRating = ((stallData.rating * stallData.numOfRatings) + defaultRating) / (stallData.numOfRatings + 1); 
-
+                        newAvgRating = newAvgRating.toPrecision(2);
                         let imgUrl = await uploadImage();
 
                         await db
