@@ -3,6 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import {
   View,
   Alert,
+  RefreshControl,
 } from 'react-native';
 import * as Location from 'expo-location';
 
@@ -86,8 +87,20 @@ const HomePage = ({navigation}) => {
     const [categoryData, setCategoryData] = useState(null);
     const [district, setDistrict] = useState('');
     const [country, setCountry] = useState('');
+    const [refreshing, setRefreshing] = useState(false);
     const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
     const defaultImage2 = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/default.jpg?alt=media&token=bd1e73fa-4b63-422a-bd0e-1140c94640d1";
+
+    /**
+     * Function to refresh the page
+     */
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        getStalls()
+        .then(getPopularStalls())
+        .then(getCategories())
+        .then(() => setRefreshing(false));
+      }, []);
 
     // Get User Data
     const getUser = async () => {
@@ -257,6 +270,7 @@ const HomePage = ({navigation}) => {
     }
     
     useEffect(() => {
+        let unmounted = false;
         getUser();
         getAddress();
 
@@ -265,10 +279,13 @@ const HomePage = ({navigation}) => {
            },60000)
              
              
-        return()=>clearInterval(interval)
+        return()=>
+        unmounted = true, 
+        clearInterval(interval)
     }, []);
 
     useEffect(() => {
+        let unmounted = false;
         getStalls();
         getNearbyStalls();
         getPopularStalls();
@@ -279,13 +296,16 @@ const HomePage = ({navigation}) => {
            },60000)
              
              
-        return()=>clearInterval(interval)
+        return()=>
+        unmounted = true, 
+        clearInterval(interval)
     }, [userData]);
     
     const Card = ({food}) => {
         // Add To Favorite
         const [favorited, setFavorited] = useState(false);
         const isInFavorite = async () => {
+            let unmounted = false;
             await db.collection("users").doc(firebase.auth().currentUser.uid)
             .collection("favorites").doc(food.name).get().then(
                 (DocumentSnapshot) => {
@@ -295,10 +315,14 @@ const HomePage = ({navigation}) => {
                     setFavorited(false);
                 }}
             )
+            return () => {
+                unmounted = true;
+            };
         }
         isInFavorite();
 
         const handleFavorite = async () => {
+            let unmounted = false;
             await db.collection("users").doc(firebase.auth().currentUser.uid)
             .collection("favorites").doc(food.name).get().then(
                 (DocumentSnapshot) => {
@@ -322,6 +346,9 @@ const HomePage = ({navigation}) => {
                     console.log("updated")
                 }}
             )
+            return () => {
+                unmounted = true;
+            };
         }
 
         const FavoriteIcon = () => {
@@ -381,7 +408,7 @@ const HomePage = ({navigation}) => {
             <CardButton onPress={() => navigation.navigate("StallCategoryPage", {itemId: food.category})}>
             <CardHome category={true}>
                 <CardThumbnailHolder category={true}>
-                    <CardThumbnail category={true} source={{uri: food.url == "" ? defaultImage2 : food.url}} />
+                    <CardThumbnail category={true} source={{uri: food.uri}} />
                     <CardTitle category={true}>{food.category}</CardTitle>
                 </CardThumbnailHolder>
             </CardHome>
@@ -390,7 +417,9 @@ const HomePage = ({navigation}) => {
     };
 
     return(
-        <StyledContainer home={true}>
+        <StyledContainer 
+        home={true}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
         <StatusBar style="dark" />
             <HeaderHome>
                 <View>
