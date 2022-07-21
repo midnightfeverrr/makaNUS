@@ -253,6 +253,7 @@ const EditProfilePage = ({navigation}) => {
                 </Greetings>
                 <View style={{ alignSelf: "center" }}>
                     <ProfileImage>
+                        <ProfilePic resizeMode="contain" source={{uri:defaultImage}}/>
                         { image && <ProfilePic resizeMode="contain" source={{uri:image}}/>}
                     </ProfileImage>
                     <Add onPress={choosePhotoFromLibrary}>
