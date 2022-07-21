@@ -1,20 +1,11 @@
+// Import Statements
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
+import { View, Alert } from 'react-native';
 import * as Location from 'expo-location';
-
-// form
 import { Formik } from 'formik';
-
-// icons
 import { Octicons, Ionicons, Fontisto } from '@expo/vector-icons';
-
-// firebase
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import app from './../firebase';
-import 'firebase/compat/firestore';
-import { GeoPoint } from 'firebase/firestore';
-
+import KeyboardAvoidingWrapper from './../components/KeyboardAvoidingWrapper';
 import {
     StyledContainer,
     InnerContainer,
@@ -36,28 +27,43 @@ import {
     TextLink,
     TextLinkContent
 } from './../components/styles';
-import {View, Alert} from 'react-native';
 
 // colors
 const {brand, darkLight, tertiary, primary} = Colors;
 
-// keyboard avoiding wrapper
-import KeyboardAvoidingWrapper from './../components/KeyboardAvoidingWrapper';
+// firebase
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import app from './../firebase';
+import 'firebase/compat/firestore';
+import { GeoPoint } from 'firebase/firestore';
 
+/**
+ * Anonymous class that renders LoginPage.
+ *
+ * @param {*} navigation Navigation prop.
+ * @returns Render of LoginPage.
+ */
 const Login = ({navigation}) => {
+    // States
     const [hidePassword, setHidePassword] = useState(true);
     const [message, setMessage] = useState();
     const [messageType, setMessageType] = useState();
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
 
-    // Handling error message in Formik
+    /** 
+     * Handling error message in Formik.
+     */
     const handleMessage = (message, type = false) => {
         setMessage(message);
         setMessageType(type);
     }
 
-    // Handling Location Permissions, and getting user's location
+    /**
+     * React hook to ask user's permission
+     * to access user's current location.
+     */
     useEffect(() => {
         (async () => {
           let { status } = await Location.requestForegroundPermissionsAsync();
@@ -85,7 +91,35 @@ const Login = ({navigation}) => {
         })();
       }, []);
 
-    // Handling Google Sign-in
+    /**
+     * Anonymous class that renders Text Input for Formik.
+     *
+     * @param {string} icon Name of Icon.
+     * @param {boolean} isPassword Determine whether input is password or not.
+     * @param {boolean} hidePassword Determine whether to show password or not.
+     * @param {boolean} setHidePassword Set state to hide password/show password.
+     * @param {*} props Other props set on the render method.
+     * @returns Render of Formik Text Input.
+     */
+    const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, ...props}) => {
+        return (
+          <View>
+            <LeftIcon>
+                <Octicons name={icon} size={20} color={brand} />
+            </LeftIcon>        
+            <StyledInputLabel>{label}</StyledInputLabel>
+            <StyledTextInput {...props}/>
+            {isPassword && (
+                <RightIcon onPress={() => setHidePassword(!hidePassword )}>
+                    <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={25} color={darkLight} />
+                </RightIcon>
+            )}
+          </View>);
+    };
+
+    /**
+     * Function to handle sign-up using Google.
+     */
     const handleGoogle = () => {
         const provider = new firebase.auth.GoogleAuthProvider();
         firebase.auth()
@@ -231,22 +265,5 @@ const Login = ({navigation}) => {
         </KeyboardAvoidingWrapper>
     );
 }
-
-// Form Style
-const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, ...props}) => {
-    return (
-      <View>
-        <LeftIcon>
-            <Octicons name={icon} size={20} color={brand} />
-        </LeftIcon>        
-        <StyledInputLabel>{label}</StyledInputLabel>
-        <StyledTextInput {...props}/>
-        {isPassword && (
-            <RightIcon onPress={() => setHidePassword(!hidePassword )}>
-                <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={25} color={darkLight} />
-            </RightIcon>
-        )}
-      </View>);
-};
 
 export default Login;
