@@ -229,6 +229,18 @@ const StallPage = ({navigation, route}) => {
                     <SubTitle review2={true}>Reviews</SubTitle>
                 </StyledReviewBox>
             </StyledReviewDetails>    
+        )} else if (rating == 0) {
+            return (
+            <StyledReviewDetails>
+                <StyledReviewBox style={{backgroundColor: primary}}>
+                    <StyledReviewBox inside={true} style={{backgroundColor: darkLight}}>
+                        <CardTitle review2={true}>{stallData ? stallData.rating : 1}</CardTitle>
+                        <Octicons name={"star-fill"} color={primary} size={10} />
+                    </StyledReviewBox>
+                    <SubTitle review={true}>{stallData ? stallData.numOfRatings : 0}</SubTitle>
+                    <SubTitle review2={true}>Reviews</SubTitle>
+                </StyledReviewBox>
+            </StyledReviewDetails>    
         )} else { 
             return (
             <StyledReviewDetails>
