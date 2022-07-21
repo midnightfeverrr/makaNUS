@@ -94,6 +94,7 @@ const Login = ({navigation}) => {
     /**
      * Anonymous class that renders Text Input for Formik.
      *
+     * @param {string} label Text for label above the form.
      * @param {string} icon Name of Icon.
      * @param {boolean} isPassword Determine whether input is password or not.
      * @param {boolean} hidePassword Determine whether to show password or not.

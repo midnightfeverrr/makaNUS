@@ -10,7 +10,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 // screens
 import Login from './../screens/Login';
 import Signup from './../screens/Signup';
-import Welcome from './../screens/Welcome';
 import Forgot from './../screens/Forgot';
 
 const Stack = createNativeStackNavigator();
@@ -33,7 +32,6 @@ const RootStack = () => {
             >
                 <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="Signup" component={Signup} />
-                <Stack.Screen name="Welcome" component={Welcome} />
                 <Stack.Screen name="Forgot" component={Forgot} />
             </Stack.Navigator>
     )

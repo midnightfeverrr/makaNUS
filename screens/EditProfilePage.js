@@ -64,7 +64,6 @@ const EditProfilePage = ({navigation}) => {
 
     // Default Image(s)
     const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
-    
 
     /**
      * Function to choose an image from phone gallery via ImagePicker package.

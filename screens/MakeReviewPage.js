@@ -1,12 +1,10 @@
+// Import Statements
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Alert, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
-import { FontAwesome, Octicons } from "@expo/vector-icons";
+import { View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Octicons } from "@expo/vector-icons";
 import * as ImagePicker from 'expo-image-picker';
-
-// form
 import { Formik } from 'formik';
-
 import {
     StyledContainer,
     ButtonsContainer,
@@ -30,12 +28,8 @@ import {
 
 // colors
 const {
-    brand, 
     darkLight, 
     tertiary, 
-    primary, 
-    secondary,
-    red,
     yellow
 } = Colors;
 
@@ -47,8 +41,15 @@ import 'firebase/compat/storage';
 import { arrayUnion, DocumentSnapshot } from 'firebase/firestore';
 const db = firebase.firestore();
 
-// MakeReviewPage Render
+/**
+ * Anonymous class that renders MakeReviewPage.
+ *
+ * @param {*} navigation Navigation prop.
+ * @param {*} route Argument that carries over the parameters passed from the previous screen.
+ * @returns Render of MakeReviewPage.
+ */
 const MakeReviewPage = ({navigation, route}) => {
+    // States
     const [userData, setUserData] = useState(null);
     const [stallData, setStallData] = useState(null);
     const [defaultRating, setDefaultRating] = useState(2);
@@ -56,10 +57,16 @@ const MakeReviewPage = ({navigation, route}) => {
     const [transferred, setTransferred] = useState(0);
     const [uploading, setUploading] = useState(false);
     const [image, setImage] = useState(defaultImage);
+
+    // Route Parameters
     const { params } = route.params;
+
+    // Default Image(s)
     const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
 
-    // Choosing Photo From Library
+    /**
+     * Function to choose an image from phone gallery via ImagePicker package.
+     */
     const choosePhotoFromLibrary = () => {
         ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -77,7 +84,12 @@ const MakeReviewPage = ({navigation, route}) => {
           });
       };
 
-    // Uploading image
+    /**
+     * Function to upload user's profile picture
+     * into Firebase storage.
+     * 
+     * @returns File Uri.
+     */
     const uploadImage = async () => {
         if (image == null) {
           return null;
@@ -131,7 +143,9 @@ const MakeReviewPage = ({navigation, route}) => {
         }
     };
 
-    // Get User Data
+    /**
+     * Function to fetch user data from Firestore database.
+     */
     const getUser = async () => {
         await db
         .collection("users")
@@ -144,6 +158,9 @@ const MakeReviewPage = ({navigation, route}) => {
         })
     }
 
+    /**
+     * Function to fetch stall data from Firestore database.
+     */
     const getStalls = async () => {
         await db
             .collection('stalls')
@@ -156,11 +173,19 @@ const MakeReviewPage = ({navigation, route}) => {
             })
     }
 
+    /**
+     * React hook to fetch user and stall data upon accessing the page.
+     */
     useEffect(() => {
         getUser(); 
         getStalls();
     }, []);
 
+    /**
+     * Anonymous class to render star rating.
+     * 
+     * @returns Render of Star Rating.
+     */
     const CustomRatingBar = () => {
         return (
             <StyledRatingBar>
@@ -188,6 +213,20 @@ const MakeReviewPage = ({navigation, route}) => {
             </StyledRatingBar>
         )
     }
+
+    /**
+     * Anonymous class that renders Text Input for Formik.
+     *
+     * @param {string} icon Name of Icon.
+     * @param {*} props Other props set on the render method.
+     * @returns Render of Formik Text Input.
+     */
+    const MyTextInput = ({icon,  ...props}) => {
+        return (
+        <View style={{width: '80%'}}>
+            <StyledTextInput review={true} {...props}/>
+        </View>);
+    };
 
     return (
         <StyledContainer review={true}>
@@ -311,14 +350,5 @@ const MakeReviewPage = ({navigation, route}) => {
         </StyledContainer>
     );
 }
-
-// Form Style
-const MyTextInput = ({icon,  ...props}) => {
-    return (
-      <View style={{width: '80%'}}>
-        <StyledTextInput review={true} {...props}/>
-      </View>);
-};
-
 
 export default MakeReviewPage;

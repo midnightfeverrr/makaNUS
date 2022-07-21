@@ -1,6 +1,7 @@
+// Import Statements
 import React, { useState, useEffect } from "react";
 import { View, Alert } from "react-native";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import * as Location from 'expo-location';
 import {
     StyledContainer,
@@ -9,7 +10,6 @@ import {
     ProfileImage,
     Greetings,
     ProfileText,
-    Add,
     StallRow,
     UserInfoSection,
     StatsBox,
@@ -24,14 +24,7 @@ import {
 } from './../components/styles';
 
 // colors
-const {
-    brand, 
-    darkLight, 
-    tertiary, 
-    primary, 
-    secondary,
-    red
-} = Colors;
+const { tertiary } = Colors;
 
 // Firebase
 import firebase from 'firebase/compat/app';
@@ -40,16 +33,25 @@ import 'firebase/compat/firestore';
 import { arrayUnion, DocumentSnapshot } from 'firebase/firestore';
 const db = firebase.firestore();
 
-
-// Profilepage render
+/**
+ * Anonymous class that renders ProfilePage.
+ *
+ * @param {*} navigation Navigation prop.
+ * @returns Render of ProfilePage.
+ */
 const ProfilePage = ({navigation}) => {
+    // States
     const [userData, setUserData] = useState(null);
     const [userReviews, setUserReviews] = useState(0);
     const [district, setDistrict] = useState('');
     const [country, setCountry] = useState('');
+
+    // Default Image(s)
     const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
     
-    // Get User Data
+    /**
+     * Function to fetch user data from Firestore database.
+     */
     const getUser = async () => {
         await db
         .collection("users")
@@ -62,7 +64,9 @@ const ProfilePage = ({navigation}) => {
         })
     }
 
-    // Get User Location Address
+    /**
+     * Function to fetch user's address using Expo Location.
+     */
     const getAddress = async () => {
         let location = await Location.getCurrentPositionAsync({
             accuracy: Location.Accuracy.Highest,
@@ -78,7 +82,9 @@ const ProfilePage = ({navigation}) => {
         address.find( p => {setCountry(p.country);})
     }
 
-    // Get User's Reviews
+    /**
+     * Function to fetch user's reviews data from Firestore database.
+     */
     const getUserReviews = async () => {
         await db
         .collection("users")
@@ -90,13 +96,21 @@ const ProfilePage = ({navigation}) => {
         })
     }    
 
+    /**
+     * React hook to fetch user data,
+     * user's reviews data, and user's address
+     * upon accessing the page.
+     */
     useEffect(() => {
         getUser();
         getUserReviews();
         getAddress();
     }, []);
 
-    // Logging out process
+    /**
+         * Function to give an alert
+         * if user tries to log out.
+         */
     const onPressLogOut = () => {
         Alert.alert(
             "Log Out",
@@ -114,6 +128,9 @@ const ProfilePage = ({navigation}) => {
         );
     }
 
+    /**
+     * Function to handle user's sign out.
+     */
     const onSigningOut = () => {
         firebase.auth()
           .signOut()

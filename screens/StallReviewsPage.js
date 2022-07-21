@@ -1,49 +1,26 @@
+// Import Statements
 import React, { useState, useEffect } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
-import { FontAwesome, Octicons } from "@expo/vector-icons";
-import {
-  View,
-  Alert,
-  TouchableOpacity
-} from 'react-native';
-
-// Icons
-import { Ionicons } from '@expo/vector-icons';
+import { Octicons } from "@expo/vector-icons";
+import { View } from 'react-native';
 import { 
-    StyledContainer,
     StyledContainerView,
-    InnerContainer,
     HeaderHome,
     Greetings,
-    CardHome,
-    CardButton,
     CardContainer,
     StyledReviewBody,
     ProfilePicture,
     ReviewerProfilePicture,
-    CardDetails,
     CardSubtitle,
-    CardTitle,
     Colors,
     AddToFavouritesBtn,
     CardReview,
     ReviewDetails,
-    StallDetails,
     StyledRatingBar,
     CardThumbnail
 } from '../components/styles';
 
 // colors
-const {
-    brand, 
-    darkLight, 
-    tertiary, 
-    primary, 
-    secondary,
-    red,
-    yellow
-} = Colors;
+const { tertiary, yellow } = Colors;
 
 // Firebase
 import firebase from 'firebase/compat/app';
@@ -51,16 +28,29 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 const db = firebase.firestore();
 
-// StallReviewsPage Render
+/**
+ * Anonymous class that renders StallReviewsPage.
+ * 
+ * @param {*} navigation Navigation prop.
+ * @param {*} route Argument that carries over the parameters passed from the previous screen.
+ * @returns Render of StallReviewsPage.
+ */
 const StallReviewsPage = ({navigation, route}) => {
+    // States
     const [userData, setUserData] = useState(null);
     const [reviewData, setReviewData] = useState(null);
     const [maxRating, setMaxRating] = useState([1,2,3,4,5]);
-    const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
-    const defaultImage2 = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/default.jpg?alt=media&token=bd1e73fa-4b63-422a-bd0e-1140c94640d1";
+
+    // Route Parameters
     const { params } = route.params;
 
-    // Get User Data
+    // Default Image(s)
+    const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
+    const defaultImage2 = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/default.jpg?alt=media&token=bd1e73fa-4b63-422a-bd0e-1140c94640d1";
+
+    /**
+     * Function to fetch user data from Firestore database.
+     */
     const getUser = async () => {
         await db
         .collection("users")
@@ -73,7 +63,9 @@ const StallReviewsPage = ({navigation, route}) => {
         })
     }
 
-    // Get Stall's Reviews
+    /**
+     * Function to fetch stall data from Firestore database.
+     */
     const getStallReviews = async () => {
         const reviewDatas = [];
         await db
@@ -104,13 +96,27 @@ const StallReviewsPage = ({navigation, route}) => {
         })
     }    
 
+    /**
+     * React hook to fetch user data 
+     * and stall's reviews data upon accessing the page.
+     */
     useEffect(() => {
         getUser();
         getStallReviews();
     }, []);
 
+    /**
+     * Anonymous class that renders a flatlist element.
+     *
+     * @param {*} review review data of a particular stall's review.
+     * @returns Render of Cards that displays stall's reviews.
+     */
     const Card = ({review}) => {
-        // Render Star Ratings
+        /**
+         * Anonymous class to render star rating.
+         * 
+         * @returns Render of Star Rating.
+         */
         const CustomRatingBar = () => {
             return (
                 <StyledRatingBar review={true}>
@@ -133,7 +139,11 @@ const StallReviewsPage = ({navigation, route}) => {
             )
         }
 
-        // Render Review Picture
+        /**
+         * Anonymous class to render a particular review's picture.
+         * 
+         * @returns Render of a particular review's picture.
+         */
         const ReviewPicture = () => {
             if (review.reviewImg == null || review.reviewImg == "") {
                 return null;
@@ -150,10 +160,20 @@ const StallReviewsPage = ({navigation, route}) => {
             }
         }
 
-        
+        /**
+         * State for reviewer's datas.
+         */
         const [reviewerData, setReviewerData] = useState(null);
         const [reviewerDataImg, setReviewerDataImg] = useState(null);
+
+        /**
+         * Function to get the reviewer's data
+         * of a particular review.
+         * 
+         * @returns Clean-up function.
+         */
         const getReviewer = async () => {
+            let unmounted = false;
             await db
             .collection("users")
             .doc(review.name)
@@ -164,6 +184,9 @@ const StallReviewsPage = ({navigation, route}) => {
                     setReviewerDataImg(querySnapshot.data().userImg);
                 }
             })
+            return () => {
+                unmounted = true;
+            };
         } 
         getReviewer();
 
@@ -188,7 +211,6 @@ const StallReviewsPage = ({navigation, route}) => {
         </CardReview>
         )
     }
-    
 
     return (
         <StyledContainerView review={true}>

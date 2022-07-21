@@ -1,19 +1,11 @@
+// Import Statements
 import React, { useState, useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import * as Location from 'expo-location';
-
-// form
 import { Formik } from 'formik';
-
-// icons
 import { Octicons, Ionicons } from '@expo/vector-icons';
-
-// firebase
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/auth';
-import 'firebase/compat/firestore';
-import { GeoPoint } from 'firebase/firestore';
-
+import {View, Alert} from 'react-native';
+import KeyboardAvoidingWrapper from '../components/KeyboardAvoidingWrapper';
 import {
     StyledContainer,
     InnerContainer,
@@ -34,13 +26,24 @@ import {
     TextLink,
     TextLinkContent
 } from './../components/styles';
-import {View, Alert} from 'react-native';
-import KeyboardAvoidingWrapper from '../components/KeyboardAvoidingWrapper';
 
 // colors
-const {brand, darkLight, tertiary, primary} = Colors;
+const {brand, darkLight } = Colors;
 
+// firebase
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore';
+import { GeoPoint } from 'firebase/firestore';
+
+/**
+ * Anonymous class that renders SignUpPage.
+ *
+ * @param {*} navigation Navigation prop.
+ * @returns Render of SignUpPage.
+ */
 const Signup = ({navigation}) => {
+    // States
     const [hidePassword, setHidePassword] = useState(true);
     const [hideConfirmPassword, setHideConfirmPassword] = useState(true);
     const [message, setMessage] = useState();
@@ -48,13 +51,18 @@ const Signup = ({navigation}) => {
     const [location, setLocation] = useState(null);
     const [errorMsg, setErrorMsg] = useState(null);
 
-    // Handling error message in Formik
+    /** 
+     * Handling error message in Formik.
+     */
     const handleMessage = (message, type = false) => {
         setMessage(message);
         setMessageType(type);
     }
 
-    // Handling Location Permissions, and getting user's location
+    /**
+     * React hook to ask user's permission
+     * to access user's current location.
+     */
     useEffect(() => {
         (async () => {
           let { status } = await Location.requestForegroundPermissionsAsync();
@@ -67,6 +75,33 @@ const Signup = ({navigation}) => {
           setLocation(location);
         })();
       }, []);
+
+    /**
+     * Anonymous class that renders Text Input for Formik.
+     *
+     * @param {string} label Text for label above the form.
+     * @param {string} icon Name of Icon.
+     * @param {boolean} isPassword Determine whether input is password or not.
+     * @param {boolean} hidePassword Determine whether to show password or not.
+     * @param {boolean} setHidePassword Set state to hide password/show password.
+     * @param {*} props Other props set on the render method.
+     * @returns Render of Formik Text Input.
+     */
+    const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, ...props}) => {
+        return (
+          <View>
+            <LeftIcon>
+                <Octicons name={icon} size={20} color={brand} />
+            </LeftIcon>        
+            <StyledInputLabel>{label}</StyledInputLabel>
+            <StyledTextInput {...props}/>
+            {isPassword && (
+                <RightIcon onPress={() => setHidePassword(!hidePassword )}>
+                    <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={25} color={darkLight} />
+                </RightIcon>
+            )}
+          </View>);
+    };
 
     return (
         <KeyboardAvoidingWrapper>
@@ -234,22 +269,5 @@ const Signup = ({navigation}) => {
         </KeyboardAvoidingWrapper>
     );
 }
-
-// Form Style
-const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, ...props}) => {
-    return (
-      <View>
-        <LeftIcon>
-            <Octicons name={icon} size={20} color={brand} />
-        </LeftIcon>        
-        <StyledInputLabel>{label}</StyledInputLabel>
-        <StyledTextInput {...props}/>
-        {isPassword && (
-            <RightIcon onPress={() => setHidePassword(!hidePassword )}>
-                <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={25} color={darkLight} />
-            </RightIcon>
-        )}
-      </View>);
-};
 
 export default Signup;

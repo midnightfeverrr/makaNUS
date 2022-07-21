@@ -1,50 +1,30 @@
+// Import Statements
 import React, {useState, useEffect} from "react";
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, SafeAreaView, Image, ScrollView, TouchableOpacity } from "react-native";
-
-// Icons
+import { View } from "react-native";
 import { Octicons } from '@expo/vector-icons';
-import Icon from 'react-native-vector-icons/MaterialIcons';
-
 import {
     StyledContainerView,
     HeaderHome,
     Greetings,
-    ProfilePictureHolder,
-    ProfilePicture,
     StyledFormArea,
     StyledTextInput,
     LeftIcon,
-    LocationHolder,
     BodyOneHome,
-    SortBtn,
-    CategoriesListContainer,
-    CategoryBtn,
-    CategoryBtnText,
     CardHome,
     CardButton,
     CardContainer,
     CardThumbnailHolder,
-    CardThumbnailOpacity,
     CardThumbnail,
     CardDetails,
     CardTextHolder,
     CardSubtitle,
     CardTitle,
-    AddToFavouritesBtn,
-    TitleHome,
     Colors,
 } from './../components/styles';
 
 // colors
-const {
-    brand, 
-    darkLight, 
-    tertiary, 
-    primary, 
-    secondary,
-    red
-} = Colors;
+const { darkLight } = Colors;
 
 // Firebase
 import firebase from 'firebase/compat/app';
@@ -53,11 +33,16 @@ import 'firebase/compat/firestore';
 import { arrayUnion, DocumentSnapshot } from 'firebase/firestore';
 const db = firebase.firestore();
 
-// Searchpage render
+/**
+ * Anonymous class that renders SearchPage.
+ *
+ * @param {*} navigation Navigation prop.
+ * @returns Render of SearchPage.
+ */
 const SearchPage = ({navigation}) => {
+    // States
     const [userData, setUserData] = useState(null);
     const [stallData, setStallData] = useState(null);
-    const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/default.jpg?alt=media&token=bd1e73fa-4b63-422a-bd0e-1140c94640d1";
     const [search, setSearch] = useState({
         loading: false,
         data: stallData,
@@ -65,7 +50,14 @@ const SearchPage = ({navigation}) => {
         searchValue: '',
     });
 
-    // Search Function
+    // Default Image(s)
+    const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/default.jpg?alt=media&token=bd1e73fa-4b63-422a-bd0e-1140c94640d1";
+    
+    /**
+     * Search function for search bar.
+     *
+     * @param {String} text String that is used to search for an itinerary title.
+     */
     const searchFunction = text => {
         if (text) {
           const updatedData = stallData.filter(item => {
@@ -79,8 +71,9 @@ const SearchPage = ({navigation}) => {
         }
     };
 
-    // Database Query
-    // Get User Data
+    /**
+     * Function to fetch user data from Firestore database.
+     */
     const getUser = async () => {
         await db
         .collection("users")
@@ -93,7 +86,10 @@ const SearchPage = ({navigation}) => {
         })
     }
 
-    // Get Stall Data
+    /**
+     * Function to fetch user's favorite stalls
+     * data from Firestore database.
+     */
     const getStalls = async () => {
         const stallDatas = [];
         await db
@@ -125,11 +121,21 @@ const SearchPage = ({navigation}) => {
             })
     }
 
+    /**
+     * React hook to fetch user data
+     * and stall data upon accessing the page.
+     */
     useEffect(() => {
         getUser();
         getStalls();
     }, []);
 
+    /**
+     * Anonymous class that renders a flatlist element.
+     *
+     * @param {*} food stall data of a particular stall.
+     * @returns Render of Cards that displays searched stalls.
+     */
     const Card = ({food}) => {
         return (
         <CardButton onPress={() => navigation.navigate("StallPage", {itemId: food.name})}>
@@ -152,6 +158,27 @@ const SearchPage = ({navigation}) => {
         </CardButton>
         )
     }
+
+    /**
+     * Anonymous class that renders Text Input for Search Bar.
+     *
+     * @param {string} label Text for label above the form.
+     * @param {string} icon Name of Icon.
+     * @param {boolean} isPassword Determine whether input is password or not.
+     * @param {boolean} hidePassword Determine whether to show password or not.
+     * @param {boolean} setHidePassword Set state to hide password/show password.
+     * @param {*} props Other props set on the render method.
+     * @returns Render of Formik Text Input.
+     */
+    const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, ...props}) => {
+        return (
+          <View>
+            <LeftIcon search={true}>
+                <Octicons name={icon} size={25} color={darkLight} />
+            </LeftIcon>        
+            <StyledTextInput {...props}/>
+          </View>);
+    };
 
     return (
         <StyledContainerView>
@@ -186,15 +213,5 @@ const SearchPage = ({navigation}) => {
         </StyledContainerView>
     )
 }
-
-const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, ...props}) => {
-    return (
-      <View>
-        <LeftIcon search={true}>
-            <Octicons name={icon} size={25} color={darkLight} />
-        </LeftIcon>        
-        <StyledTextInput {...props}/>
-      </View>);
-};
 
 export default SearchPage;

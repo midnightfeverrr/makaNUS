@@ -1,28 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
-import { FontAwesome, Octicons } from "@expo/vector-icons";
-import {
-  View,
-  Alert,
-  TouchableOpacity
-} from 'react-native';
-
-// Icons
-import { Ionicons } from '@expo/vector-icons';
+import { Octicons } from "@expo/vector-icons";
 import { 
-    StyledContainer,
     StyledContainerView,
-    InnerContainer,
     HeaderHome,
     Greetings,
-    CardHome,
-    CardButton,
     CardContainer,
     StyledReviewBody,
     ProfilePicture,
     ReviewerProfilePicture,
-    CardDetails,
     CardSubtitle,
     CardTitle,
     Colors,
@@ -35,12 +20,7 @@ import {
 
 // colors
 const {
-    brand, 
-    darkLight, 
     tertiary, 
-    primary, 
-    secondary,
-    red,
     yellow
 } = Colors;
 
@@ -50,8 +30,14 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 const db = firebase.firestore();
 
-// MyReviewsPage Render
+/**
+ * Anonymous class that renders MyReviewPage.
+ *
+ * @param {*} navigation Navigation prop.
+ * @returns Render of MyReviewPage.
+ */
 const MyReviewsPage = ({navigation}) => {
+    // States
     const [userData, setUserData] = useState(null);
     const [reviewData, setReviewData] = useState(null);
     const [stallData, setStallData] = useState(null);
@@ -59,7 +45,9 @@ const MyReviewsPage = ({navigation}) => {
     const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
     const defaultImage2 = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/default.jpg?alt=media&token=bd1e73fa-4b63-422a-bd0e-1140c94640d1";
 
-    // Get User Data
+    /**
+     * Function to fetch user data from Firestore database.
+     */
     const getUser = async () => {
         await db
         .collection("users")
@@ -72,7 +60,9 @@ const MyReviewsPage = ({navigation}) => {
         })
     }
 
-    // Get User's Reviews
+    /**
+     * Function to fetch user's reviews data from Firestore database.
+     */
     const getUserReviews = async () => {
         const reviewDatas = [];
         await db
@@ -102,12 +92,27 @@ const MyReviewsPage = ({navigation}) => {
         })
     }    
 
+    /**
+     * React hook to fetch user data
+     * and user's reviews data upon accessing the page.
+     */
     useEffect(() => {
         getUser();
         getUserReviews();
     }, []);
 
+    /**
+     * Anonymous class that renders a flatlist element.
+     *
+     * @param {*} review review data of a particular user's review.
+     * @returns Render of Cards that displays user's reviews.
+     */
     const Card = ({review}) => {
+        /**
+         * Anonymous class to render star rating.
+         * 
+         * @returns Render of Star Rating.
+         */
         const CustomRatingBar = () => {
             return (
                 <StyledRatingBar review={true}>
@@ -160,7 +165,6 @@ const MyReviewsPage = ({navigation}) => {
         </CardReview>
         )
     }
-    
 
     return (
         <StyledContainerView review={true}>

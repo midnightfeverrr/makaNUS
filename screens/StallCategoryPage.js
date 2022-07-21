@@ -1,17 +1,11 @@
+// Import Statements
 import React, { useState, useEffect } from 'react';
 import { Octicons } from "@expo/vector-icons";
-import {
-  View,
-  Alert,
-} from 'react-native';
-
-// Icons
+import { View } from 'react-native';
 import { 
-    StyledContainer,
     StyledContainerView,
     InnerContainer,
     HeaderHome,
-    ButtonsContainer,
     Greetings,
     CardHome,
     CardButton,
@@ -26,14 +20,7 @@ import {
 } from '../components/styles';
 
 // colors
-const {
-    brand, 
-    darkLight, 
-    tertiary, 
-    primary, 
-    secondary,
-    red
-} = Colors;
+const { tertiary } = Colors;
 
 // Firebase
 import firebase from 'firebase/compat/app';
@@ -41,12 +28,27 @@ import 'firebase/compat/auth';
 import 'firebase/compat/firestore';
 const db = firebase.firestore();
 
-// Favoritepage Render
+/**
+ * Anonymous class that renders StallCategoryPage.
+ * 
+ * @param {*} navigation Navigation prop.
+ * @param {*} route Argument that carries over the parameters passed from the previous screen.
+ * @returns Render of StallCategoryPage.
+ */
 const StallCategoryPage = ({navigation, route}) => {
+    // States
     const [categoryStall, setCategoryStall] = useState(null);
+
+    // Route Parameters
     const { itemId } = route.params;
+
+    // Default Image(s)
     const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/default.jpg?alt=media&token=bd1e73fa-4b63-422a-bd0e-1140c94640d1";
 
+    /**
+     * Function to fetch stall data
+     * according to its category from Firestore database.
+     */
     const getCategoryStalls = async () => {
         const stallDatas = [];
         await db.collection("stalls")
@@ -78,10 +80,19 @@ const StallCategoryPage = ({navigation, route}) => {
             })
     }
 
+    /**
+     * React hook to fetch stall data upon accessing the page.
+     */
     useEffect(() => {
         getCategoryStalls();
     }, []);
 
+    /**
+     * Anonymous class that renders a flatlist element.
+     *
+     * @param {*} food stall data of a particular stall.
+     * @returns Render of Cards that displays stalls according to its category.
+     */
     const Card = ({food}) => {
         return (
         <CardButton onPress={() => navigation.navigate("StallPage", {itemId: food.name})}>
@@ -97,7 +108,6 @@ const StallCategoryPage = ({navigation, route}) => {
         </CardButton>
         )
     }
-
 
     return (
         <StyledContainerView>  
