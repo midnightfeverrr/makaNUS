@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Alert } from "react-native";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import * as Location from 'expo-location';
 import {
     StyledContainer,
     InnerContainer,
@@ -44,6 +45,8 @@ const db = firebase.firestore();
 const ProfilePage = ({navigation}) => {
     const [userData, setUserData] = useState(null);
     const [userReviews, setUserReviews] = useState(0);
+    const [district, setDistrict] = useState('');
+    const [country, setCountry] = useState('');
     const defaultImage = "https://firebasestorage.googleapis.com/v0/b/my-first-makanus-project.appspot.com/o/profile%20placeholder.png?alt=media&token=dfc4a476-f00c-46ea-9245-a282851ebcae";
     
     // Get User Data
@@ -57,6 +60,22 @@ const ProfilePage = ({navigation}) => {
                 setUserData(querySnapshot.data());
             }
         })
+    }
+
+    // Get User Location Address
+    const getAddress = async () => {
+        let location = await Location.getCurrentPositionAsync({
+            accuracy: Location.Accuracy.Highest,
+            maximumAge: 10000,
+            timeout: 5000
+        });
+        let address = await Location.reverseGeocodeAsync({
+            latitude : location.coords.latitude,
+            longitude : location.coords.longitude
+        });
+
+        address.find( p => {setDistrict(p.district);})
+        address.find( p => {setCountry(p.country);})
     }
 
     // Get User's Reviews
@@ -74,6 +93,7 @@ const ProfilePage = ({navigation}) => {
     useEffect(() => {
         getUser();
         getUserReviews();
+        getAddress();
     }, []);
 
     // Logging out process
@@ -172,7 +192,7 @@ const ProfilePage = ({navigation}) => {
                         </StallRow>
                         <StallRow>
                             <Ionicons name="ios-location-outline" size={20} color={tertiary}></Ionicons>
-                            <ProfileText>Kent Ridge, Singapore</ProfileText>
+                            <ProfileText>{district}, {country}</ProfileText>
                         </StallRow>
                     </UserInfoSection>
                     <TextLink onPress={onPressLogOut}>
