@@ -2,8 +2,6 @@ import React, { useState, useCallback, useEffect } from 'react';
 import Navigation from './navigators';
 import { SafeAreaView } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
-import AppLoading from 'expo-app-loading';
-import * as Font from 'expo-font';
 import { Holder, LandingLogo } from './components/styles'
 import useFonts from './hooks/useFonts';
 
