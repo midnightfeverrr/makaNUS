@@ -96,6 +96,7 @@ const Signup = ({navigation}) => {
                                 username: values.Username,
                                 coordinate: coordinates,
                                 level: 1,
+                                xp: 0,
                                 userImg: null
                             });
                             console.log('User account created & signed in!');
@@ -170,7 +171,7 @@ const Signup = ({navigation}) => {
                             <MyTextInput 
                                 label= "Phone Number"
                                 icon= 'device-mobile'
-                                placeholder= "(+65) xxxx-xxxx"
+                                placeholder= "xxxx-xxxx"
                                 placeholderTextColor= {darkLight}
                                 onChangeText= {handleChange('phoneNumber')}
                                 onBlur= {handleBlur('phoneNumber')}
