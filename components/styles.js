@@ -1002,6 +1002,9 @@ export const StyledReviewDetails = styled.View`
 export const StyledReviewBox = styled.View`
     width: 35%;
     border-radius: 15px;
+    shadow-offset: {width: 0,height: 2};
+    shadow-color: #000;
+    shadow-opacity: 0.2;
     elevation: 10;
     align-items: center;
     justify-content: center;
@@ -1121,6 +1124,9 @@ export const ReviewDetailsScroll = styled.ScrollView`
 export const StallDetails = styled.View`
     background-color: ${primary};
     align-self: flex-start;
+    shadow-offset: {width: 0,height: 2};
+    shadow-color: #000;
+    shadow-opacity: 0.2;
     elevation: 10;
     margin-top: 10px;
     border-radius: 15px;
