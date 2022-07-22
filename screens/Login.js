@@ -251,10 +251,6 @@ const Login = ({navigation}) => {
                                 </TextLink>
                             </ExtraView>
                             <Line />
-                            <StyledButton google={true} onPress={handleGoogle}>
-                                <Fontisto name="google" color={primary} size={25} />
-                                <ButtonText google={true}>Sign in with Google</ButtonText>
-                            </StyledButton>
                             <StyledButton onPress={() => navigation.navigate("Signup")}>
                                 <ButtonText>Sign Up</ButtonText>
                             </StyledButton>
