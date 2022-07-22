@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "my-first-makanus-project",
+    "name": "makaNUS",
     "slug": "my-first-makanus-project",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/Logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -22,8 +22,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/Logo.png",
+        "backgroundColor": "#FAF2E9"
       },
       "package": "com.makanus"
     },
