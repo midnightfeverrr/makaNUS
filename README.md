@@ -44,7 +44,7 @@ https://docs.google.com/document/d/12jqATNUCA6wPw8BWMwAecb451I9bPBGxqw0Gn0SPIYw/
 ## Problems Encountered 
 1. "expo-app-loading is deprecated in favor of expo-splash-screen" pops up when application is first ran because we are using AppLoading instead of SplashScreen. 
 How we plan to handle: Use splashscreen for loading.
-2. Sign in with Google does not work in Login screen. It is said that auth is not supported in the environment
+2. Sign in with Google does not work in Login screen. It is said that auth is not supported in the environment.
 How we plan to handle: More research to fix the problem.
  
 
@@ -56,7 +56,15 @@ Milestone #1 : Front-end and User Authentication feature completed.
 
 Milestone #2 : Added most of the pages/screens and features.
 
+Milestone #3 : Added more features and a bit change on some pages UI. Most of the details in the app, such as thumbnails, menus, reviews, are only a placeholder due to it is not officialy released yet. By adding the database, this app will be ready to launch! 
+
 ## Installation
+Here are the steps of trying our app:
+1. Download the apk on the link via this link: https://drive.google.com/drive/folders/1Q0qIsOcA8e1gywtuvj8G5o0js0vbWKxL. (apk name: `makaNUS.apk`)
+2. Since Firebase is banned on Singapore, we encourage users to download the recommended VPN here: https://psiphon.ca/.
+3. Install the app by using the apk.
+4. Users are now able to create an account and give it a try!
+
 
 
 
