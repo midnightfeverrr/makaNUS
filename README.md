@@ -38,8 +38,6 @@ makaNUS is meant to be an exclusive NUS food guide and service. The main feature
 1. Sign-up with google.
 2. Rewards granted when people level up.
 
-To view the details of the features for each page, please refer to this document
-https://docs.google.com/document/d/12jqATNUCA6wPw8BWMwAecb451I9bPBGxqw0Gn0SPIYw/edit?usp=sharing (As of Milestone #2)
 
 ## Problems Encountered 
 1. "expo-app-loading is deprecated in favor of expo-splash-screen" pops up when application is first ran because we are using AppLoading instead of SplashScreen. 
