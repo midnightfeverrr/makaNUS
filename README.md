@@ -33,6 +33,7 @@ makaNUS is meant to be an exclusive NUS food guide and service. The main feature
 8. Sort stalls based on their categories available.
 9. Rate and Review stalls.
 10. See overall rating of the stall and other people's reviews.
+11. Leveling system.
 
 ## Not Completed Features
 1. Sign-up with google.
