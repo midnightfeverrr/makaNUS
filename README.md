@@ -59,7 +59,7 @@ Milestone #3 : Added more features and a bit change on some pages UI. Most of th
 ## Installation
 Here are the steps of trying our app:
 1. Download the apk on the link via this link: https://drive.google.com/drive/folders/1Q0qIsOcA8e1gywtuvj8G5o0js0vbWKxL. (apk name: `makaNUS.apk`)
-2. Since Firebase is banned on Singapore, we encourage users to download the recommended VPN here: https://psiphon.ca/.
+2. Since Firebase is banned on Singapore, we encourage users to download and activate the recommended VPN here: https://psiphon.ca/.
 3. Install the app by using the apk.
 4. Users are now able to create an account and give it a try!
 
