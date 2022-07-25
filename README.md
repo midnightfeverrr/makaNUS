@@ -19,6 +19,10 @@ In addition, there are fewer reviews on the food around campus. After attending 
 5. As the people of public, we want to know where to eat good food in NUS.
 6. As the people of public, we want to know the direction leading to the food stalls.
 
+## User Testing
+1. Joanne (NTU Student) - "As an NTU student, I am very looking forward in using makaNUS when the app is ready to release. I have seen the app and it is very helpful, especially because I am an outsider and not familiar with NUS environment. This app will really help me in finding foods in NUS, so I don't have to repeat my food choice everytime i visit NUS. The UI is user friendly, although not so responsive at this state. I believe that this can be improved."
+2. Melissa (NUS Student) - "makaNUS will help me in finding new restaurants/food stalls around NUS. I sometimes get bored of the food choices in NUS, but there will always be a hidden restaurant/food stall that I haven't tried yet. Of course, by reading people's reviews, I can judge whether to eat there or not. The app design is easy to use and functional. I really like the idea of this app."A
+
 ## Aim
 makaNUS is meant to be an exclusive NUS food guide and service. The main features of makaNUS will be to provide comments and ratings about the food stalls as well as information about nearby food stalls and their locations. By using makaNUS, we aim to enhance the dining experience for everyone in NUS locals. In addition, to make this app even more interesting, we are implementing an account levelling system, a system that grants various rewards as you level up, by doing the to-do lists!
 
@@ -59,7 +63,7 @@ Milestone #3 : Added more features and a bit change on some pages UI. Most of th
 
 ## Installation
 Here are the steps of trying our app:
-1. Download the apk on the link via this link: https://drive.google.com/drive/folders/1Q0qIsOcA8e1gywtuvj8G5o0js0vbWKxL. (apk name: `makaNUS.apk`)
+1. Download the apk on the link via this link: [https://drive.google.com/drive/folders/1Q0qIsOcA8e1gywtuvj8G5o0js0vbWKxL](https://drive.google.com/file/d/1gFAnwnSS32ArHONuNik0LG95btI5mA4c/view?usp=sharing). (apk name: `makaNUS.apk`)
 2. Since Firebase is banned on Singapore, we encourage users to download and activate the recommended VPN here: https://psiphon.ca/.
 3. Install the app by using the apk.
 4. Users are now able to create an account and give it a try!
