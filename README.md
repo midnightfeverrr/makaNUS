@@ -28,23 +28,24 @@ makaNUS is meant to be an exclusive NUS food guide and service. The main feature
 3. Adding user's favorite stalls using the Add to Favorite button!
 4. Editing profile and changing user's personal info by pressing the Edit Profile button!
 5. Displaying the page of each stalls.
+6. Showing directions to each stall (Redirecting to Google Maps).
+7. Searching stalls according to their name.
+8. Sort stalls based on their categories available.
+9. Rate and Review stalls.
+10. See overall rating of the stall and other people's reviews.
+11. Leveling system.
 
-## To Be Completed Features (By Milestone #3)
-1. Showing directions to each stall (Redirecting to Google Maps).
-2. Level System - Users are able to level up as they rate and review more stalls, granting various rewards!
-3. Searching and Sorting stalls.
-4. Rate and Reviewing stalls.
+## Not Completed Features
+1. Sign-up with google.
+2. Rewards granted when people level up.
 
-To view the details of the features for each page, please refer to this document
-https://docs.google.com/document/d/12jqATNUCA6wPw8BWMwAecb451I9bPBGxqw0Gn0SPIYw/edit?usp=sharing (As of Milestone #2)
 
-## Problems
+## Problems Encountered 
 1. "expo-app-loading is deprecated in favor of expo-splash-screen" pops up when application is first ran because we are using AppLoading instead of SplashScreen. 
 How we plan to handle: Use splashscreen for loading.
-2. Sign in with Google does not work in Login screen. It is said that auth is not supported in the environment
+2. Sign in with Google does not work in Login screen. It is said that auth is not supported in the environment.
 How we plan to handle: More research to fix the problem.
-3. Add to Favorite button does not change when toggled.
-How we plan to handle: More research to fix the problem.
+ 
 
 ## Project Log
 Link : https://docs.google.com/spreadsheets/d/1z-jnL2-027T6RmRsfHD0B3mGm9rHz39l/edit?usp=sharing&ouid=111446439061801316810&rtpof=true&sd=true
@@ -53,3 +54,16 @@ Link : https://docs.google.com/spreadsheets/d/1z-jnL2-027T6RmRsfHD0B3mGm9rHz39l/
 Milestone #1 : Front-end and User Authentication feature completed.
 
 Milestone #2 : Added most of the pages/screens and features.
+
+Milestone #3 : Added more features and a bit change on some pages UI. Most of the details in the app, such as thumbnails, menus, reviews, are only a placeholder due to it is not officialy released yet. By adding the database, this app will be ready to launch! 
+
+## Installation
+Here are the steps of trying our app:
+1. Download the apk on the link via this link: https://drive.google.com/drive/folders/1Q0qIsOcA8e1gywtuvj8G5o0js0vbWKxL. (apk name: `makaNUS.apk`)
+2. Since Firebase is banned on Singapore, we encourage users to download and activate the recommended VPN here: https://psiphon.ca/.
+3. Install the app by using the apk.
+4. Users are now able to create an account and give it a try!
+
+
+
+
