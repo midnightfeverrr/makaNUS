@@ -209,7 +209,7 @@ const ProfilePage = ({navigation}) => {
                         </StallRow>
                         <StallRow>
                             <Ionicons name="ios-location-outline" size={20} color={tertiary}></Ionicons>
-                            <ProfileText>{district}, {country}</ProfileText>
+                            <ProfileText>{district == null ? country : district}, {country}</ProfileText>
                         </StallRow>
                     </UserInfoSection>
                     <TextLink onPress={onPressLogOut}>

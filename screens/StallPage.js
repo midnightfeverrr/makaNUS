@@ -301,7 +301,7 @@ const StallPage = ({navigation, route}) => {
             return (
             <StyledReviewDetails>
                 <StyledReviewBox style={{backgroundColor: primary}}>
-                    <StyledReviewBox inside={true} style={{backgroundColor: green}}>
+                    <StyledReviewBox inside={true} style={{backgroundColor: yellow}}>
                         <CardTitle review2={true}>{stallData ? stallData.rating : 1}</CardTitle>
                         <Octicons name={"star-fill"} color={primary} size={10} />
                     </StyledReviewBox>

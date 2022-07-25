@@ -125,11 +125,11 @@ const HomePage = ({navigation}) => {
             latitude : location.coords.latitude,
             longitude : location.coords.longitude
         });
-
+        console.log(address)
         address.find( p => {setDistrict(p.district);})
         address.find( p => {setCountry(p.country);})
     }
-
+    
     /**
      * Function to fetch stall data from Firestore database.
      */
@@ -507,7 +507,7 @@ const HomePage = ({navigation}) => {
                     color={red}
                     style={{paddingRight:10}} 
                     />
-                <Greetings sub={true}>{district}, {country}</Greetings>
+                <Greetings sub={true}>{district == null ? country : district}, {country}</Greetings>
             </LocationHolder>
             { /*
             <View>
