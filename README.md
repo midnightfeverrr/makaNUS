@@ -4,6 +4,11 @@ Team Name : No Errors
 
 Proposed Level of Achievement : Apollo 11
 
+Project Scope : Mobile application with a database non-SQL back-end. Using React Native Expo and Firebase, our app provides user authentication, and a user interface with multiple features.
+
+## Overview
+A mobile application built for users to find foods around NUS, equipped with review function. Made with React Native Expo, connected to non-SQL database Firebase, the app is enhanced with user authentication and various features.
+
 ## Motivation
 It is inevitable to become burned out during your studies at National University of Singapore. After a long day of classes, the only thing you want is just to find some good food to revive your spirits! But, where should you eat? 
 
@@ -21,7 +26,7 @@ In addition, there are fewer reviews on the food around campus. After attending 
 
 ## User Testing
 1. Joanne (NTU Student) - "As an NTU student, I am very looking forward in using makaNUS when the app is ready to release. I have seen the app and it is very helpful, especially because I am an outsider and not familiar with NUS environment. This app will really help me in finding foods in NUS, so I don't have to repeat my food choice everytime i visit NUS. The UI is user friendly, although not so responsive at this state. I believe that this can be improved."
-2. Melissa (NUS Student) - "makaNUS will help me in finding new restaurants/food stalls around NUS. I sometimes get bored of the food choices in NUS, but there will always be a hidden restaurant/food stall that I haven't tried yet. Of course, by reading people's reviews, I can judge whether to eat there or not. The app design is easy to use and functional. I really like the idea of this app."A
+2. Melissa (NUS Student) - "makaNUS will help me in finding new restaurants/food stalls around NUS. I sometimes get bored of the food choices in NUS, but there will always be a hidden restaurant/food stall that I haven't tried yet. Of course, by reading people's reviews, I can judge whether to eat there or not. The app design is easy to use and functional. I really like the idea of this app."
 
 ## Aim
 makaNUS is meant to be an exclusive NUS food guide and service. The main features of makaNUS will be to provide comments and ratings about the food stalls as well as information about nearby food stalls and their locations. By using makaNUS, we aim to enhance the dining experience for everyone in NUS locals. In addition, to make this app even more interesting, we are implementing an account levelling system, a system that grants various rewards as you level up, by doing the to-do lists!
@@ -38,6 +43,8 @@ makaNUS is meant to be an exclusive NUS food guide and service. The main feature
 9. Rate and Review stalls.
 10. See overall rating of the stall and other people's reviews.
 11. Leveling system.
+
+To view the features of each page, please refer to this document: [https://docs.google.com/document/d/1Rbl5xvDYa3nckiapXDep-_QBE1GBdg1VTyXYMsfY-6E/edit?usp=sharing ](https://docs.google.com/document/d/1hBfapgKR49UGrzJ8uWQzRZpbJQtXqZy_5xwjNGmxqbY/edit) (Last updated as of Milestone #3)
 
 ## Not Completed Features
 1. Sign-up with google.
@@ -59,15 +66,23 @@ Milestone #1 : Front-end and User Authentication feature completed.
 
 Milestone #2 : Added most of the pages/screens and features.
 
-Milestone #3 : Added more features and a bit change on some pages UI. Most of the details in the app, such as thumbnails, menus, reviews, are only a placeholder due to it is not officialy released yet. By adding the database, this app will be ready to launch! 
+Milestone #3 : Added more features, fixed several bugs, and a bit change on some pages UI. Most of the details in the app, such as thumbnails, menus, reviews, are only a placeholder due to it is not officialy released yet. By adding the data to firebase, this app will be ready to launch! 
+
+Design changes from Milestone #1:
+
+We previously planned to offer a sign-in with google method, but the method could not seem to work on the app. Hence, we decided to remove the feature.
+Login screen and Sign-up screen text inputs are now not boxed, instead they just have lines below the text inputs.
+Search bar is moved from homepage to a standalone screen.
+Filter button is removed, replaced with category cards at the bottom of homepage.
 
 ## Installation
-Here are the steps of trying our app:
+We would be happy if you are interested to try it out! Here are the steps to do so:
+
 1. Download the apk on the link via this link: [https://drive.google.com/drive/folders/1Q0qIsOcA8e1gywtuvj8G5o0js0vbWKxL](https://drive.google.com/file/d/1gFAnwnSS32ArHONuNik0LG95btI5mA4c/view?usp=sharing). (apk name: `makaNUS.apk`)
 2. Since Firebase is banned on Singapore, we encourage users to download and activate the recommended VPN here: https://psiphon.ca/.
 3. Install the app by using the apk.
 4. Users are now able to create an account and give it a try!
-
+5. Have fun, browse through our app! If you have any enquiries, please contact us through our Telegram handles: @midnightfeverrr / @kenzantonius.
 
 
 
